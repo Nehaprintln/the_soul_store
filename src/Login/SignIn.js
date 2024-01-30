@@ -33,9 +33,43 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    const userObject = {
+      email: data.get('email'),
+      password: data.get('password'),
+      appType: 'ecommerce'
+  };
+  try {
+    const response = await fetch(
+      "https://academics.newtonschool.co/api/v1/user/login",
+      {
+        method: "POST",
+        headers: {
+          projectID: "rhxg8aczyt09",
+          // Authorization: "Bearer MeNZucmSt6SSsdHB6RS4nqOlp4bfdWD6",
+          "Content-Type": "application/json",
+          // "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({ ...userObject }),
+      }
+    );
+    console.log(response);
+    if (!response.ok) {
+      alert("Login failed");
+      return;
+    }
+    const newData = await response.json();
+    console.log(newData);
+
+    const {token = ''} = newData;
+    localStorage.setItem("authToken", token);
+    alert("You are successfully  Login");
+
+  } catch (error) {
+    alert("Error Please check");
+  }
     console.log({
       email: data.get('email'),
       password: data.get('password'),

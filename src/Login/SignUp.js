@@ -13,6 +13,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 import ConstantAPI from '../CommonData/ConstantAPI';
 import Header from '../Header/Header';
@@ -37,6 +39,7 @@ const defaultTheme = createTheme();
 
 export default function SignUp({baseURL, signUp, projectId}) {
     const [checkSubmition, setCheckSubmition] = React.useState(false);
+    const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -45,8 +48,8 @@ export default function SignUp({baseURL, signUp, projectId}) {
     //   password: data.get('password'),
     // });
     const userObject = {
-        firstName: data.get('firstName'),
-        lastName: data.get('lastName'),
+        name: data.get('firstName'),
+        // lastName: data.get('lastName'),
         email: data.get('email'),
         password: data.get('password'),
         appType: 'ecommerce'
@@ -54,24 +57,27 @@ export default function SignUp({baseURL, signUp, projectId}) {
     console.log(userObject);
 
     try{
-        const response = await fetch(`${baseURL}${signUp}`,
+        const response = await fetch('https://academics.newtonschool.co/api/v1/user/signup',
         {
             method: 'POST',
             headers: {
-                projectID: projectId,
-                Authorization: "Bearer MeNZucmSt6SSsdHB6RS4nqOlp4bfdWD6",
+                projectID: 'rhxg8aczyt09',
+                // Authorization: "Bearer MeNZucmSt6SSsdHB6RS4nqOlp4bfdWD6",
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({...userObject}),
         });
         console.log(response);
-
-        if(!response.ok){
+        if(response.status === 403){
+          alert('User already exists');
+        }
+        if(response.ok){
             alert('SignUp Failed')
             return;
         }
         alert('User registered Successfully');
-        setCheckSubmition(true);
+        navigate("/signin");
+        // setCheckSubmition(true);
     }catch(error){
         alert(error)
     }

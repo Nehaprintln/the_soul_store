@@ -11,10 +11,13 @@ import Women from './Header/Women';
 import Footer from './Footer/Footer';
 import SignIn from './Login/SignIn';
 import SignUp from './Login/SignUp';
+import SearchProduct from './Search/SearchProduct';
+import { SearchProvide } from './Context/SearchContext';
 
 function App() {
   return (
-    <>
+    
+    <SearchProvide>
     
     <Router>
       <Routes> 
@@ -22,16 +25,12 @@ function App() {
         <Route path='/women' element={<Women />} />
         <Route path='/men'  element={<Men />} />
         <Route path='/signup' element={<SignUp />} />
-        <Route path='signin' element={<SignIn />} />
-        
-        {/* <Route path='/' element={<Home />} />
-        <Route path="/home"  element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} /> */}
+        <Route path='/signin' element={<SignIn />} />
+        <Route path='/search' element={<SearchProduct />} />
       </Routes>
     </Router>
     {/* <Footer /> */}
-    </>
+    </SearchProvide>
     
 
     // <>

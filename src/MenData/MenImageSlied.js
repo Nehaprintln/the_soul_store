@@ -1,11 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import men1 from '../Image/men-poster1.jpg';
-import men2 from '../Image/men-poster2.jpg';
-import men3 from '../Image/men-poster3.jpg';
-import men4 from '../Image/men-poster5.jpg';
-
 import {
     Carousel,
     CarouselItem,
@@ -17,28 +12,22 @@ import {
   const items = [
     {
       id: 1,
-      src: men1,
-      altText: 'Slide 1',
-      caption: 'Slide 1',
-  
+      src: 'https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/banner-images/Homepage_banner_-_high_top_1.jpg?format=webp&w=1500&dpr=1.3',
     },
     {
       id: 2,
-      src: men2,
-      altText: 'Slide 2',
-      caption: 'Slide 2',
+      src: 'https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/banner-images/Homepage_Banner_1_SWdnIDn.jpg?format=webp&w=1500&dpr=1.3',
+      
     },
     {
       id: 3,
-      src: men3,
-      altText: 'Slide 3',
-      caption: 'Slide 3',
+      src: 'https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/banner-images/Homepage-banner_3.jpg?format=webp&w=1500&dpr=1.3',
+      
     },
     {
       id: 4,
-      src: men4,
-      altText: 'Slide 4',
-      caption: 'Slide 4',
+      src: 'https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/banner-images/Homepage_banner_.most_loved_oversized_full_sleeves.jpg_NEW.jpg?format=webp&w=1500&dpr=1.3',
+      
     }
   ];
 
