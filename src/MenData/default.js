@@ -72,7 +72,7 @@ export default function Categories() {
       <h2>CATEGORIES</h2>
       <div
         className="categories-card"
-      >
+        >
         <Link>
           <div className="card-transition">
             <Card inverse>

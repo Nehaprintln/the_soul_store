@@ -84,10 +84,15 @@
     gap: 10px;
     padding: 12px;
 }
+.card-transition-div{
+  overflow: hidden;
+  /* position: relative; */
+}
 .card-transition{
     transition:  0.5s ; 
 }
 .card-transition:hover{
+    overflow: hidden;
     transform: scale(1.1);
     /* border: transparent; */
 }
