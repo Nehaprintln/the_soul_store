@@ -40,7 +40,8 @@ const defaultTheme = createTheme();
 export default function SignUp({baseURL, signUp, projectId}) {
     const [checkSubmition, setCheckSubmition] = React.useState(false);
     const navigate = useNavigate();
-  const handleSubmit = async (event) => {
+
+    const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     // console.log({

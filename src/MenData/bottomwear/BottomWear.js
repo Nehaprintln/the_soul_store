@@ -30,7 +30,7 @@ const BottomWear = {
 
         {
             img : "https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/product-images/2_31_bKJ0SSv.jpg?format=webp&w=480&dpr=1.3",
-            name:"Shorts",
+            name:"shorts",
             search : {name:"shorts"},
             filter:{subCategory:'shorts'},
         },    
@@ -88,7 +88,7 @@ const BottomWear = {
 
         {
             img : "https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/product-images/7_11_kSdhXCS.jpg?format=webp&w=480&dpr=1.3",
-            name:"cargopant",
+            name:"trouser",
             search : {name:"jeans"},
             filter:{subCategory:'jeans'},
         },

@@ -6,20 +6,29 @@ import { FaMobileAlt,FaSearch, FaRegUser} from "react-icons/fa";
 import { MdFavoriteBorder } from "react-icons/md";
 import { LuBaggageClaim } from "react-icons/lu";
 import SearchProduct from '../Search/SearchProduct';
-import { useSearch } from '../Context/SearchContext';
+import { useSearch } from '../Context/GlobleContext';
+// import { useCart } from '../Context/GlobleContext';
 // import { IoMdMic } from "react-icons/io";
 
+
 export default function Header() {
+    const cartLenght = localStorage.getItem('cartLenght');
+    console.log('cardList length ==>', cartLenght)
+    
     const {handleSearchClick, searchInput, setSearchInput} = useSearch();
     const [isFixed, setIsFixed] = useState(false);
+    // const {state} = useCart();
     // const [searchInput, setSearchInput] = useState('');
     
+    // const addCartCount = state?.cartItems.length;
+    // const wishListCount = state?.wishList.length;
+
+
 
     const handleSearchProduct = (event)=>{
         setSearchInput(event.target.value);
     };
 
-    
 
     useEffect(()=> {
         const handleScroll = ()=> {
@@ -69,16 +78,21 @@ export default function Header() {
                     <input type='text' id='input' placeholder='what are you looking for ?' value={searchInput} onChange={handleSearchProduct} />
                 </li>
                 <li>
-                    <Link to='/search' className='icon-text'><FaSearch onClick={handleSearchClick} /></Link>
+                    <Link to='/search' className='icon-text'><FaSearch onClick={()=> handleSearchClick(searchInput)} /></Link>
                 </li>
                 <li>
                     <Link to='/signup' className='icon-text'><FaRegUser /></Link>
                 </li>
                 <li>
-                    <Link className='icon-text'><MdFavoriteBorder /></Link>
+                    <Link to='/mywishlist' className='icon-text'>
+                         <MdFavoriteBorder  />
+                        </Link>
                 </li>
-                <li>
-                    <Link className='icon-text'><LuBaggageClaim /></Link>
+                <li style={{position: 'relative'}}>
+                    <Link to='/cart' className='icon-text'>
+                        <span style={{position: 'absolute', left: '15px', fontSize: '12px', background: 'red', color: '#fff', width: '20px', textAlign: 'center', borderRadius: '50%'}}>{cartLenght}</span>
+                     <LuBaggageClaim  />
+                        </Link>
                 </li>
             </ul>
         </div>

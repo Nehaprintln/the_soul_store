@@ -92,7 +92,7 @@
     transition:  0.5s ; 
 }
 .card-transition:hover{
-    overflow: hidden;
+    /* overflow: hidden; */
     transform: scale(1.1);
     /* border: transparent; */
 }

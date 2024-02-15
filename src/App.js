@@ -12,13 +12,19 @@ import Footer from './Footer/Footer';
 import SignIn from './Login/SignIn';
 import SignUp from './Login/SignUp';
 import SearchProduct from './Search/SearchProduct';
-import { SearchProvide } from './Context/SearchContext';
+import { SearchProvide, WishlistProvider } from './Context/GlobleContext';
+import FilterData from './FilterComponent/FilterData';
+import ProductDetails from './ProductDisplay/ProductDetails';
+import CommingSoonProduct from './CommingSoon/CommingSoonProduct';
+import WishList from './WishList/WishList';
+import Cart from './Cart/Cart';
 
 function App() {
   return (
     
     <SearchProvide>
-    
+      {/* <CardProvider> */}
+        {/* <WishlistProvider> */}
     <Router>
       <Routes> 
         <Route path='/' element={<Men />} /> 
@@ -27,9 +33,19 @@ function App() {
         <Route path='/signup' element={<SignUp />} />
         <Route path='/signin' element={<SignIn />} />
         <Route path='/search' element={<SearchProduct />} />
+        <Route path='/filterProducts/:subCategory' element={<FilterData />} />
+        <Route path='/filterProducts/:subCategory/:id' element={<ProductDetails />} />
+        <Route path='/pageNotFound' element={<h1>Page not found</h1>} />
+        <Route path='/commingSoon' element={<CommingSoonProduct />} />
+        <Route path='/mywishlist' element={<WishList />} />
+        <Route path='/cart' element={<Cart />} />
+        
       </Routes>
     </Router>
+    
     {/* <Footer /> */}
+        {/* </WishlistProvider> */}
+    {/* </CardProvider> */}
     </SearchProvide>
     
 
