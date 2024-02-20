@@ -13,6 +13,7 @@ import { useSearch } from '../Context/GlobleContext';
 
 export default function Header() {
     const cartLenght = localStorage.getItem('cartLenght');
+    const wishlistLength = localStorage.getItem('wishlistLength');
     console.log('cardList length ==>', cartLenght)
     
     const {handleSearchClick, searchInput, setSearchInput} = useSearch();
@@ -78,15 +79,16 @@ export default function Header() {
                     <input type='text' id='input' placeholder='what are you looking for ?' value={searchInput} onChange={handleSearchProduct} />
                 </li>
                 <li>
-                    <Link to='/search' className='icon-text'><FaSearch onClick={()=> handleSearchClick(searchInput)} /></Link>
+                    <Link to={`/search/${searchInput}`} className='icon-text'><FaSearch /*onClick={()=> handleSearchClick(searchInput)} */ /></Link>
                 </li>
                 <li>
                     <Link to='/signup' className='icon-text'><FaRegUser /></Link>
                 </li>
-                <li>
+                <li style={{position: 'relative'}}>
                     <Link to='/mywishlist' className='icon-text'>
+                        <span style={{position: 'absolute', left: '15px', fontSize: '12px', background: 'red', color: '#fff', width: '20px', textAlign: 'center', borderRadius: '50%'}}>{wishlistLength}</span>
                          <MdFavoriteBorder  />
-                        </Link>
+                    </Link>
                 </li>
                 <li style={{position: 'relative'}}>
                     <Link to='/cart' className='icon-text'>

@@ -13,6 +13,8 @@ import {
   Col,
 } from "reactstrap";
 
+// import { getData } from "../Afunc/Function";
+
 
 export default function Cart() {
   // const { id } = useParams();

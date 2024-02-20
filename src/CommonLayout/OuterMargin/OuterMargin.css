@@ -1,0 +1,12 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.outer-container{
+    text-align: center;
+    overflow: hidden;
+    margin: auto;
+    margin-top: 30px;
+    width: 100%;
+
+}

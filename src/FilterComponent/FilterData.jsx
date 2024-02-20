@@ -1,38 +1,44 @@
+import "./FilterData.css";
 import React, { useEffect, useState } from "react";
 import Header from "../Header/Header";
 import MenSelectCategories from "../MenData/MenSelectCategories";
 import posterImg from "./FilterAPIData";
-import "./FilterData.css";
 import { RotatingLines } from "react-loader-spinner";
 import { useParams } from "react-router-dom";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { OuterMargin } from "../CommonLayout/OuterMargin/OuterMargin";
+import Button from "../CommonLayout/Button/Button";
+// import { useSearchParams } from "react-router-dom";
+
 
 export default function FilterData() {
-  const { subCategory } = useParams();
+  const { subCategory, gender } = useParams();
   const [page, setPage] = useState(1);
   const [filterProducts, setFilterProducts] = useState([]);
   const [selectSortValue, setSelectSortValue] = useState("");
-  const [wishlistStatus, setWishlistStatus] = useState({});
-
+  const [wishlistProduct, setWishlistProduct] = useState([]);
+  // const [searchParam, setSeachParam] = useSearchParams();
   const navigate = useNavigate();
 
+  // const sercg = setSeachParam({subCategory: 'jeans', size: 'XL'});
+  // console.log('SEARCHPARAM==>',sercg);
+ 
+  
+
+console.log()
   const handleSortChange = (event) => {
     setSelectSortValue(event.target.value);
   };
+  console.log('filterProduct ==>', filterProducts);
+  console.log('WISHLIST ARRAT ID ==>', wishlistProduct);
 
-  const handleWishList = (productId) => {
-    setWishlistStatus((prevStatus) => {
-      return { ...prevStatus, [productId]: !prevStatus[productId] };
-    });
-  };
-
-  async function fetchFilterProducts() {
+   const fetchFilterProducts = async ()=> {
     console.log('page==> ', page);
     try {
       const response = await fetch(
-        `https://academics.newtonschool.co/api/v1/ecommerce/clothes/products?filter={"gender":"Men","subCategory":"${subCategory}"}&limit=20&page=${page}`,
+        `https://academics.newtonschool.co/api/v1/ecommerce/clothes/products?filter={"gender":"${gender}","subCategory":"${subCategory}"}&limit=20&page=${page}`,
         {
           method: "GET",
           headers: {
@@ -46,15 +52,100 @@ export default function FilterData() {
       }
 
       const result = await response.json();
+      console.log('RESPONCE  FILTERPRODUCT RESULT =>', result)
       setFilterProducts((prevProducts) => [...prevProducts, ...result.data]);
+      
     } catch (error) {
       console.log("FilterData ERROR==>", error);
     }
+  };
+
+  const fetchWishlistProduct = async()=> {
+    try {
+      const userRegister = localStorage.getItem("authToken");
+      const response = await fetch(
+        'https://academics.newtonschool.co/api/v1/ecommerce/wishlist',
+        {
+          method: "GET",
+          headers: {
+            projectID: "rhxg8aczyt09",
+            Authorization: `Bearer ${userRegister}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        // navigate("/commingSoon");
+        console.log('WISHLIST STORE ID ARRAY ERROR')
+      }
+
+      const result = await response.json();
+      console.log('WISHLIST STORE ID ARRAY =>', result)
+      const wishlistData = result?.data?.items;
+      setWishlistProduct(wishlistData.map(item => item?.products?._id));
+      
+    } catch (error) {
+      console.log("FilterData ERROR==>", error);
+    }
+  };
+
+  const isItemInWishlist = (itemId) => {
+    return wishlistProduct.includes(itemId);
+  };
+
+  const handleWishlistToggle = async (itemId) => {
+    const userRegister = localStorage.getItem("authToken");
+    try{
+      if(isItemInWishlist(itemId)){
+        // If the product is already in the wishlist, remove it
+        const removeFromWishlist = await fetch(`https://academics.newtonschool.co/api/v1/ecommerce/wishlist/${itemId}`, {
+          method: 'DELETE',
+          headers: {
+            projectID: "rhxg8aczyt09",
+            'Authorization': `Bearer ${userRegister}`,
+          },
+        });
+
+        if(!removeFromWishlist.ok){
+          // navigate('/signup');
+          console.error('Failed to remove product from wishlist');
+          return;
+        }
+        console.log('=====REMOVE========')
+        // setIsInWishlist(false);
+        setWishlistProduct(wishlistProduct.filter((id) => id !== itemId))
+      
+    }else{
+        // If the product is not in the wishlist, add it
+        const addToWishlist = await fetch('https://academics.newtonschool.co/api/v1/ecommerce/wishlist/', {
+          method: 'PATCH',
+        headers: {
+          projectID: "rhxg8aczyt09",
+          'Authorization': `Bearer ${userRegister}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          'productId': itemId,
+        }),
+        });
+
+        if(!addToWishlist.ok){
+          // navigate('/signup');
+        console.error('Failed to add product to wishlist');
+        return;
+        }
+        console.log('=============')
+        setWishlistProduct([...wishlistProduct, itemId]);
+      }
+    }catch(error){
+      console.log('WISHLIST ERROR', error)
+    }
+    
   }
 
+
   useEffect(() => {
-    fetchFilterProducts();
-    console.log('pageCall', page);
 
     // const handleScroll = () => {
     //   if (
@@ -70,13 +161,17 @@ export default function FilterData() {
     // return () => {
     //   window.removeEventListener("scroll", handleScroll);
     // };
+    fetchFilterProducts();
+    fetchWishlistProduct();
+    
+    console.log('pageCall', page);
   }, [page]);
 
   return (
     <>
       <Header />
       <MenSelectCategories />
-      <div style={{ width: "99%", overflow: "hidden", margin: "auto" }}>
+      <OuterMargin className='outer-container'>
         {posterImg
           .filter((image) => subCategory === image.name)
           .map((filteredImage, index) => (
@@ -87,7 +182,7 @@ export default function FilterData() {
               alt={filteredImage.name}
             />
           ))}
-      </div>
+      </OuterMargin>
       {filterProducts.length < 1 ? (
         <div className="loader" style={{width: '100%', textAlign:'center', marginTop: '30px'}}>
           <RotatingLines
@@ -148,43 +243,11 @@ export default function FilterData() {
                     position: "relative",
                   }}
                 >
-                  {wishlistStatus[filterProduct._id] ? (
-                    <FaHeart
-                      onClick={() => handleWishList(filterProduct._id)}
-                      style={{
-                        width: '10%',
-                        height: '25px',
-                        position: "absolute",
-                        left: "90%",
-                        top: "5%",
-                        fontSize: "22px",
-                        color: "#117a7a",
-                        // background: '#fff',
-                        borderRadius: "10px",
-                        cursor: "pointer",
-                        padding: "2px",
-                      }}
-                    />
-                  ) : (
-                    <FaRegHeart
-                      onClick={() => handleWishList(filterProduct._id)}
-                      style={{
-                        width: '10%',
-                        height: '25px',
-                        position: "absolute",
-                        left: "90%",
-                        top: "5%",
-                        fontSize: "22px",
-                        color: "white",
-                        background: "lightgray",
-                        borderRadius: "10px",
-                        cursor: "pointer",
-                        padding: "2px",
-                      }}
-                    />
-                  )}
+                  <Button className="wishListfil" text='' onClick={()=> handleWishlistToggle(filterProduct._id)}>
+                    {isItemInWishlist(filterProduct._id) ? <FaHeart  style={{color:'#117a7a'}} /> : <FaRegHeart style={{color:'#117a7a'}} />}
+                    </Button>
                   <Link
-                    to={`/filterProducts/${filterProduct.subCategory}/${filterProduct._id}`}
+                    to={`/filterProducts/${filterProduct.subCategory}/${filterProduct.gender}/${filterProduct._id}`}
                   >
                     <img
                       src={filterProduct.displayImage}

@@ -5,19 +5,22 @@ const BottomWear = {
             name:"sweater",
             search : {name:"sweater"},
             filter:{subCategory:'sweater'},
+            gender: 'Men',
         },
         {
             img : "https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/product-images/5_10_kvccDUV.jpg?format=webp&w=480&dpr=1.3",
             name:"hoodie",
             search : {name:"hoodie"},
-            filter:{subCategory:'hoodie'}
+            filter:{subCategory:'hoodie'},
+            gender: 'Men',
         },
 
         {
             img : "https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/product-images/5_11_nXfqV8m.jpg?format=webp&w=480&dpr=1.3",
             name:"jeans",
             search : {name:"jeans"},
-            filter:{subCategory:'jeans'}
+            filter:{subCategory:'jeans'},
+            gender: 'Men',
         },
 
         {
@@ -25,6 +28,7 @@ const BottomWear = {
             name:"jogger",
             search : {name:"jogger"},
             filter:{subCategory:'jogger'},
+            gender: 'Men',
         },
 
 
@@ -33,6 +37,7 @@ const BottomWear = {
             name:"shorts",
             search : {name:"shorts"},
             filter:{subCategory:'shorts'},
+            gender: 'Men',
         },    
 
         {
@@ -40,6 +45,7 @@ const BottomWear = {
             name:"tshirt",
             search : {name:"tshirt"},
             filter:{subCategory:'tshirt'},
+            gender: 'Men',
         },
 
         {
@@ -47,6 +53,7 @@ const BottomWear = {
             name:"shirt",
             search : {name:"shirt"},
             filter:{subCategory:'shirt'},
+            gender: 'Men',
         },
 
         {
@@ -55,6 +62,7 @@ const BottomWear = {
             name:"oversize",
             search : {name:"pyjamas"},
             filter:{subCategory:'pyjamas'},
+            gender: 'Men',
         }, 
 
         {
@@ -63,6 +71,7 @@ const BottomWear = {
             name:"supima",
             search : {name:"tracksuit"},
             filter:{subCategory:'tracksuit'},
+            gender: 'Men',
         },
 
         {
@@ -70,6 +79,7 @@ const BottomWear = {
             name:"oversizetshirt",
             search : {name:"jumpsuit"},
             filter:{subCategory:'jumpsuit'},
+            gender: 'Men',
         },
 
         {
@@ -77,6 +87,7 @@ const BottomWear = {
             name:"fulltshirt",
             search : {name:"kurta"},
             filter:{subCategory:'kurta'},
+            gender: 'Men',
         },
 
         {
@@ -84,6 +95,7 @@ const BottomWear = {
             name:"jackets",
             search : {name:"jeans"},
             filter:{subCategory:'jeans'},
+            gender: 'Men',
         },
 
         {
@@ -91,6 +103,7 @@ const BottomWear = {
             name:"trouser",
             search : {name:"jeans"},
             filter:{subCategory:'jeans'},
+            gender: 'Men',
         },
 
         {
@@ -98,12 +111,14 @@ const BottomWear = {
             name:"perfumes",
             search : {name:"kurti"},
             filter:{subCategory:'kurti'},
+            gender: 'Men',
         },
         {
             img : "https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/product-images/10_2_AqcbY1k.jpg?format=webp&w=480&dpr=1.3",
             name:"sneakers",
             search : {name:"trouser"},
             filter:{subCategory:'trouser'},
+            gender: 'Men',
         },
 
        

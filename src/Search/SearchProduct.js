@@ -4,48 +4,79 @@ import Header from "../Header/Header";
 import "../FilterComponent/FilterData";
 import { RotatingLines } from "react-loader-spinner";
 import { FaRegHeart } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+// import { useParams } from 'react-router-dom';
 
 
 export default function SearchProduct() {
-    const {fetchProducts, setFetchProducts} = useSearch();
-    console.log('fetchdata', fetchProducts);
+    // const {fetchProducts, setFetchProducts} = useSearch();
+    // console.log('fetchdata', fetchProducts);
     const [selectSortValue, setSelectSortValue] = useState('');
+    const [searchData, setSearchData] = useState([]);
+    const { query } = useParams();
    
+
+    const searchAPI = async ()=> {
+      try {
+          const response = await fetch(`https://academics.newtonschool.co/api/v1/ecommerce/clothes/products?search={"name":"${query}"}`, {
+          method: 'GET',
+          headers: {
+              // 'Content-Type': 'application/json',
+              projectID: 'rhxg8aczyt09'
+          }
+          });
+  
+          if (!response.ok) {
+          alert('Failed to fetch data');
+          }
+  
+          const result = await response.json();
+          console.log('SEARCH +>result',result);
+          console.log('SEARCH=>resultData',result.data);
+          setSearchData(result.data); // Update state with fetched data
+      } catch (error) {
+          alert(error);
+      } 
+  };
+
     const handleSortChange = (event)=> {
       setSelectSortValue(event.target.value);
     }
 
     // Fetch data from localStorage on component mount
+
   useEffect(() => {
-    const storedData = localStorage.getItem('fetchProducts');
-    if (storedData) {
-      setFetchProducts(JSON.parse(storedData));
-    }
-  }, []);
+    // const storedData = localStorage.getItem('fetchProducts');
+    // if (storedData) {
+    //   setFetchProducts(JSON.parse(storedData));
+    // }
+    searchAPI();
+  }, [query]);
 
   // Update localStorage whenever fetchProducts changes
-  useEffect(() => {
-    localStorage.setItem('fetchProducts', JSON.stringify(fetchProducts));
-  }, [fetchProducts]);
+  // useEffect(() => {
+  //   localStorage.setItem('fetchProducts', JSON.stringify(fetchProducts));
+  // }, [fetchProducts]);
 
-    console.log('fetchData', fetchProducts)
+    // console.log('fetchData', fetchProducts)
     return (
       <>
         <Header />
         {/* <MenSelectCategories /> */}
-        {fetchProducts.length < 0 ? (
+        {searchData.length === 0 ? (
+          <div className="loader" style={{width: '100%', textAlign:'center', marginTop: '30px'}}>
           <RotatingLines
-            visible={true}
-            height="96"
-            width="96"
-            color="grey"
-            strokeWidth="5"
-            animationDuration="0.75"
-            ariaLabel="rotating-lines-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
-          />
+          visible={true}
+          height="96"
+          width="96"
+          color="grey"
+          strokeWidth="5"
+          animationDuration="0.75"
+          ariaLabel="rotating-lines-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
+        </div>
         ) : (
           <div className="top-filter-comtainer" style={{ padding: "0 20px" }}>
             <div className="filter-container">
@@ -79,7 +110,7 @@ export default function SearchProduct() {
               </div>
               {/* rigth Site */}
               <div className="div-sorting1">
-                {Array.isArray(fetchProducts) &&fetchProducts.map((searchProduct) => (
+                {/*Array.isArray(fetchProducts) &&*/searchData.map((searchProduct) => (
                   <div
                     style={{
                       width: "24%",
@@ -101,7 +132,7 @@ export default function SearchProduct() {
                       }}
                     />
                     <Link
-                      to={`/filterProducts/${searchProduct.subCategory}/${searchProduct._id}`}
+                      to={`/filterProducts/${searchProduct.subCategory}/${searchProduct.gender}/${searchProduct._id}`}
                       key={searchProduct._id}
                     >
                       <img

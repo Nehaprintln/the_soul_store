@@ -30,9 +30,11 @@ export default function WishList() {
 
       const { data } = await response.json();
       const wishListData = data.items;
+
       console.log("whishlist product ALL DATA ==>", wishListData);
 
       setWishlistDataDisplay(wishListData);
+      localStorage.setItem('wishlistLength', wishListData.length.toString());
     } catch (error) {
       console.log("WISHLIST Display ++>", error);
     }

@@ -1,12 +1,13 @@
 import BottomWear from "../MenData/bottomwear/BottomWear";
 import { Link } from "react-router-dom";
+import {OuterMargin} from '../CommonLayout/OuterMargin/OuterMargin';
+import { Children } from "react";
 
 function ShowCategaries() {
   return (
     <>
-      <div
-        className="categories-container"
-        style={{ textAlign: "center", marginTop: "30px" }}
+      <OuterMargin  
+        className="outer-container" 
       >
         <h2>CATEGORIES</h2>
         <div className="categories-card">
@@ -14,7 +15,7 @@ function ShowCategaries() {
             console.log("hello======", val.name);
             return (
               <div className="card-transition-div">
-                <Link to={`/filterProducts/${val.name}`} key={index}>
+                <Link to={`/filterProducts/${val.name}/${val.gender}`} key={index}>
                   <img
                     className="categories-img card-transition"
                     src={val.img}
@@ -28,7 +29,7 @@ function ShowCategaries() {
             );
           })}
         </div>
-      </div>
+      </OuterMargin>
     </>
   );
 }

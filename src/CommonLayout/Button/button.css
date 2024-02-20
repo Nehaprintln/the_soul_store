@@ -1,0 +1,35 @@
+.addCart{
+    width: 45%;
+    padding: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    background: red;
+    border: none;
+    margin-right: 5px;
+}
+.wishList{
+    width: 30%;
+    padding: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #117a7a;
+    background: transparent;
+    border: 1px solid #117a7a;
+    margin-left: 5px;
+}
+.wishListfil{
+    width: 10%;
+    height: 25px;
+    /* text-align: center; */
+    background-color: transparent;
+    position: absolute;
+    left: 90%;
+    top: 5%;
+    font-size: 22px;
+    color: #117a7a;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    padding: 2px;
+}

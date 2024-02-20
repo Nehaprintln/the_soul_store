@@ -56,23 +56,3 @@
     font-size: 14px;
     cursor: pointer;
 }
-#addCart{
-    width: 45%;
-    padding: 6px;
-    font-size: 14px;
-    font-weight: 700;
-    color: #fff;
-    background: red;
-    border: none;
-    margin-right: 5px;
-}
-#wishList{
-    width: 30%;
-    padding: 6px;
-    font-size: 14px;
-    font-weight: 500;
-    color: #117a7a;
-    background: transparent;
-    border: 1px solid #117a7a;
-    margin-left: 5px;
-}

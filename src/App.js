@@ -32,9 +32,9 @@ function App() {
         <Route path='/men'  element={<Men />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/signin' element={<SignIn />} />
-        <Route path='/search' element={<SearchProduct />} />
-        <Route path='/filterProducts/:subCategory' element={<FilterData />} />
-        <Route path='/filterProducts/:subCategory/:id' element={<ProductDetails />} />
+        <Route path='/search/:query' element={<SearchProduct />} />
+        <Route path='/filterProducts/:subCategory/:gender' element={<FilterData />} /> {/* DO HERE CHANGES */}
+        <Route path='/filterProducts/:subCategory/:gender/:id' element={<ProductDetails />} />
         <Route path='/pageNotFound' element={<h1>Page not found</h1>} />
         <Route path='/commingSoon' element={<CommingSoonProduct />} />
         <Route path='/mywishlist' element={<WishList />} />
