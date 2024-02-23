@@ -22,3 +22,28 @@
     flex-wrap: wrap;
     font-size: 14px;
 }
+.size-chartFilter ul li{
+    width: 50px;
+    margin: 10px;
+    border-radius: 40px;
+    display: inline-block;
+    text-align: center;
+    position: relative;
+}
+.size-chartFilter ul li input{
+    opacity: 0;
+    position: absolute;
+    top: 11px;
+    left: 20px;
+    transform: scale(2.5);
+}
+.size-chartFilter ul li label{
+    width: 50px;
+    border-radius: 30px;
+    padding: 5px 10px;
+    background: transparent;
+    color: gray;
+    cursor: pointer;
+    font-size: 14px;
+}
+

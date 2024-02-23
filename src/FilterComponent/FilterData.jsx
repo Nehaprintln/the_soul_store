@@ -17,28 +17,96 @@ export default function FilterData() {
   const { subCategory, gender } = useParams();
   const [page, setPage] = useState(1);
   const [filterProducts, setFilterProducts] = useState([]);
-  const [selectSortValue, setSelectSortValue] = useState("");
   const [wishlistProduct, setWishlistProduct] = useState([]);
-  // const [searchParam, setSeachParam] = useSearchParams();
+  const [selectSortValue, setSelectSortValue] = useState(null);
+  const [selectedFilterSize, setSelectedFilterSize] = useState(null);
   const navigate = useNavigate();
+  const filterSize = ['S', 'M', 'L', 'X', 'XL', 'XXL'];
 
-  // const sercg = setSeachParam({subCategory: 'jeans', size: 'XL'});
-  // console.log('SEARCHPARAM==>',sercg);
- 
-  
 
-console.log()
+  //TODO: make pagination prev page
+   
+
+// console.log()
   const handleSortChange = (event) => {
     setSelectSortValue(event.target.value);
+    console.log("123==>event SORTING LOW TO HIGH",event.target.value);
   };
-  console.log('filterProduct ==>', filterProducts);
-  console.log('WISHLIST ARRAT ID ==>', wishlistProduct);
 
+  const handleFilterSizeChange = (event) => {
+    // console.log("event happend");
+    setSelectedFilterSize(event.target.value);
+    console.log("event",event.target.value);
+  };
+
+  // const lowToHigh = async () => {
+  //   try{
+  //     const response = await fetch(`https://academics.newtonschool.co/api/v1/ecommerce/clothes/products?sort={"price":1}&filter={"gender":"${gender}","subCategory":"${subCategory}"}&limit=20&page=1`, {
+  //         method: "GET",
+  //         headers: {
+  //           projectID: "rhxg8aczyt09",
+  //         },
+  //     }
+  //     )
+      
+  //     if(!response.ok){
+  //       console.log('FIX SORTING URL');
+  //     }
+
+  //     const result = await response.json();
+  //     const sortedData = result.data.sort((a, b) => a.price - b.price);
+  //     setFilterProducts(sortedData);
+  //   }
+  //   catch(error){
+  //     console.log('SORTING ERROR', error);
+  //   }
+  // };
+
+  // const highToLow = async () => {
+  //   try{
+  //     const response = await fetch(`https://academics.newtonschool.co/api/v1/ecommerce/clothes/products?sort={"price":-1}&filter={"gender":"${gender}","subCategory":"${subCategory}"}&limit=20&page=1`, {
+  //       method: "GET",
+  //       headers: {
+  //         projectID: "rhxg8aczyt09",
+  //       },
+  //     });
+      
+  //     if(!response.ok){
+  //       console.log('FIX SORTING URL');
+  //     }
+
+  //     const result = await response.json();
+  //     const sortedData = result.data.sort((a, b) => b.price - a.price);
+  //     setFilterProducts(sortedData);
+  //   }
+  //   catch(error){
+  //     console.log('SORTING ERROR', error);
+  //   }
+  // }
+
+  // console.log('filterProduct ==>', filterProducts);
+  // console.log('WISHLIST ARRAT ID ==>', wishlistProduct);
+
+  
    const fetchFilterProducts = async ()=> {
     console.log('page==> ', page);
     try {
+
+      let sortAPIValue = null;
+
+      if(selectSortValue){
+        if(selectSortValue === 'lowtohigh'){
+          sortAPIValue = `{"price": 1}`;
+        }else{
+          sortAPIValue = `{"price": -1}`
+        }
+      }
+
       const response = await fetch(
-        `https://academics.newtonschool.co/api/v1/ecommerce/clothes/products?filter={"gender":"${gender}","subCategory":"${subCategory}"}&limit=20&page=${page}`,
+        `https://academics.newtonschool.co/api/v1/ecommerce/clothes/products?filter={"gender":"${gender}","subCategory":"${subCategory}"${
+          selectedFilterSize ? `,"size":"${selectedFilterSize}"` : ""
+        }}&${sortAPIValue ? `sort=${sortAPIValue}` : ""}
+        &limit=20&page=${page}`,
         {
           method: "GET",
           headers: {
@@ -52,11 +120,11 @@ console.log()
       }
 
       const result = await response.json();
-      console.log('RESPONCE  FILTERPRODUCT RESULT =>', result)
-      setFilterProducts((prevProducts) => [...prevProducts, ...result.data]);
+      // console.log('RESPONCE  FILTERPRODUCT RESULT =>', result)
+      setFilterProducts((prevProducts) => result.data);
       
     } catch (error) {
-      console.log("FilterData ERROR==>", error);
+      // console.log("FilterData ERROR==>", error);
     }
   };
 
@@ -77,16 +145,16 @@ console.log()
 
       if (!response.ok) {
         // navigate("/commingSoon");
-        console.log('WISHLIST STORE ID ARRAY ERROR')
+        // console.log('WISHLIST STORE ID ARRAY ERROR')
       }
 
       const result = await response.json();
-      console.log('WISHLIST STORE ID ARRAY =>', result)
+      // console.log('WISHLIST STORE ID ARRAY =>', result)
       const wishlistData = result?.data?.items;
       setWishlistProduct(wishlistData.map(item => item?.products?._id));
       
     } catch (error) {
-      console.log("FilterData ERROR==>", error);
+      // console.log("FilterData ERROR==>", error);
     }
   };
 
@@ -146,7 +214,7 @@ console.log()
 
 
   useEffect(() => {
-
+    
     // const handleScroll = () => {
     //   if (
     //     window.innerHeight + document.documentElement.scrollTop ===
@@ -163,9 +231,20 @@ console.log()
     // };
     fetchFilterProducts();
     fetchWishlistProduct();
-    
+   
+    if(selectSortValue === 'lowtohigh'){
+      const sortedData = filterProducts.sort((a,b) => a.price - b.price)
+      setFilterProducts(sortedData);
+    }else{
+      const sortedData = filterProducts.sort((a,b) => b.price - a.price)
+      setFilterProducts(sortedData);
+    }
     console.log('pageCall', page);
-  }, [page]);
+
+  }, [page, selectSortValue, selectedFilterSize]);
+
+  
+
 
   return (
     <>
@@ -224,13 +303,39 @@ console.log()
           >
             <div
               style={{
-                border: "1px solid brown",
+                borderRight: "1px dotted #58595b",
                 width: "21%",
                 padding: "10px",
               }}
             >
               <div>
-                <div>SIZE</div>
+                <div style={{textAlign: 'center'}}>SIZE</div>
+                <div className="size-chartFilter">
+            <ul>
+              {filterSize.map((size) => (
+                <li>
+                  <input
+                    type="radio"
+                    id={`size${size}`}
+                    name="size"
+                    value={size}
+                    onChange={handleFilterSizeChange}
+                    checked={selectedFilterSize === size}
+                  />
+                  <label
+                    style={{
+                      border: 
+                        selectedFilterSize === size
+                          ? "2px solid #117a7a"
+                          : "2px solid #b3b3b3",
+                    }}
+                  >
+                    {size}
+                  </label>
+                </li>
+              ))}
+            </ul>
+          </div>
               </div>
             </div>
             <div className="div-sorting1">

@@ -5,6 +5,7 @@ import { FaRegHeart } from "react-icons/fa";
 import emptyCart from "../Image/Screenshot 2024-02-14 160536.png";
 // import ProductDetails from "../ProductDisplay/ProductDetails";
 // import { useWishlist } from "../Context/GlobleContext";
+import Button from "../CommonLayout/Button/Button";
 import {
   UncontrolledAccordion,
   AccordionItem,
@@ -145,6 +146,9 @@ export default function Cart() {
         </div>
       ) : (
         <>
+        <div style={{width: '80%', margin: 'auto'}}>
+        <Button className="removeAll" text='REMOVE ALL'  />
+        </div>
           <div className="cart-display-container" style={{ width: "100%", display: 'flex' }}>
             <div
               className="card-placeOrder-container"

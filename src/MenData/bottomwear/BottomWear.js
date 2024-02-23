@@ -68,7 +68,7 @@ const BottomWear = {
         {
             img : "https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/product-images/4_14_ZBpSlXo.jpg?format=webp&w=480&dpr=1.3",
             // name:"tracksuit",
-            name:"supima",
+            name:"kurta",
             search : {name:"tracksuit"},
             filter:{subCategory:'tracksuit'},
             gender: 'Men',
@@ -84,7 +84,7 @@ const BottomWear = {
 
         {
             img : "https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/product-images/11_1_M2GAp04.jpg?format=webp&w=480&dpr=1.3",
-            name:"fulltshirt",
+            name:"kurta",
             search : {name:"kurta"},
             filter:{subCategory:'kurta'},
             gender: 'Men',

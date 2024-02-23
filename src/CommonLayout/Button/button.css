@@ -33,3 +33,12 @@
     cursor: pointer;
     padding: 2px;
 }
+.removeAll{
+    height: 30px;
+    width: 15%;
+    background: #fff;
+    border: 1px solid #545353;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 14px;
+}
