@@ -7,3 +7,4 @@ export default function Button(props) {
     <button className={className} onClick={onClick}>{props.children}{text}</button>
   )
 }
+

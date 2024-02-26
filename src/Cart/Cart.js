@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "../Header/Header";
 import MenSelectCategories from "../MenData/MenSelectCategories";
-import { FaRegHeart } from "react-icons/fa";
+import { FaAsymmetrik, FaRegHeart } from "react-icons/fa";
 import emptyCart from "../Image/Screenshot 2024-02-14 160536.png";
 // import ProductDetails from "../ProductDisplay/ProductDetails";
 // import { useWishlist } from "../Context/GlobleContext";
@@ -13,6 +13,7 @@ import {
   AccordionBody,
   Col,
 } from "reactstrap";
+import { useNavigate } from "react-router-dom";
 
 // import { getData } from "../Afunc/Function";
 
@@ -25,6 +26,9 @@ export default function Cart() {
   // console.log(id);
   const [cartList, setCartList] = useState([]);
   const [CartTotal, setCartTotal] = useState(0);
+  const [wishlistProducts, setWishlistProducts] = useState([]);
+  console.log('wishlistProducts DATA==>',wishlistProducts );
+  const navigate = useNavigate();
   // const {checkProductStatusInWishlist, setIsInWishlist, isInWishlist, handleWishlistProduct} = useWishlist();
   // const {isAdd} = useSearch();==================================
   // const {selectedSize} = ProductDetails();
@@ -62,6 +66,33 @@ export default function Cart() {
     }
   };
 
+  const fetchWishlistData = async () => {
+    try{
+      const userRegister = localStorage.getItem('authToken');
+      const response = await fetch('https://academics.newtonschool.co/api/v1/ecommerce/wishlist', {
+        method: 'GET',
+        headers: {
+          projectID: "rhxg8aczyt09",
+          Authorization: `Bearer ${userRegister}`,
+          "Content-Type": "application/json",
+        }
+      });
+
+      if(!response.ok){
+        console.log('WISHLIST DATA =>  ERROR')
+      }
+
+      const {data} = await response.json();
+      const wishlistData = data.items;
+      console.log('WISHLIST DATA',wishlistData );
+
+      setWishlistProducts(wishlistData.map((item) => item?.products?._id));
+
+    }catch(error){
+
+    }
+  }
+
   useEffect(() => {
     const storedCartTotal = localStorage.getItem("totalAmount");
     console.log('inside useEffect', CartTotal)
@@ -69,6 +100,7 @@ export default function Cart() {
       setCartTotal(parseInt(storedCartTotal));
     }
     fetchCartData();
+    fetchWishlistData();
     
   }, []); //isAdd
 
@@ -110,7 +142,27 @@ export default function Cart() {
 
   }
 
-  const handleMoveToWishlist = (productId) => {};
+  const handleMoveToWishlist = async (productId) => {
+    try{
+      const userRegister = localStorage.getItem('authToken');
+
+      const response = await fetch('https://academics.newtonschool.co/api/v1/ecommerce/wishlist/', {
+        method: 'PATCH',
+        headers: {
+          projectID: "rhxg8aczyt09",
+            Authorization: `Bearer ${userRegister}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "productId": productId
+        })
+      });
+
+      handleRemoveFromCart(productId);
+    }catch(error){
+
+    }
+  };
 
   return (
     <>
@@ -238,9 +290,9 @@ export default function Cart() {
                           >
                             REMOVE
                           </button>
-                          <button
+                          { wishlistProducts.includes(list?.product._id) ? "" : (<button
                             id="movewishList"
-                            onClick={() => handleMoveToWishlist(list._id)}
+                            onClick={() => handleMoveToWishlist(list?.product._id)}
                             style={{
                               height: "30px",
                               width: "30%",
@@ -251,7 +303,8 @@ export default function Cart() {
                             }}
                           >
                              MOVE TO WISHLIST
-                          </button>
+                          </button>)}
+                            
                         </div>
                       </div>
                     </li>
@@ -260,8 +313,8 @@ export default function Cart() {
               </div>
             </div>
             <div className="placeOrder-container" style={{width: '35%'}}>
-              <div className="place-order" >
-                <p style={{width: '70%',padding: '10px', textAlign: 'center', background: '#117a7a', borderRadius: '5px', color: '#fff', fontSize: '14px', fontWeight: '700'}}>PLACE ORDER</p>
+              <div className="place-orderButton" >
+                <Button className='place-order' text='PLACE ORDER' onClick={() => navigate('/delivery-address')} />
               </div>
               <div style={{width: '70%',padding: '10px', background: '#ffb951', borderRadius: '5px'}}>
                 <input type="checkbox" />

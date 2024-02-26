@@ -18,6 +18,8 @@ import ProductDetails from './ProductDisplay/ProductDetails';
 import CommingSoonProduct from './CommingSoon/CommingSoonProduct';
 import WishList from './WishList/WishList';
 import Cart from './Cart/Cart';
+import Modal from './Modal/Modal';
+import DeliveryAddress from './Checkout/DeliveryAddress';
 
 function App() {
   return (
@@ -39,7 +41,8 @@ function App() {
         <Route path='/commingSoon' element={<CommingSoonProduct />} />
         <Route path='/mywishlist' element={<WishList />} />
         <Route path='/cart' element={<Cart />} />
-        
+        <Route path='/modal' element={<Modal />} />
+        <Route path='/delivery-address' element={<DeliveryAddress />} />
       </Routes>
     </Router>
     

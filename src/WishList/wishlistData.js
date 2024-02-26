@@ -37,7 +37,7 @@ const checkProductStatusInWishlist = async (id, setIsInWishlist)=> {
     }
   };
 
-  const handleAddToCart = async (id, setIsInWishlist, selectValue, selectedSize,navigate, setCartData, cartData)=> {
+  const handleAddToCart = async (id, selectValue, selectedSize,navigate)=> {
     if(selectValue && selectedSize){
       try{
         const userRegister = localStorage.getItem("authToken");
@@ -61,11 +61,11 @@ const checkProductStatusInWishlist = async (id, setIsInWishlist)=> {
           return;
         }
   
-          const updatedCartData = await response.json();
-          setCartData(prevCardData => [...prevCardData, updatedCartData]);
+          // const updatedCartData = await response.json();
+          // setCartData(prevCardData => [...prevCardData, updatedCartData]);
           // setIsAdd(!isAdd);==============================================================
-          console.log('updatedCard', updatedCartData);
-          console.log('add New cardDat==',cartData);
+          // console.log('updatedCard', updatedCartData);
+          // console.log('add New cardDat==',cartData);
   
         // dispatch({type: 'ADD_TO_CART', payload: updatedCartData});
         // console.log('Add button click')

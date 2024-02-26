@@ -24,17 +24,15 @@ export default function FilterData() {
   const filterSize = ['S', 'M', 'L', 'X', 'XL', 'XXL'];
 
 
-  //TODO: make pagination prev page
    
 
-// console.log()
+console.log('WISHLIST PRODUCT==>',wishlistProduct)
   const handleSortChange = (event) => {
     setSelectSortValue(event.target.value);
     console.log("123==>event SORTING LOW TO HIGH",event.target.value);
   };
 
   const handleFilterSizeChange = (event) => {
-    // console.log("event happend");
     setSelectedFilterSize(event.target.value);
     console.log("event",event.target.value);
   };
@@ -88,7 +86,7 @@ export default function FilterData() {
   // console.log('WISHLIST ARRAT ID ==>', wishlistProduct);
 
   
-   const fetchFilterProducts = async ()=> {
+   const fetchFilterProducts = async (wishlistProduct)=> {
     console.log('page==> ', page);
     try {
 
@@ -120,13 +118,23 @@ export default function FilterData() {
       }
 
       const result = await response.json();
-      // console.log('RESPONCE  FILTERPRODUCT RESULT =>', result)
-      setFilterProducts((prevProducts) => result.data);
+      const filterProductResponse = result.data;
+    
+      filterProductResponse.forEach((product) => {
+        if(wishlistProduct.includes(product._id)){
+          product.isWishlist = true;
+         }else{
+          product.isWishlist = false;
+         }
+      })
+
+      return filterProductResponse
       
     } catch (error) {
-      // console.log("FilterData ERROR==>", error);
+      console.log("FilterData ERROR==>", error);
     }
   };
+
 
   const fetchWishlistProduct = async()=> {
     try {
@@ -149,25 +157,22 @@ export default function FilterData() {
       }
 
       const result = await response.json();
-      // console.log('WISHLIST STORE ID ARRAY =>', result)
-      const wishlistData = result?.data?.items;
-      setWishlistProduct(wishlistData.map(item => item?.products?._id));
+      const wishlistData = await result?.data?.items;
+      return wishlistData.map(item => item?.products?._id)
+
+    //  setWishlistProduct(wishlistIds);
       
     } catch (error) {
-      // console.log("FilterData ERROR==>", error);
+      console.log("FilterData ERROR==>", error);
     }
   };
 
-  const isItemInWishlist = (itemId) => {
-    return wishlistProduct.includes(itemId);
-  };
-
-  const handleWishlistToggle = async (itemId) => {
+  const handleWishlistToggle = async (filterProduct) => {
     const userRegister = localStorage.getItem("authToken");
     try{
-      if(isItemInWishlist(itemId)){
+      if(filterProduct.isWishlist){
         // If the product is already in the wishlist, remove it
-        const removeFromWishlist = await fetch(`https://academics.newtonschool.co/api/v1/ecommerce/wishlist/${itemId}`, {
+        const removeFromWishlist = await fetch(`https://academics.newtonschool.co/api/v1/ecommerce/wishlist/${filterProduct._id}`, {
           method: 'DELETE',
           headers: {
             projectID: "rhxg8aczyt09",
@@ -182,7 +187,8 @@ export default function FilterData() {
         }
         console.log('=====REMOVE========')
         // setIsInWishlist(false);
-        setWishlistProduct(wishlistProduct.filter((id) => id !== itemId))
+        filterProduct.isWishlist = false;
+        setWishlistProduct(wishlistProduct.filter((id) => id !== filterProduct._id))
       
     }else{
         // If the product is not in the wishlist, add it
@@ -194,17 +200,18 @@ export default function FilterData() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          'productId': itemId,
+          'productId': filterProduct._id,
         }),
         });
 
         if(!addToWishlist.ok){
           // navigate('/signup');
-        console.error('Failed to add product to wishlist');
+        console.log('Failed to add product to wishlist');
         return;
         }
         console.log('=============')
-        setWishlistProduct([...wishlistProduct, itemId]);
+        filterProduct.isWishlist = true;
+        setWishlistProduct([...wishlistProduct, filterProduct._id]);
       }
     }catch(error){
       console.log('WISHLIST ERROR', error)
@@ -212,6 +219,10 @@ export default function FilterData() {
     
   }
 
+// TODO: 1) how useEffect work
+// TODO: 2) when call method within useEffect, not work with global value or variable
+// TODO: 3) all concept of useEffect mount etc. what happend when page mount and flow of code
+// TODO: 4) why not use within useState variable within function
 
   useEffect(() => {
     
@@ -229,9 +240,7 @@ export default function FilterData() {
     // return () => {
     //   window.removeEventListener("scroll", handleScroll);
     // };
-    fetchFilterProducts();
-    fetchWishlistProduct();
-   
+    
     if(selectSortValue === 'lowtohigh'){
       const sortedData = filterProducts.sort((a,b) => a.price - b.price)
       setFilterProducts(sortedData);
@@ -240,10 +249,19 @@ export default function FilterData() {
       setFilterProducts(sortedData);
     }
     console.log('pageCall', page);
-
+    
+    async function fech2 (){
+      const wishlist2 = await fetchWishlistProduct();
+     const reponse2 = await fetchFilterProducts(wishlist2);
+     setWishlistProduct(wishlist2);
+     setFilterProducts(reponse2);
+    }
+  
+     
+    fech2();
   }, [page, selectSortValue, selectedFilterSize]);
 
-  
+
 
 
   return (
@@ -348,8 +366,8 @@ export default function FilterData() {
                     position: "relative",
                   }}
                 >
-                  <Button className="wishListfil" text='' onClick={()=> handleWishlistToggle(filterProduct._id)}>
-                    {isItemInWishlist(filterProduct._id) ? <FaHeart  style={{color:'#117a7a'}} /> : <FaRegHeart style={{color:'#117a7a'}} />}
+                  <Button className="wishListfil" text='' onClick={()=> handleWishlistToggle(filterProduct)}>
+                    {filterProduct.isWishlist ? <FaHeart  style={{color:'#117a7a'}} /> : <FaRegHeart style={{color:'#117a7a'}} />}
                     </Button>
                   <Link
                     to={`/filterProducts/${filterProduct.subCategory}/${filterProduct.gender}/${filterProduct._id}`}
@@ -376,8 +394,9 @@ export default function FilterData() {
               ))}
             </div>
           </div>
-          <div style={{width: '100%',height: '100px', display: 'flex', alignItems: 'center'}}>
-          <button onClick={()=> setPage(prevpage => prevpage + 1)} style={{alignContent: 'center', margin: 'auto', padding: '10px'}}> view more </button>
+          <div style={{width: '20%',height: '100px',margin: 'auto', display: 'flex', alignItems: 'center', border: '2px solid green', justifyContent: 'space-evenly'}}>
+          <button onClick={() => setPage((prevPage) => prevPage >= 1 ? page - 1 : 1)} style={{alignContent: 'center', padding: '7px', width: '100px', border: '1px solid gray', borderRadius: '10px'}}>Previous</button>
+          <button onClick={()=> setPage(prevpage => prevpage + 1)} style={{alignContent: 'center', padding: '7px', width: '100px', border: '1px solid gray', borderRadius: '10px'}}> Next  </button>
 
           </div>
         </div>

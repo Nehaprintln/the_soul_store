@@ -1,0 +1,12 @@
+.payment-process{
+    width: 80%;
+    display: flex; 
+    justify-content: space-between;
+    padding: 3px; 
+    border: 1px solid #58595b; 
+    border-bottom: none;
+    border-radius: 5px;
+}
+.total{
+    border: 1px solid #58595b; 
+}

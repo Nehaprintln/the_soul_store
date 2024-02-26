@@ -1,133 +1,269 @@
-// navigate work for page
-import React, { useState, useEffect } from "react";
+import "./FilterData.css";
+import React, { useEffect, useState } from "react";
 import Header from "../Header/Header";
 import MenSelectCategories from "../MenData/MenSelectCategories";
+import posterImg from "./FilterAPIData";
+import { RotatingLines } from "react-loader-spinner";
 import { useParams } from "react-router-dom";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { RotatingLines } from "react-loader-spinner";
-// import { useSearch } from "../Context/GlobleContext";
-import { useWishlist } from "../Context/GlobleContext";
-
-import "./ProductDisplay.css";
-import {
-  UncontrolledAccordion,
-  AccordionItem,
-  AccordionHeader,
-  AccordionBody,
-  Col,
-} from "reactstrap";
+import { OuterMargin } from "../CommonLayout/OuterMargin/OuterMargin";
+import Button from "../CommonLayout/Button/Button";
+// import { useSearchParams } from "react-router-dom";
 
 
-export default function ProductDetails() {
-  const [selectedSize, setSelectedSize] = useState('');
-  const { id, subCategory } = useParams();
-  const [productDetails, setProductDetails] = useState([]);
-  const [selectValue, setSelectValue] = useState(0);
+export default function FilterData() {
+  const { subCategory, gender } = useParams();
+  const [page, setPage] = useState(1);
+  const [filterProducts, setFilterProducts] = useState([]);
+  const [wishlistProduct, setWishlistProduct] = useState([]);
+  const [selectSortValue, setSelectSortValue] = useState(null);
+  const [selectedFilterSize, setSelectedFilterSize] = useState(null);
   const navigate = useNavigate();
-  // const {dispatch} = useCart();
-  const [cartData, setCartData] = useState([]);
-  // const [isInWishlist, setIsInWishlist] = useState(false);
-  // const {isAdd, setIsAdd} = useSearch();==================================================
-  const { checkProductStatusInWishlist, handleWishlistProduct, isInWishlist } = useWishlist();
-  console.log('ID==> & SUNCATEGARIES==',id, subCategory);
-  console.log(typeof(id))
+  const filterSize = ['S', 'M', 'L', 'X', 'XL', 'XXL'];
 
-  const handleQuantityChange = (event) => {
-    const value = parseInt(event.target.value)
-    setSelectValue(value);
+
+  //TODO: make pagination prev page
+   
+
+// console.log()
+  const handleSortChange = (event) => {
+    setSelectSortValue(event.target.value);
+    console.log("123==>event SORTING LOW TO HIGH",event.target.value);
   };
-  console.log(selectValue);
 
-  const handleSizeChange = (event) => {
-    console.log("event happend");
-    setSelectedSize(event.target.value);
+  const handleFilterSizeChange = (event) => {
+    // console.log("event happend");
+    setSelectedFilterSize(event.target.value);
     console.log("event",event.target.value);
   };
-  console.log("Selected Size==> ", selectedSize);
+
+  // const lowToHigh = async () => {
+  //   try{
+  //     const response = await fetch(`https://academics.newtonschool.co/api/v1/ecommerce/clothes/products?sort={"price":1}&filter={"gender":"${gender}","subCategory":"${subCategory}"}&limit=20&page=1`, {
+  //         method: "GET",
+  //         headers: {
+  //           projectID: "rhxg8aczyt09",
+  //         },
+  //     }
+  //     )
+      
+  //     if(!response.ok){
+  //       console.log('FIX SORTING URL');
+  //     }
+
+  //     const result = await response.json();
+  //     const sortedData = result.data.sort((a, b) => a.price - b.price);
+  //     setFilterProducts(sortedData);
+  //   }
+  //   catch(error){
+  //     console.log('SORTING ERROR', error);
+  //   }
+  // };
+
+  // const highToLow = async () => {
+  //   try{
+  //     const response = await fetch(`https://academics.newtonschool.co/api/v1/ecommerce/clothes/products?sort={"price":-1}&filter={"gender":"${gender}","subCategory":"${subCategory}"}&limit=20&page=1`, {
+  //       method: "GET",
+  //       headers: {
+  //         projectID: "rhxg8aczyt09",
+  //       },
+  //     });
+      
+  //     if(!response.ok){
+  //       console.log('FIX SORTING URL');
+  //     }
+
+  //     const result = await response.json();
+  //     const sortedData = result.data.sort((a, b) => b.price - a.price);
+  //     setFilterProducts(sortedData);
+  //   }
+  //   catch(error){
+  //     console.log('SORTING ERROR', error);
+  //   }
+  // }
+
+  // console.log('filterProduct ==>', filterProducts);
+  // console.log('WISHLIST ARRAT ID ==>', wishlistProduct);
 
   
+   const fetchFilterProducts = async ()=> {
+    console.log('page==> ', page);
+    try {
 
-  const handleAddToCart = async ()=> {
-    if(selectValue && selectedSize){
-      try{
-        const userRegister = localStorage.getItem("authToken");
-        console.log('userRegisterAuth==> ',userRegister)
-        const response = await fetch(`https://academics.newtonschool.co/api/v1/ecommerce/cart/${id}`,{
-          method: 'PATCH',
+      let sortAPIValue = null;
+
+      if(selectSortValue){
+        if(selectSortValue === 'lowtohigh'){
+          sortAPIValue = `{"price": 1}`;
+        }else{
+          sortAPIValue = `{"price": -1}`
+        }
+      }
+
+      const response = await fetch(
+        `https://academics.newtonschool.co/api/v1/ecommerce/clothes/products?filter={"gender":"${gender}","subCategory":"${subCategory}"${
+          selectedFilterSize ? `,"size":"${selectedFilterSize}"` : ""
+        }}&${sortAPIValue ? `sort=${sortAPIValue}` : ""}
+        &limit=20&page=${page}`,
+        {
+          method: "GET",
+          headers: {
+            projectID: "rhxg8aczyt09",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        navigate("/commingSoon");
+      }
+
+      const result = await response.json();
+      // console.log('RESPONCE  FILTERPRODUCT RESULT =>', result)
+      setFilterProducts(result.data);
+      setFilterProducts((prevProducts) => [...prevProducts, ...result.data]);
+      
+    } catch (error) {
+      // console.log("FilterData ERROR==>", error);
+    }
+  };
+
+  const fetchWishlistProduct = async()=> {
+    try {
+      const userRegister = localStorage.getItem("authToken");
+      const response = await fetch(
+        'https://academics.newtonschool.co/api/v1/ecommerce/wishlist',
+        {
+          method: "GET",
+          headers: {
+            projectID: "rhxg8aczyt09",
+            Authorization: `Bearer ${userRegister}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        // navigate("/commingSoon");
+        // console.log('WISHLIST STORE ID ARRAY ERROR')
+      }
+
+      const result = await response.json();
+      // console.log('WISHLIST STORE ID ARRAY =>', result)
+      const wishlistData = result?.data?.items;
+      setWishlistProduct(wishlistData.map(item => item?.products?._id));
+      
+    } catch (error) {
+      // console.log("FilterData ERROR==>", error);
+    }
+  };
+
+  const isItemInWishlist = (itemId) => {
+    return wishlistProduct.includes(itemId);
+  };
+
+  const handleWishlistToggle = async (itemId) => {
+    const userRegister = localStorage.getItem("authToken");
+    try{
+      if(isItemInWishlist(itemId)){
+        // If the product is already in the wishlist, remove it
+        const removeFromWishlist = await fetch(`https://academics.newtonschool.co/api/v1/ecommerce/wishlist/${itemId}`, {
+          method: 'DELETE',
           headers: {
             projectID: "rhxg8aczyt09",
             'Authorization': `Bearer ${userRegister}`,
-            'Content-Type': 'application/json'
           },
-          body: JSON.stringify({
-            'quantity': selectValue,
-             'size': selectedSize,
-          })
         });
-  
-        if(!response.ok){
-          navigate('/signup')
-          console.log('CartPatch Data ==')
+
+        if(!removeFromWishlist.ok){
+          // navigate('/signup');
+          console.error('Failed to remove product from wishlist');
           return;
         }
-  
-          const updatedCartData = await response.json();
-          setCartData(prevCardData => [...prevCardData, updatedCartData]);
-          // setIsAdd(!isAdd);==============================================================
-          console.log('updatedCard', updatedCartData);
-          console.log('add New cardDat==',cartData);
-  
-        // dispatch({type: 'ADD_TO_CART', payload: updatedCartData});
-        // console.log('Add button click')
-        }catch(error){
-          console.log('Error CartItem==', error)
-        }
+        console.log('=====REMOVE========')
+        // setIsInWishlist(false);
+        setWishlistProduct(wishlistProduct.filter((id) => id !== itemId))
+      
     }else{
-      alert('Please Select Size and quantity')
+        // If the product is not in the wishlist, add it
+        const addToWishlist = await fetch('https://academics.newtonschool.co/api/v1/ecommerce/wishlist/', {
+          method: 'PATCH',
+        headers: {
+          projectID: "rhxg8aczyt09",
+          'Authorization': `Bearer ${userRegister}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          'productId': itemId,
+        }),
+        });
+
+        if(!addToWishlist.ok){
+          // navigate('/signup');
+        console.error('Failed to add product to wishlist');
+        return;
+        }
+        console.log('=============')
+        setWishlistProduct([...wishlistProduct, itemId]);
+      }
+    }catch(error){
+      console.log('WISHLIST ERROR', error)
     }
     
-  };
-
+  }
 
 
   useEffect(() => {
-    async function fetchProductDetails() {
-      try {
-        const response = await fetch(
-          `https://academics.newtonschool.co/api/v1/ecommerce/product/${id}`,
-          {
-            method: "GET",
-            headers: {
-              projectID: "rhxg8aczyt09",
-            },
-          }
-        );
+    
+    // const handleScroll = () => {
+    //   if (
+    //     window.innerHeight + document.documentElement.scrollTop ===
+    //     document.documentElement.offsetHeight
+    //   ) {
+    //     setPage((prevPage) => prevPage + 1);
+    //   }
+    // };
 
-        if (!response.ok) {
-          // alert("Failed to fetch data");
-          console.log('Failed')
-          navigate('/pageNotFound')
-        }
+    // window.addEventListener("scroll", handleScroll);
 
-        const result = await response.json();
-        setProductDetails(result.data);
-      } catch (error) {
-        // alert(error);
-        navigate('/pageNotFound')
-      }
+    // return () => {
+    //   window.removeEventListener("scroll", handleScroll);
+    // };
+    fetchFilterProducts();
+    fetchWishlistProduct();
+   
+    if(selectSortValue === 'lowtohigh'){
+      const sortedData = filterProducts.sort((a,b) => a.price - b.price)
+      setFilterProducts(sortedData);
+    }else{
+      const sortedData = filterProducts.sort((a,b) => b.price - a.price)
+      setFilterProducts(sortedData);
     }
+    console.log('pageCall', page);
 
-    fetchProductDetails();
-    checkProductStatusInWishlist(id);
-    // handleAddToWishlist();
-  }, [id, subCategory]);
+  }, [page, selectSortValue, selectedFilterSize]);
+
+  
+
 
   return (
     <>
       <Header />
       <MenSelectCategories />
-      {productDetails.length < 1 ? (
+      <OuterMargin className='outer-container'>
+        {posterImg
+          .filter((image) => subCategory === image.name)
+          .map((filteredImage, index) => (
+            <img
+              key={index}
+              src={filteredImage.img}
+              style={{ width: "100%", objectFit: "cover" }}
+              alt={filteredImage.name}
+            />
+          ))}
+      </OuterMargin>
+      {filterProducts.length < 1 ? (
         <div className="loader" style={{width: '100%', textAlign:'center', marginTop: '30px'}}>
           <RotatingLines
           visible={true}
@@ -143,44 +279,54 @@ export default function ProductDetails() {
         </div>
         
       ) : (
-        <div className="product-container">
-        <div className="image-container" style={{ width: "58%" }}>
-          <div className="image-div">
-            {productDetails?.images.map((img, index) => (
-              <img
-                key={index}
-                src={img}
-                alt={productDetails.name}
-                style={{ width: "49%" }}
-              />
-            ))}
+        <div className="top-filter-comtainer" style={{ padding: "0 20px" }}>
+          <div className="filter-container">
+            <div
+              className="sorting-container"
+              style={{ display: "flex", justifyContent: "flex-end" }}
+            >
+              <div className="div-sorting">
+                <div className="sorting">
+                  <select
+                    value={selectSortValue}
+                    onChange={handleSortChange}
+                  >
+                    <option value="">Select Sorting Option</option>
+                    <option value="hightolow">Price-High to Low</option>
+                    <option value="lowtohigh">Price-Low to High</option>
+                  </select>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="product-details-container">
-          <div className="product-name">
-            <h4>{productDetails?.name}</h4>
-            <span>{productDetails?.gender} </span>
-            <span>{productDetails?.subCategory}</span>
-          </div>
-          <div className="product-price">
-            <h4 id="price">₹ {productDetails?.price}</h4>
-          </div>
-          <div className="size-chart">
-            <ul style={{ marginLeft: "-35px" }}>
-              {productDetails?.size.map((size) => (
+          <div
+            style={{ display: "flex", justifyContent: "space-between" }}
+          >
+            <div
+              style={{
+                borderRight: "1px dotted #58595b",
+                width: "21%",
+                padding: "10px",
+              }}
+            >
+              <div>
+                <div style={{textAlign: 'center'}}>SIZE</div>
+                <div className="size-chartFilter">
+            <ul>
+              {filterSize.map((size) => (
                 <li>
                   <input
                     type="radio"
-                    id="sizeS"
+                    id={`size${size}`}
                     name="size"
                     value={size}
-                    onChange={handleSizeChange}
-                    checked={selectedSize === size}
+                    onChange={handleFilterSizeChange}
+                    checked={selectedFilterSize === size}
                   />
                   <label
                     style={{
-                      border:
-                        selectedSize === size
+                      border: 
+                        selectedFilterSize === size
                           ? "2px solid #117a7a"
                           : "2px solid #b3b3b3",
                     }}
@@ -191,73 +337,53 @@ export default function ProductDetails() {
               ))}
             </ul>
           </div>
-          <div
-            className="quantity-container"
-            style={{ marginBottom: "20px", cursor: "pointer" }}
-          >
-            <span style={{ color: "#58595b" }}>Quantity</span>
-            <span>
-              <select value={selectValue} onChange={handleQuantityChange}>
-                <option value="">00</option>
-                <option value="1">01</option>
-                <option value="2">02</option>
-                <option value="3">03</option>
-                <option value="4">04</option>
-                <option value="5">05</option>
-                <option value="6">06</option>
-                <option value="7">07</option>
-                <option value="8">08</option>
-                <option value="9">09</option>
-                <option value="10">10</option>
-              </select>
-            </span>
+              </div>
+            </div>
+            <div className="div-sorting1">
+              {filterProducts.map((filterProduct) => (
+                <div
+                  key={filterProduct._id}
+                  style={{
+                    width: "24%",
+                    padding: "10px",
+                    position: "relative",
+                  }}
+                >
+                  <Button className="wishListfil" text='' onClick={()=> handleWishlistToggle(filterProduct._id)}>
+                    {isItemInWishlist(filterProduct._id) ? <FaHeart  style={{color:'#117a7a'}} /> : <FaRegHeart style={{color:'#117a7a'}} />}
+                    </Button>
+                  <Link
+                    to={`/filterProducts/${filterProduct.subCategory}/${filterProduct.gender}/${filterProduct._id}`}
+                  >
+                    <img
+                      src={filterProduct.displayImage}
+                      style={{ width: "275px" }}
+                    />
+                  </Link>
+                  <div
+                    style={{
+                      borderBottom: "0.5px solid gray",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    {filterProduct.name}
+                  </div>
+                  <span>{filterProduct.gender} </span>
+                  <span> {filterProduct.subCategory}</span>
+                  <div>₹ {filterProduct.price}</div>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="button-container" style={{ marginBottom: "20px" }}>
-            <button id="addCart" onClick={handleAddToCart}>ADD TO CARD</button>
+          <div style={{width: '20%',height: '100px',margin: 'auto', display: 'flex', alignItems: 'center', border: '2px solid green', justifyContent: 'space-evenly'}}>
+          <button onClick={() => setPage((prevPage) => prevPage >= 1 ? page - 1 : 1)} style={{alignContent: 'center', padding: '7px', width: '100px', border: '1px solid gray', borderRadius: '10px'}}>Previous</button>
+          <button onClick={()=> setPage(prevpage => prevpage + 1)} style={{alignContent: 'center', padding: '7px', width: '100px', border: '1px solid gray', borderRadius: '10px'}}> Next  </button>
 
-            {isInWishlist ? (<button id="wishList" onClick={()=> handleWishlistProduct('remove', id)}><FaHeart  style={{color:'#117a7a'}} />ADDED TO WISHLIST </button>):(
-            <button id="wishList" onClick={()=> handleWishlistProduct('add', id)}><FaRegHeart style={{color:'#117a7a'}} /> ADD TO WISHLIST </button>) }
-
-            {/* <button id="wishList" onClick={handleAddToWishlist}>
-              <FaRegHeart style={{color: isInWishlist ? 'green' : 'red'}} /> 
-             {isInWishlist ? 'ADDED TO WISHLIST' : 'ADD TO WISHLIST'} 
-            </button> */}
-          </div>
-          <div className="accordion-container">
-            <UncontrolledAccordion defaultOpen="1">
-              <AccordionItem>
-                <AccordionHeader targetId="1">Product Details</AccordionHeader>
-                <AccordionBody accordionId="1">
-                  <div dangerouslySetInnerHTML={{
-                            __html: productDetails?.description
-                            }}></div>
-                </AccordionBody>
-              </AccordionItem>
-              <AccordionItem>
-                <AccordionHeader targetId="2">Artist's Details</AccordionHeader>
-                <AccordionBody accordionId="2">
-                  <p>
-                    The Souled Store was born out of a simple idea - love what
-                    you do and follow your soul! Thus, our goal is to give
-                    everyone something they'll love, something they can use to
-                    express themselves, and, simply put, something to put a
-                    smile on their face. So, whether it's superheroes like
-                    Superman, TV shows like F.R.I.E.N.D.S, pop culture, music,
-                    sports, or quirky, funny stuff you're looking for, we have
-                    something for everyone. TSS Originals or The Souled Store
-                    Originals is our exclusive range of funny, funky, trendy and
-                    stylish designs. Designed by our kick-ass team of in-house
-                    designers, TSS Originals are some cool and quirky designs
-                    that help you speak your vibe.
-                  </p>
-                </AccordionBody>
-              </AccordionItem>
-            </UncontrolledAccordion>
           </div>
         </div>
-      </div>
       )}
-      
     </>
   );
 }

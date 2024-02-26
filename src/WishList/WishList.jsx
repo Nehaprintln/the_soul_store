@@ -2,9 +2,13 @@ import React, { useEffect, useState } from "react";
 import Header from "../Header/Header";
 import MenSelectCategories from "../MenData/MenSelectCategories";
 import { RotatingLines } from "react-loader-spinner";
+import Button from "../CommonLayout/Button/Button";
+import Modal from '../Modal/Modal';
+
 
 export default function WishList() {
   const [wishlistDataDisplay, setWishlistDataDisplay] = useState([]);
+ const [modalProductId, setModalProductId] = useState(null);
 
   const checkProductStatusInWishlist = async () => {
     try {
@@ -40,9 +44,13 @@ export default function WishList() {
     }
   };
 
+  const moveTocart = (modalId) => {
+    setModalProductId(modalId);
+  }
+
   useEffect(() => {
     checkProductStatusInWishlist();
-  }, []);
+  }, [modalProductId]);
 
   return (
     <>
@@ -66,12 +74,15 @@ export default function WishList() {
         
       ) : (     
         <>
-        <div style={{width: '100%'}}>
-            <ul style={{width: '75%', margin: 'auto', display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+        <div style={{width: '100%', padding: '20px'}}>
+          <div style={{margin: 'auto', width: '75%'}}>
+            <h6>My Wishlist <span>({wishlistDataDisplay.length} items )</span></h6>
+          </div>
+            <ul style={{width: '80%', margin: 'auto', display: 'flex', flexWrap: 'wrap', gap: '25px' }}>
             {wishlistDataDisplay.map((wishlistData)=> (
-                <li style={{width: '24%', border: '1px solid grey', position: 'relative'}}>
+                <li style={{width: '20%', border: '1px solid grey', position: 'relative'}}>
                     <div>
-                        <div style={{position: 'absolute'}}>X</div>
+                        <div style={{position: 'absolute', left: '87%', top: '2%', background: 'rgba(255, 255, 255, 0.8)', width: '10%', textAlign: 'center', borderRadius: '10px'}}>X</div>
                     </div>
                     <div>
                         <img src={wishlistData?.products?.displayImage} style={{width: '100%'}} />
@@ -86,10 +97,9 @@ export default function WishList() {
                     ₹ {wishlistData?.products?.price}
                     </div>
                     </div>
-                    <div style={{textAlign: 'center', borderTop: '1px solid grey', paddingTop: '10px'}}>
-                        <p>MOVE TO CART</p>
-                    </div>
-                    
+                   <Button className="moveToCart" text="MOVE TO CART" onClick={() => {moveTocart(wishlistData?.products?._id)}} />
+                   {modalProductId && <Modal modalProductId={modalProductId} closeModal={() => setModalProductId(null)} />}
+                   {/* <div onClick={() => navigate('/modal')}>s</div> */}
                 </li>
             ))}
             </ul>

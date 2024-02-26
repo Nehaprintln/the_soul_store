@@ -21,6 +21,8 @@ import {
   AccordionBody,
   Col,
 } from "reactstrap";
+import QuantitySelect from "./QuantitySelect";
+import SizeSelect from "./SizeSelect";
 
 
 export default function ProductDetails() {
@@ -30,7 +32,7 @@ export default function ProductDetails() {
   const [selectValue, setSelectValue] = useState(1);
   const navigate = useNavigate();
   // const {dispatch} = useCart();
-  const [cartData, setCartData] = useState([]);
+  // const [cartData, setCartData] = useState([]);
   // const [isInWishlist, setIsInWishlist] = useState(false);
   const {isInWishlist, setIsInWishlist} = useSearch();
   // const {isAdd, setIsAdd} = useSearch();==================================================
@@ -251,55 +253,12 @@ export default function ProductDetails() {
           <div className="product-price">
             <h4 id="price">₹ {productDetails?.price}</h4>
           </div>
-          <div className="size-chart">
-            <ul style={{ marginLeft: "-35px" }}>
-              {productDetails?.size.map((size) => (
-                <li>
-                  <input
-                    type="radio"
-                    id="sizeS"
-                    name="size"
-                    value={size}
-                    onChange={handleSizeChange}
-                    checked={selectedSize === size}
-                  />
-                  <label
-                    style={{
-                      border:
-                        selectedSize === size
-                          ? "2px solid #117a7a"
-                          : "2px solid #b3b3b3",
-                    }}
-                  >
-                    {size}
-                  </label>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div
-            className="quantity-container"
-            style={{ marginBottom: "20px", cursor: "pointer" }}
-          >
-            <span style={{ color: "#58595b" }}>Quantity</span>
-            <span>
-              <select value={selectValue} onChange={handleQuantityChange}>
-                {/* <option value="">00</option> */}
-                <option value="1">01</option>
-                <option value="2">02</option>
-                <option value="3">03</option>
-                <option value="4">04</option>
-                <option value="5">05</option>
-                <option value="6">06</option>
-                <option value="7">07</option>
-                <option value="8">08</option>
-                <option value="9">09</option>
-                <option value="10">10</option>
-              </select>
-            </span>
-          </div>
+          <QuantitySelect className="quantity-container" text="Quantity" handleQuantityChange={handleQuantityChange} selectValue={selectValue} />
+          <SizeSelect className="size-chart" productDetails={productDetails} handleSizeChange={handleSizeChange} selectedSize={selectedSize} />
+
+         
           <div className="button-container" style={{ marginBottom: "20px" }}>
-            <Button className="addCart" text='ADD TO CARD' onClick={()=> handleAddToCart(id, setIsInWishlist, selectValue, selectedSize,navigate, setCartData, cartData)} />
+            <Button className="addCart" text='ADD TO CARD' onClick={()=> handleAddToCart(id, selectValue, selectedSize,navigate)} />
 
             {isInWishlist ? (<Button className="wishList" text=' ADDED TO WISHLIST' onClick={()=> handleWishlistProduct(id, setIsInWishlist,'remove')}><FaHeart  style={{color:'#117a7a'}} /> </Button>):(
             <Button className="wishList" text=' ADD TO WISHLIST' onClick={()=> handleWishlistProduct(id, setIsInWishlist,'add')}><FaRegHeart style={{color:'#117a7a'}} /></Button>) }
