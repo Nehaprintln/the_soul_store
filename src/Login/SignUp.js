@@ -49,7 +49,8 @@ export default function SignUp({baseURL, signUp, projectId}) {
     //   password: data.get('password'),
     // });
     const userObject = {
-        name: data.get('firstName'),
+      name: `${data.get('firstName')} ${data.get('lastName')}`,
+        // name: data.get('firstName'),
         // lastName: data.get('lastName'),
         email: data.get('email'),
         password: data.get('password'),

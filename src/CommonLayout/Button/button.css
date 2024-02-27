@@ -4,7 +4,7 @@
     font-size: 14px;
     font-weight: 700;
     color: #fff;
-    background: red;
+    background: #e11b23;
     border: none;
     margin-right: 5px;
 }
@@ -61,7 +61,7 @@
     font-size: 14px;
     font-weight: 700;
     color: #fff;
-    background: red;
+    background: #e11b23;
     border: none;
     
 }
@@ -88,4 +88,18 @@
     font-size: 700;
     border: none;
     margin-top: 10px;
+}
+.form-cancel, .form-save{
+    width: 15%;
+    padding: 5px;
+    cursor: pointer;
+    margin: 15px 18px 0 0;
+    border-radius: 5px;
+    border: 0.5px solid #b6b4b4; 
+    color: #545353; 
+}
+.form-save{
+    background-color: #e11b23;
+    color: #fff;
+    font-weight: 700;
 }

@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './Header/Header';
 import Men from './MenData/Men';
-import Women from './Header/Women';
+import Women from './WomenData/Women';
 import Footer from './Footer/Footer';
 import SignIn from './Login/SignIn';
 import SignUp from './Login/SignUp';
@@ -20,6 +20,7 @@ import WishList from './WishList/WishList';
 import Cart from './Cart/Cart';
 import Modal from './Modal/Modal';
 import DeliveryAddress from './Checkout/DeliveryAddress';
+import Address from './Checkout/Address';
 
 function App() {
   return (
@@ -43,10 +44,11 @@ function App() {
         <Route path='/cart' element={<Cart />} />
         <Route path='/modal' element={<Modal />} />
         <Route path='/delivery-address' element={<DeliveryAddress />} />
+        <Route path='/address' element={<Address />} />
       </Routes>
     </Router>
     
-    {/* <Footer /> */}
+    <Footer />
         {/* </WishlistProvider> */}
     {/* </CardProvider> */}
     </SearchProvide>
