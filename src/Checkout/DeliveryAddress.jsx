@@ -12,8 +12,17 @@ export default function DeliveryAddress() {
     const [displayAddress, setDisplayAddress] = useState();
     // const userAddress = localStorage.getItem("userAddress");
     // setDisplayAddress(userAddress);
+    // const storedAddress = localStorage.getItem("userAddress");
+    // const userAddress = storedAddress ? JSON.parse(storedAddress) : null;
+    // setDisplayAddress(userAddress);
 
     console.log(displayAddress);
+
+
+    useEffect(() => {
+      const userAddress = localStorage.getItem("userAddress");
+      setDisplayAddress(userAddress ? JSON.parse(userAddress) : null);
+    }, []);
 
   return (
     <>

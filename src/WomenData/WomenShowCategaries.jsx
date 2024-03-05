@@ -1,9 +1,9 @@
-import MensWear from "../MenData/MensWear/MensWear";
+import WomenWear from "./WomenWear";
 import { Link } from "react-router-dom";
 import {OuterMargin} from '../CommonLayout/OuterMargin/OuterMargin';
 import { Children } from "react";
 
-function ShowCategaries() {
+function WomenShowCategaries() {
   return (
     <>
       <OuterMargin  
@@ -11,7 +11,7 @@ function ShowCategaries() {
       >
         <h2>CATEGORIES</h2>
         <div className="categories-card">
-          {MensWear.cloth.map((val, index) => {
+          {WomenWear.cloth.map((val, index) => {
             console.log("hello======", val.name);
             return (
               <div className="card-transition-div">
@@ -34,4 +34,4 @@ function ShowCategaries() {
   );
 }
 // <Link to=`/${val.name}`  ></Link> "/val.name"=> categories name
-export default ShowCategaries;
+export default WomenShowCategaries;

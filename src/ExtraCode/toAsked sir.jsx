@@ -230,8 +230,8 @@ export default function FilterData() {
     // return () => {
     //   window.removeEventListener("scroll", handleScroll);
     // };
-    fetchFilterProducts();
     fetchWishlistProduct();
+    fetchFilterProducts();
    
     if(selectSortValue === 'lowtohigh'){
       const sortedData = filterProducts.sort((a,b) => a.price - b.price)

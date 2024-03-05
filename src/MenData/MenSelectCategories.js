@@ -3,9 +3,8 @@ import { Link } from 'react-router-dom'
 import './Men.css';
 import { HoverCategory } from './Categories';
 
-export default function MenSelectCategories({categories}) {
+export default function MenSelectCategories() {
     const [isFixed, setIsFixed] = useState(false);
-
     useEffect(()=> {
         const handleScroll = ()=> {
             const scrollPosition = window.scrollY;
@@ -28,7 +27,7 @@ export default function MenSelectCategories({categories}) {
                 <li className='menu-item'>
                     <Link className='select'>CATEGORIES</Link>
                     <div className='dropdown-content'>
-                        <HoverCategory categories={categories} />
+                        <HoverCategory />
             </div>
                 </li>
                 <li>

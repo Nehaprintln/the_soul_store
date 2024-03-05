@@ -12,7 +12,6 @@ import { useSearch, useWishlist } from "../Context/GlobleContext";
 import {checkProductStatusInWishlist, handleAddToCart, handleWishlistProduct} from "../WishList/wishlistData";
 import Button from "../CommonLayout/Button/Button";
 import Loader from "../CommonLayout/Loader/Loader";
-
 import "./ProductDisplay.css";
 import {
   UncontrolledAccordion,

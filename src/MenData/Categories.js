@@ -1,13 +1,15 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import BottomWear from "./bottomwear/BottomWear"
+import BottomWear from "./MensWear/MensWear"
 import { Link } from "react-router-dom";
+
 import ShowCategaries from "../ShowCategaries/ShowCategaries";
 
 
 
 function HoverCategory() {
 
+  // const { category } = useParams();
   const [categories, setCategories] = useState([]);
   useEffect(() => {
       async function CategoryData() {
@@ -40,7 +42,7 @@ return (
   <> 
   <ul>
       { categories.map((category, index)=> (
-            <li key={index} ><Link className="hover">{category}</Link></li>
+            <li key={index} ><Link to={`/filterProducts/${category}/Men`} className="hover">{category}</Link></li>
       ))
       }
   </ul>     

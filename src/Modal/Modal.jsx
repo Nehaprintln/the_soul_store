@@ -4,6 +4,8 @@ import QuantitySelect from '../ProductDisplay/QuantitySelect'
 import SizeSelect from '../ProductDisplay/SizeSelect';
 import Button from '../CommonLayout/Button/Button';
 import { handleAddToCart } from '../WishList/wishlistData';
+import Swal from "sweetalert2";
+
 
 
 export default function Modal(props) {
@@ -55,7 +57,9 @@ export default function Modal(props) {
                 console.log('Error CartItem==', error)
             }
         }else{
-         alert('Please Select Size and quantity')
+          Swal.fire({
+            text: "Please Select Size and quantity",
+          });
         }
         removeFromWishlist(modalId);
         closeModal();

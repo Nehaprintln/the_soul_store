@@ -52,7 +52,7 @@ export default function Payment() {
                               <h5>Total Amount</h5>
                             </div>
                             <div>
-                              <h5>₹ {cartTotal + GST}</h5>
+                              <h5>₹ {(cartTotal + GST).toFixed(2)}</h5>
                             </div>
                     </div>
                     <Button className="continue-to-payment" text="Continue to Payment" onClick={() => {}} />

@@ -5,10 +5,7 @@ import { NavLink, Link} from 'react-router-dom';
 import { FaMobileAlt,FaSearch, FaRegUser} from "react-icons/fa";
 import { MdFavoriteBorder } from "react-icons/md";
 import { LuBaggageClaim } from "react-icons/lu";
-import SearchProduct from '../Search/SearchProduct';
 import { useSearch } from '../Context/GlobleContext';
-// import { useCart } from '../Context/GlobleContext';
-// import { IoMdMic } from "react-icons/io";
 
 
 export default function Header() {

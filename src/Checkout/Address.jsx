@@ -19,10 +19,14 @@ export default function Address(props) {
   const countryArray = ['India', 'USA', 'UK'];
   const stateArray = ['Select State','Arunachal Pradesh', 'Bihar', 'Chandigarh', 'delhi', 'Goa', 'Haryana', 'Jammu and Kashmir', 'Kerela', 'Maharashtra', 'Uttar Pradesh']
   
-  const handleAddressSend = () => {
-    const newAddress = {
+  const handleAddressSend = (event) => {
+    event.preventDefault();
+
+    const newAddressObj = {
       firstName, lastName, addresstype, houseName, street, landmark, postalCode, city, country, state
     };
+
+    const newAddress = JSON.stringify(newAddressObj);
     localStorage.setItem("userAddress", newAddress);
     sendAddressFunc(newAddress);
 
@@ -76,7 +80,7 @@ export default function Address(props) {
             </div>
             <div className='form-buttons'>
               <Button className='form-cancel' text='Cancel' onClick={closeModal}/>
-              <Button className='form-save' text='Save'  onClick={handleAddressSend} />
+              <Button className='form-save' text='Save' type="submit" onClick={handleAddressSend}  />
             </div>
           </form>
 

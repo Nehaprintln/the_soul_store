@@ -1,5 +1,5 @@
-const BottomWear = {
-    bottom : [
+const MensWear = {
+    cloth : [
         {
             img : "https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/product-images/12_2_dTUAR6a.jpg?format=webp&w=480&dpr=1.3",
             name:"sweater",
@@ -129,4 +129,4 @@ const BottomWear = {
 }
 
 
-export default BottomWear;
+export default MensWear;

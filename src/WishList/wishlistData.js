@@ -1,3 +1,5 @@
+
+import Swal from "sweetalert2";
 const checkProductStatusInWishlist = async (id, setIsInWishlist)=> {
         // const {id} = props;
     try{
@@ -60,6 +62,12 @@ const checkProductStatusInWishlist = async (id, setIsInWishlist)=> {
           console.log('CartPatch Data ==')
           return;
         }
+        Swal.fire({
+          title: "Congratulations !",
+          text: "Your data added successfully !",
+          icon: "success"
+        });
+       
   
           // const updatedCartData = await response.json();
           // setCartData(prevCardData => [...prevCardData, updatedCartData]);
@@ -73,7 +81,14 @@ const checkProductStatusInWishlist = async (id, setIsInWishlist)=> {
           console.log('Error CartItem==', error)
         }
     }else{
-      alert('Please Select Size and quantity')
+      Swal.fire({
+        text: "Please Select Size and quantity",
+        // position: "top-end", // You can use other positions like "top-start", "top", "top-end", "center", "center-start", "center-end", "bottom-start", "bottom", or "bottom-end"
+        showConfirmButton: false, // Set to false if you don't want to show the confirm button
+        timer: 1500 // Set a timer to automatically close the modal after a certain time (in milliseconds)
+      });
+      // Swal.fire("Please Select Size and quantity");
+      // alert('Please Select Size and quantity')
     }
     
   };
@@ -102,6 +117,13 @@ const checkProductStatusInWishlist = async (id, setIsInWishlist)=> {
         }
         console.log('=====REMOVE========')
         setIsInWishlist(false);
+        // Swal.fire("Product removed from your wishlist");
+        Swal.fire({
+          text: "Product removed from your wishlist",
+          // position: "top-end", // You can use other positions like "top-start", "top", "top-end", "center", "center-start", "center-end", "bottom-start", "bottom", or "bottom-end"
+          showConfirmButton: false, // Set to false if you don't want to show the confirm button
+          timer: 1500 // Set a timer to automatically close the modal after a certain time (in milliseconds)
+        });
       }
       
       else if(value === 'add'){
@@ -125,6 +147,14 @@ const checkProductStatusInWishlist = async (id, setIsInWishlist)=> {
         }
         console.log('=============')
         setIsInWishlist(true);
+        Swal.fire({
+          text: "Product added to your wishlist",
+          // position: "top-end", // You can use other positions like "top-start", "top", "top-end", "center", "center-start", "center-end", "bottom-start", "bottom", or "bottom-end"
+          showConfirmButton: false, // Set to false if you don't want to show the confirm button
+          timer: 1500 // Set a timer to automatically close the modal after a certain time (in milliseconds)
+        });
+        // Swal.fire("Product added to your wishlist");
+        
       }
 
     }catch(error){

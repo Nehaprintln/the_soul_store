@@ -394,7 +394,7 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
               ))}
             </div>
           </div>
-          <div style={{width: '20%',height: '100px',margin: 'auto', display: 'flex', alignItems: 'center', border: '2px solid green', justifyContent: 'space-evenly'}}>
+          <div style={{width: '20%',height: '100px',margin: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-evenly'}}>
           <button onClick={() => setPage((prevPage) => prevPage >= 1 ? page - 1 : 1)} style={{alignContent: 'center', padding: '7px', width: '100px', border: '1px solid gray', borderRadius: '10px'}}>Previous</button>
           <button onClick={()=> setPage(prevpage => prevpage + 1)} style={{alignContent: 'center', padding: '7px', width: '100px', border: '1px solid gray', borderRadius: '10px'}}> Next  </button>
 
