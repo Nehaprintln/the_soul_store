@@ -10,7 +10,9 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { OuterMargin } from "../CommonLayout/OuterMargin/OuterMargin";
 import Button from "../CommonLayout/Button/Button";
+import Swal from "sweetalert2";
 // import { useSearchParams } from "react-router-dom";
+// import { useHistory } from 'react-router-dom';
 
 
 export default function FilterData() {
@@ -22,6 +24,10 @@ export default function FilterData() {
   const [selectedFilterSize, setSelectedFilterSize] = useState(null);
   const navigate = useNavigate();
   const filterSize = ['S', 'M', 'L', 'X', 'XL', 'XXL'];
+  // const [genders, setGender] = useState(localStorage.getItem('gender'));
+
+  // const history = useHistory();
+  // const history = useHistory();
 
 
    
@@ -114,7 +120,17 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
       );
 
       if (!response.ok) {
-        navigate("/commingSoon");
+        // Swal.fire({
+        //   icon: 'info',
+        //   title: 'Coming Soon!',
+        //   text: 'This product will be available soon.',
+        // });
+        navigate('/comingSoon');
+        // history.push("/commingSoon");
+//         import { useHistory, useEffect } from 'react-router-dom'
+
+
+// const history = useHistory();
       }
 
       const result = await response.json();
@@ -152,8 +168,9 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
       );
 
       if (!response.ok) {
+        // history.push('/comingSoon');
         // navigate("/commingSoon");
-        // console.log('WISHLIST STORE ID ARRAY ERROR')
+        console.log('WISHLIST STORE ID ARRAY ERROR')
       }
 
       const result = await response.json();
@@ -261,6 +278,12 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
     fech2();
   }, [page, selectSortValue, selectedFilterSize]);
 
+  // useEffect(() => {
+  //   const selectedGender = localStorage.getItem('gender')
+	// 	if (selectedGender) {
+	// 		setGender(selectedGender)
+	// 	}
+  // }, [genders]);
 
 
 

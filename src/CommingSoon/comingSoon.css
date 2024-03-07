@@ -1,0 +1,26 @@
+/* .commingSoon{
+    width: 100%;
+    height: 100vh;
+    background: rgb(248, 248, 242);
+    text-align: center;
+} */
+.commingSoon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70vh; /* Set the height to fill the entire viewport */
+    font-size: 40px;
+    color: #333; /* Set your desired text color */
+    animation: fadeIn 4s ease-in-out; /* Add a fade-in animation */
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  

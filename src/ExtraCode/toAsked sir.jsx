@@ -116,7 +116,7 @@ export default function FilterData() {
       );
 
       if (!response.ok) {
-        navigate("/commingSoon");
+        navigate("/comingSoon");
       }
 
       const result = await response.json();

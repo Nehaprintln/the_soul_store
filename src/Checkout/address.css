@@ -31,8 +31,7 @@
 .name-lastname, .house-name, .street-name, .landmark, .code-city, .countary-state {
     margin-bottom: 20px;
 }
-input[type="text"],
-input[type="number"],
+.address-input input,
 select{
     padding: 5px 10px;
     width: 46%;

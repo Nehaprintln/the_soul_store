@@ -116,7 +116,7 @@ console.log('FILTER PRODUCT==>',filterProducts)
       );
 
       if (!response.ok) {
-        navigate("/commingSoon");
+        navigate("/comingSoon");
       }
 
       const result = await response.json();

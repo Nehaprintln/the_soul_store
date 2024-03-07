@@ -22,7 +22,7 @@ export default function DeliveryAddress() {
     useEffect(() => {
       const userAddress = localStorage.getItem("userAddress");
       setDisplayAddress(userAddress ? JSON.parse(userAddress) : null);
-    }, []);
+    }, [addressModal]);
 
   return (
     <>
@@ -43,12 +43,12 @@ export default function DeliveryAddress() {
             <div style={{display: 'flex', gap: '20px', width: '100%', padding: '20px'}}>
                 <div style={{width: '65%', display: 'flex', gap: '20px'}}>
                   {displayAddress && (
-                      <div className='display-address-container' style={{width: '40%', height: '300px', background: '#edeaea', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
+                      <div className='display-address-container' style={{width: '40%',padding: '20px', height: '300px', background: '#edeaea', display: 'flex' , flexDirection: 'column', lineHeight: '0.8'}}>
                       <h5>{`${displayAddress.firstName} ${displayAddress.lastName}`} <span>{displayAddress.addressType}</span></h5>
                       <p>{displayAddress.houseName}</p>
                       <p>{displayAddress.street}</p>
                       <p>{displayAddress.landmark}</p>
-                      <p>{displayAddress.city} {displayAddress.postalCode}</p>
+                      <p>{`${displayAddress.city}: ${displayAddress.postalCode}`}</p>
                     </div>
                   )}
 

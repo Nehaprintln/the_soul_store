@@ -11,16 +11,24 @@ body{
 }
 
 /* header style */
-#men, #women{
+/* #Men, #Women{
     text-decoration: none;
-    color: #4d4a4a;
-    font-size: 22px;
+    color: #fff;
+    font-size: 20px;
     font-weight: 600;
     padding: 10px;
+} */
+#Men:hover, #Women:hover{
+    background: #fffffff1;
+    border: 3px solid #ffffffe1;
+    columns: #fff;
 }
-#men:hover, #women:hover{
-    background: #f09191;
-    border: 2px solid #f09191;
+.inActine{
+    text-decoration: none;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 600;
+    padding: 10px; 
 }
 .active{
     text-decoration: none;
@@ -43,18 +51,47 @@ body{
 }
 .img{
     position: absolute;
-    top: 20%;
-    left: 1%;
-    width: 150px;
+    top: 40%;
+    left: 3%;
+    width: 120px;
+    height: 82px;
     z-index: 10;
 }
 .imgfixed{
     position: fixed;
     top: 0;
-    width: 100px;
-    background: #f9d1d1;
-    border-radius: 50%;
+    left: 5%;
+    width: 80px;
+    height: 60px;
+    /* background: #f9d1d1; */
+    /* border-radius: 50%; */
 }
+.blinkEyeFixed{
+    position: fixed;
+    top: 0;
+    left: 3.8%;
+    z-index: 11;
+    color: #e93434;
+ 
+}
+.blinkEye{
+    position: absolute;
+    top: 85%;
+    left: 3.8%;
+    z-index: 11;
+    color: #e93434;
+
+}
+.blinkEyeClosed {
+    transform: scaleY(0.1); /* Scale vertically to close the eye */
+    /* transform-origin: bottom; Set the origin to the bottom for proper scaling */
+    transition: 0.2s ease-in; /* Add a smooth transition effect */
+  }
+.blinkEyeOpen {
+    transform: scaleY(1); /* Reset the transform to its original state */
+    transition: 0.2s ease-out; /* Add a smooth transition effect */
+}
+
 .icon-section{
     width: 39%;
     position: absolute;

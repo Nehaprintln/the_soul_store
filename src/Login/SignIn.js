@@ -14,6 +14,9 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
+import Swal from 'sweetalert2';
+import { useNavigate } from "react-router-dom";
+import MenSelectCategories from '../MenData/MenSelectCategories';
 
 function Copyright(props) {
   return (
@@ -33,6 +36,7 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+  const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -57,7 +61,12 @@ export default function SignIn() {
     );
     console.log(response);
     if (!response.ok) {
-      alert("Login failed");
+      // alert("Login failed");
+      Swal.fire({
+        title: "Oops !",
+        text: "please enter valid email and password",
+        icon: "error"
+      });
       return;
     }
     const newData = await response.json();
@@ -65,10 +74,21 @@ export default function SignIn() {
 
     const {token = ''} = newData;
     localStorage.setItem("authToken", token);
-    alert("You are successfully  Login");
-
+    // alert("You are successfully  Login");
+    Swal.fire({
+      title: "Congratulations !",
+      text: "You are successfully  Login !",
+      icon: "success"
+    });
+   
+    navigate("/");
   } catch (error) {
-    alert("Error Please check");
+    // alert("Error Please check");
+    Swal.fire({
+      title: "Oops !",
+      text: "please enter valid email and password",
+      icon: "error"
+    });
   }
     console.log({
       email: data.get('email'),
@@ -79,6 +99,7 @@ export default function SignIn() {
   return (
     <>
     <Header />
+    <MenSelectCategories />
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -146,7 +167,7 @@ export default function SignIn() {
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
-    <Footer />
+    {/* <Footer /> */}
     </>
   );
 }

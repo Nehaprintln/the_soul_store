@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { useSearch } from '../Context/GlobleContext'
 import Header from "../Header/Header";
+import MenSelectCategories from '../MenData/MenSelectCategories';
 import "../FilterComponent/FilterData";
 import { RotatingLines } from "react-loader-spinner";
 import { FaRegHeart } from "react-icons/fa";
@@ -62,7 +63,7 @@ export default function SearchProduct() {
     return (
       <>
         <Header />
-        {/* <MenSelectCategories /> */}
+        <MenSelectCategories />
         {searchData.length === 0 ? (
           <div className="loader" style={{width: '100%', textAlign:'center', marginTop: '30px'}}>
           <RotatingLines

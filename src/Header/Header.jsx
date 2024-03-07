@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from 'react'
 import './Header.css';
 import logo from '../Image/logo_SouledStore.png';
-import { NavLink, Link} from 'react-router-dom';
+import { NavLink, Link, Outlet} from 'react-router-dom';
 import { FaMobileAlt,FaSearch, FaRegUser} from "react-icons/fa";
 import { MdFavoriteBorder } from "react-icons/md";
 import { LuBaggageClaim } from "react-icons/lu";
 import { useSearch } from '../Context/GlobleContext';
+import { TbOvalFilled } from "react-icons/tb";
+import Men from '../MenData/Men';
 
 
 export default function Header() {
@@ -15,6 +17,8 @@ export default function Header() {
     
     const {handleSearchClick, searchInput, setSearchInput} = useSearch();
     const [isFixed, setIsFixed] = useState(false);
+    const [gender, setGender] = useState('Men');
+    const [isBlinking, setIsBlinking] = useState(false);
     // const {state} = useCart();
     // const [searchInput, setSearchInput] = useState('');
     
@@ -27,6 +31,29 @@ export default function Header() {
         setSearchInput(event.target.value);
     };
 
+    const handleNavlinkClick = (event)=> {
+        let gender = event.target.id;
+        console.log('Navlink Click', event.target.id)
+        // TODO: to store localstore
+        localStorage.setItem("gender", gender);
+    }
+
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setIsBlinking(prevState => !prevState);
+    }, 1000);
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
+    useEffect(() => {
+		const selectedGender = localStorage.getItem('gender')
+		if (selectedGender) {
+			setGender(selectedGender)
+		}
+	}, [])
 
     useEffect(()=> {
         const handleScroll = ()=> {
@@ -43,18 +70,33 @@ export default function Header() {
     }, []); // Empty dependency array ensures the effect runs only once
 
   return (
-    <div className='header-container'>
+    <>
+         <div className='header-container'>
         <Link to='/'>
-            <img src={logo} className={`img ${isFixed ? ' imgfixed' : ''}`} />
+            <img src='https://www.thesouledstore.com/static/img/newlogo.8dcc6cc.png' className={`img ${isFixed ? ' imgfixed' : ''}`} />
+            <div className={`blinkEye ${isFixed ? 'blinkEyeFixed' : ''} ${isBlinking ? 'blinkEyeClosed' : 'blinkEyeOpen'}`}>
+            {/* <div className={`blinkEye ${isBlinking ? 'blinkEyeClosed ' : 'blinkEyeOpen'}`}> */}
+                {/* {`blinkEye ${isFixed ? 'blinkEyeFixed' : ''} ${isBlinking ? 'blinkEyeClosed' : 'blinkEyeOpen'}`} */}
+                <TbOvalFilled />
+                <TbOvalFilled style={{width: '13px', height: '14px' }} />
+            </div>
         </Link>
         <div className='nav-section'>
             <ul className='categories position'>
-                <li>
-                    <NavLink to='/women' id='women'>WOMEN</NavLink>
-                </li>
-                <li>
-                    <NavLink to='/men' id='men'>MEN</NavLink>
-                </li>
+                 <li>
+              <Link to='/women' id='Women'  className={
+						gender === 'Women' ? 'active' : 'inActine'
+					} onClick={handleNavlinkClick}>
+                WOMEN
+              </Link>
+            </li>
+            <li>
+              <Link to='/men' id='Men' className={
+						gender === 'Men' ? 'active' : 'inActine'
+					} onClick={handleNavlinkClick}>
+                MEN
+              </Link>
+            </li>
             </ul>
         </div>
         <div className='tracking-section'>
@@ -96,6 +138,10 @@ export default function Header() {
             </ul>
         </div>
     </div>
+    {/* <Outlet /> */}
+   {/* <Men /> */}
+    </>
+   
   )
 };
 

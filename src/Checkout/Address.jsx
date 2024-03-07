@@ -22,6 +22,20 @@ export default function Address(props) {
   const handleAddressSend = (event) => {
     event.preventDefault();
 
+    if (
+      firstName.trim() === '' ||
+      lastName.trim() === '' ||
+      houseName.trim() === '' ||
+      street.trim() === '' ||
+      postalCode.trim() === '' ||
+      city.trim() === '' ||
+      country.trim() === 'Select Country' ||
+      state.trim() === 'Select State'
+    ) {
+      // Show an alert or any other feedback to indicate that required fields are missing
+      alert('Please fill in all the required fields.');
+      return;
+    }
     const newAddressObj = {
       firstName, lastName, addresstype, houseName, street, landmark, postalCode, city, country, state
     };
@@ -29,7 +43,7 @@ export default function Address(props) {
     const newAddress = JSON.stringify(newAddressObj);
     localStorage.setItem("userAddress", newAddress);
     sendAddressFunc(newAddress);
-
+    closeModal();
   }
   
   return (
@@ -49,24 +63,24 @@ export default function Address(props) {
               <input type='radio' value='office' checked={addresstype === 'office'} onChange={() => setAddressType('office')} /> 
               <label>OFFICE</label>
             </div>
-            <div className='name-lastname'>
+            <div className='name-lastname address-input'>
                 <input type='text' value={firstName} placeholder='fitst name' required onChange={(e) => setFirstName(e.target.value)} />
                 <input type='text' value={lastName} placeholder='last name' required onChange={(e) => setLastName(e.target.value)}/>
             </div>
-            <div className='house-name'>
-              <input type='text' placeholder='HouseNo., BuildingName *' value={houseName} onChange={(e) => setHouseName(e.target.value)} />
+            <div className='house-name address-input'>
+              <input type='text' placeholder='HouseNo., BuildingName *' value={houseName} required onChange={(e) => setHouseName(e.target.value)} />
             </div>
-            <div className='street-name'>
-               <input type='text' placeholder='Street Name, Area*' value={street} onChange={(e) => setStreet(e.target.value)} />
+            <div className='street-name address-input'>
+               <input type='text' placeholder='Street Name, Area*' value={street} required onChange={(e) => setStreet(e.target.value)} />
             </div>
-            <div className='landmark'>  
-              <input type='text' placeholder='Landmark' value={landmark} onChange={(e) => setLandmark(e.target.value)} />
+            <div className='landmark address-input' address-input>  
+              <input type='text' placeholder='Landmark' value={landmark} required onChange={(e) => setLandmark(e.target.value)} />
             </div>
-            <div className='code-city'>
-              <input type='number' placeholder='Postal Code*' value={postalCode} onChange={(e) => setPostalCode(e.target.value)}/>
-              <input type='text' placeholder='City / District*' value={city} onChange={(e) => setCity(e.target.value)} />
+            <div className='code-city address-input'>
+              <input type='number' placeholder='Postal Code*' value={postalCode} required onChange={(e) => setPostalCode(e.target.value)}/>
+              <input type='text' placeholder='City / District*' value={city} required onChange={(e) => setCity(e.target.value)} />
             </div>
-            <div className='countary-state'>
+            <div className='countary-state address-input'>
               <select value={country} onChange={(e) => setCountry(e.target.value)}>
                 {countryArray.map((country) => 
                   <option value={country}>{country}</option>
@@ -80,7 +94,7 @@ export default function Address(props) {
             </div>
             <div className='form-buttons'>
               <Button className='form-cancel' text='Cancel' onClick={closeModal}/>
-              <Button className='form-save' text='Save' type="submit" onClick={handleAddressSend}  />
+              <Button className='form-save' text='Save'  onClick={handleAddressSend}  />
             </div>
           </form>
 

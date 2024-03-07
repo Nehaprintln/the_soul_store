@@ -14,11 +14,13 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 // import { Link } from "react-router-dom";
 
 import ConstantAPI from '../CommonData/ConstantAPI';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
+import MenSelectCategories from '../MenData/MenSelectCategories';
 
 function Copyright(props) {
   return (
@@ -71,23 +73,42 @@ export default function SignUp({baseURL, signUp, projectId}) {
         });
         console.log(response);
         if(response.status === 403){
-          alert('User already exists');
+          // alert('User already exists');
+          Swal.fire({
+            text: "User already exists !"
+          });
         }
-        if(response.ok){
-            alert('SignUp Failed')
+        if(!response.ok){
+            // alert('SignUp Failed')
+          Swal.fire({
+          title: "Oops !",
+          text: "Please enter valid Email and Password",
+          icon: "error"
+        });
             return;
         }
-        alert('User registered Successfully');
+        // alert('User registered Successfully');
+        Swal.fire({
+          title: "Congratulations !",
+          text: "User registered Successfully !",
+          icon: "success"
+        });
         navigate("/signin");
         // setCheckSubmition(true);
     }catch(error){
-        alert(error)
+        // alert(error)
+        Swal.fire({
+          title: "Oops !",
+          text: {error},
+          icon: "error"
+        });
     }
   };
 
   return (
     <>
     <Header />
+    <MenSelectCategories />
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -176,7 +197,7 @@ export default function SignUp({baseURL, signUp, projectId}) {
         <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>
-    <Footer />
+    {/* <Footer /> */}
     </>
   );
 }
