@@ -4,6 +4,7 @@ import './Men.css';
 import { HoverCategory } from './Categories';
 
 export default function MenSelectCategories() {
+    console.log('MenSelectCategories Render')
     const [isFixed, setIsFixed] = useState(false);
     useEffect(()=> {
         const handleScroll = ()=> {

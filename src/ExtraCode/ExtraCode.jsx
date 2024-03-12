@@ -399,3 +399,53 @@ console.log('FILTER PRODUCT==>',filterProducts)
     </>
   );
 }
+
+
+
+ // const lowToHigh = async () => {
+  //   try{
+  //     const response = await fetch(`https://academics.newtonschool.co/api/v1/ecommerce/clothes/products?sort={"price":1}&filter={"gender":"${gender}","subCategory":"${subCategory}"}&limit=20&page=1`, {
+  //         method: "GET",
+  //         headers: {
+  //           projectID: "rhxg8aczyt09",
+  //         },
+  //     }
+  //     )
+      
+  //     if(!response.ok){
+  //       console.log('FIX SORTING URL');
+  //     }
+
+  //     const result = await response.json();
+  //     const sortedData = result.data.sort((a, b) => a.price - b.price);
+  //     setFilterProducts(sortedData);
+  //   }
+  //   catch(error){
+  //     console.log('SORTING ERROR', error);
+  //   }
+  // };
+
+  // const highToLow = async () => {
+  //   try{
+  //     const response = await fetch(`https://academics.newtonschool.co/api/v1/ecommerce/clothes/products?sort={"price":-1}&filter={"gender":"${gender}","subCategory":"${subCategory}"}&limit=20&page=1`, {
+  //       method: "GET",
+  //       headers: {
+  //         projectID: "rhxg8aczyt09",
+  //       },
+  //     });
+      
+  //     if(!response.ok){
+  //       console.log('FIX SORTING URL');
+  //     }
+
+  //     const result = await response.json();
+  //     const sortedData = result.data.sort((a, b) => b.price - a.price);
+  //     setFilterProducts(sortedData);
+  //   }
+  //   catch(error){
+  //     console.log('SORTING ERROR', error);
+  //   }
+  // }
+
+  // console.log('filterProduct ==>', filterProducts);
+  // console.log('WISHLIST ARRAT ID ==>', wishlistProduct);

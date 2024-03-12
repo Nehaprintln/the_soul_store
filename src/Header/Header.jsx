@@ -29,6 +29,8 @@ export default function Header() {
 
     const handleSearchProduct = (event)=>{
         setSearchInput(event.target.value);
+    console.log('Header search input  ==>', cartLenght)
+
     };
 
     const handleNavlinkClick = (event)=> {
@@ -56,6 +58,8 @@ export default function Header() {
 	}, [])
 
     useEffect(()=> {
+    console.log('Header useeffect ==>', cartLenght)
+
         const handleScroll = ()=> {
             const scrollPosition = window.scrollY;
             setIsFixed(scrollPosition >50);
@@ -117,8 +121,9 @@ export default function Header() {
                 <li>
                     <input type='text' id='input' placeholder='what are you looking for ?' value={searchInput} onChange={handleSearchProduct} />
                 </li>
+                {/* '/filterProducts/:subCategory/:gender' */}
                 <li>
-                    <Link to={`/search/${searchInput}`} className='icon-text'><FaSearch /*onClick={()=> handleSearchClick(searchInput)} */ /></Link>
+                    <Link to={`/search/${searchInput}/${gender}`} className='icon-text'><FaSearch /*onClick={()=> handleSearchClick(searchInput)} */ /></Link>
                 </li>
                 <li>
                     <Link to='/signup' className='icon-text'><FaRegUser /></Link>

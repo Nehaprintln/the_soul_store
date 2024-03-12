@@ -5,21 +5,25 @@ import MenSelectCategories from '../MenData/MenSelectCategories';
 import "../FilterComponent/FilterData";
 import { RotatingLines } from "react-loader-spinner";
 import { FaRegHeart } from "react-icons/fa";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 // import { useParams } from 'react-router-dom';
 
 
 export default function SearchProduct() {
     // const {fetchProducts, setFetchProducts} = useSearch();
     // console.log('fetchdata', fetchProducts);
+    const navigate = useNavigate();
     const [selectSortValue, setSelectSortValue] = useState('');
     const [searchData, setSearchData] = useState([]);
-    const { query } = useParams();
-   
-
+    const { query, gender } = useParams();
+    console.log('query,gender ', query, gender);
+   console.log('searchData==>', searchData)
+ 
+  
     const searchAPI = async ()=> {
       try {
-          const response = await fetch(`https://academics.newtonschool.co/api/v1/ecommerce/clothes/products?search={"name":"${query}"}`, {
+        const response = await fetch(`https://academics.newtonschool.co/api/v1/ecommerce/clothes/products?search={"name":"${query}"}`, {  
+        // const response = await fetch(`https://academics.newtonschool.co/api/v1/ecommerce/clothes/products?search={"gender":"${gender}","subCategory":"${query}"}`, {
           method: 'GET',
           headers: {
               // 'Content-Type': 'application/json',
@@ -28,7 +32,7 @@ export default function SearchProduct() {
           });
   
           if (!response.ok) {
-          alert('Failed to fetch data');
+            navigate('/comingSoon')
           }
   
           const result = await response.json();

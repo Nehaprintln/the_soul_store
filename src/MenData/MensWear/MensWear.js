@@ -66,7 +66,7 @@ const MensWear = {
         }, 
 
         {
-            img : "https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/product-images/4_14_ZBpSlXo.jpg?format=webp&w=480&dpr=1.3",
+            img : "https://images.bewakoof.com/t1080/men-s-solid-crystal-teal-long-kurta-502496-1663931131-1.jpg",
             // name:"tracksuit",
             name:"kurta",
             search : {name:"tracksuit"},
@@ -75,8 +75,8 @@ const MensWear = {
         },
 
         {
-            img : "https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/product-images/9_3_66iCRR7.jpg?format=webp&w=480&dpr=1.3",
-            name:"oversizetshirt",
+            img : "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1645102037_6941536.jpg?format=webp&w=480&dpr=1.3",
+            name:"pyjamas",
             search : {name:"jumpsuit"},
             filter:{subCategory:'jumpsuit'},
             gender: 'Men',
@@ -84,15 +84,15 @@ const MensWear = {
 
         {
             img : "https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/product-images/11_1_M2GAp04.jpg?format=webp&w=480&dpr=1.3",
-            name:"kurta",
+            name:"tshirt",
             search : {name:"kurta"},
             filter:{subCategory:'kurta'},
             gender: 'Men',
         },
 
         {
-            img : "https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/product-images/14_1_yqrTTNH.jpg?format=webp&w=480&dpr=1.3",
-            name:"jackets",
+            img : "https://prod-img.thesouledstore.com/public/theSoul/uploads/catalog/product/1683550675_4192845.jpg?format=webp&w=480&dpr=1.3",
+            name:"tracksuit",
             search : {name:"jeans"},
             filter:{subCategory:'jeans'},
             gender: 'Men',

@@ -37,7 +37,7 @@ function App() {
         <Route path='/men'  element={<Men />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/signin' element={<SignIn />} />
-        <Route path='/search/:query' element={<SearchProduct />} />
+        <Route path='/search/:query/:gender' element={<SearchProduct />} />
         <Route path='/filterProducts/:subCategory/:gender' element={<FilterData />} /> {/* DO HERE CHANGES */}
         <Route path='/filterProducts/:subCategory/:gender/:id' element={<ProductDetails />} />
         <Route path='/pageNotFound' element={<h1>Page not found</h1>} />
@@ -49,7 +49,7 @@ function App() {
         <Route path='/address' element={<Address />} />
       </Routes>
     </Router>
-    
+    {/* {`/search/${gender}/${searchInput}`} */}
     <Footer />
         {/* </WishlistProvider> */}
     {/* </CardProvider> */}

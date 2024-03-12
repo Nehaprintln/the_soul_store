@@ -2,7 +2,7 @@ import "./FilterData.css";
 import React, { useEffect, useState } from "react";
 import Header from "../Header/Header";
 import MenSelectCategories from "../MenData/MenSelectCategories";
-import posterImg from "./FilterAPIData";
+import {menposterImg, womenposterImg} from "./FilterAPIData";
 import { RotatingLines } from "react-loader-spinner";
 import { useParams } from "react-router-dom";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
@@ -24,6 +24,7 @@ export default function FilterData() {
   const [selectedFilterSize, setSelectedFilterSize] = useState(null);
   const navigate = useNavigate();
   const filterSize = ['S', 'M', 'L', 'X', 'XL', 'XXL'];
+  
   // const [genders, setGender] = useState(localStorage.getItem('gender'));
 
   // const history = useHistory();
@@ -43,53 +44,7 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
     console.log("event",event.target.value);
   };
 
-  // const lowToHigh = async () => {
-  //   try{
-  //     const response = await fetch(`https://academics.newtonschool.co/api/v1/ecommerce/clothes/products?sort={"price":1}&filter={"gender":"${gender}","subCategory":"${subCategory}"}&limit=20&page=1`, {
-  //         method: "GET",
-  //         headers: {
-  //           projectID: "rhxg8aczyt09",
-  //         },
-  //     }
-  //     )
-      
-  //     if(!response.ok){
-  //       console.log('FIX SORTING URL');
-  //     }
-
-  //     const result = await response.json();
-  //     const sortedData = result.data.sort((a, b) => a.price - b.price);
-  //     setFilterProducts(sortedData);
-  //   }
-  //   catch(error){
-  //     console.log('SORTING ERROR', error);
-  //   }
-  // };
-
-  // const highToLow = async () => {
-  //   try{
-  //     const response = await fetch(`https://academics.newtonschool.co/api/v1/ecommerce/clothes/products?sort={"price":-1}&filter={"gender":"${gender}","subCategory":"${subCategory}"}&limit=20&page=1`, {
-  //       method: "GET",
-  //       headers: {
-  //         projectID: "rhxg8aczyt09",
-  //       },
-  //     });
-      
-  //     if(!response.ok){
-  //       console.log('FIX SORTING URL');
-  //     }
-
-  //     const result = await response.json();
-  //     const sortedData = result.data.sort((a, b) => b.price - a.price);
-  //     setFilterProducts(sortedData);
-  //   }
-  //   catch(error){
-  //     console.log('SORTING ERROR', error);
-  //   }
-  // }
-
-  // console.log('filterProduct ==>', filterProducts);
-  // console.log('WISHLIST ARRAT ID ==>', wishlistProduct);
+ 
 
   
    const fetchFilterProducts = async (wishlistProduct)=> {
@@ -120,17 +75,7 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
       );
 
       if (!response.ok) {
-        // Swal.fire({
-        //   icon: 'info',
-        //   title: 'Coming Soon!',
-        //   text: 'This product will be available soon.',
-        // });
         navigate('/comingSoon');
-        // history.push("/commingSoon");
-//         import { useHistory, useEffect } from 'react-router-dom'
-
-
-// const history = useHistory();
       }
 
       const result = await response.json();
@@ -292,13 +237,13 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
       <Header />
       <MenSelectCategories />
       <OuterMargin className='outer-container'>
-        {posterImg
+        {(gender === 'Men' ? menposterImg : womenposterImg)
           .filter((image) => subCategory === image.name)
           .map((filteredImage, index) => (
             <img
               key={index}
               src={filteredImage.img}
-              style={{ width: "100%", objectFit: "cover" }}
+              style={{ width: "100%", objectFit: "cover", height: '350px' }}
               alt={filteredImage.name}
             />
           ))}
@@ -420,7 +365,6 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
           <div style={{width: '20%',height: '100px',margin: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-evenly'}}>
           <button onClick={() => setPage((prevPage) => prevPage >= 1 ? page - 1 : 1)} style={{alignContent: 'center', padding: '7px', width: '100px', border: '1px solid gray', borderRadius: '10px'}}>Previous</button>
           <button onClick={()=> setPage(prevpage => prevpage + 1)} style={{alignContent: 'center', padding: '7px', width: '100px', border: '1px solid gray', borderRadius: '10px'}}> Next  </button>
-
           </div>
         </div>
       )}
