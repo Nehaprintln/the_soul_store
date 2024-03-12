@@ -16,6 +16,7 @@ export default function Women() {
         <Header />
         <WomenSelectCategories />
         <WomenImageSlied />
+        <Heading heading='CATEGORIES' />
         <WomenShowCategaries />
         <Heading heading='LATEST COLLECTIONS' />
         <Carousel latestCollection={latestCollectionWomen}/>

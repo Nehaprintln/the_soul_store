@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { OuterMargin } from "../CommonLayout/OuterMargin/OuterMargin";
 import Button from "../CommonLayout/Button/Button";
 import Swal from "sweetalert2";
+import SizeChart from "./SizeChart";
 // import { useSearchParams } from "react-router-dom";
 // import { useHistory } from 'react-router-dom';
 
@@ -23,7 +24,7 @@ export default function FilterData() {
   const [selectSortValue, setSelectSortValue] = useState(null);
   const [selectedFilterSize, setSelectedFilterSize] = useState(null);
   const navigate = useNavigate();
-  const filterSize = ['S', 'M', 'L', 'X', 'XL', 'XXL'];
+  
   
   // const [genders, setGender] = useState(localStorage.getItem('gender'));
 
@@ -291,38 +292,10 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
               style={{
                 borderRight: "1px dotted #58595b",
                 width: "21%",
-                padding: "10px",
+                // padding: "5px",
               }}
             >
-              <div>
-                <div style={{textAlign: 'center'}}>SIZE</div>
-                <div className="size-chartFilter">
-            <ul>
-              {filterSize.map((size) => (
-                <li>
-                  <input
-                    type="radio"
-                    id={`size${size}`}
-                    name="size"
-                    value={size}
-                    onChange={handleFilterSizeChange}
-                    checked={selectedFilterSize === size}
-                  />
-                  <label
-                    style={{
-                      border: 
-                        selectedFilterSize === size
-                          ? "2px solid #117a7a"
-                          : "2px solid #b3b3b3",
-                    }}
-                  >
-                    {size}
-                  </label>
-                </li>
-              ))}
-            </ul>
-          </div>
-              </div>
+              <SizeChart handleFilterSizeChange={handleFilterSizeChange} selectedFilterSize={selectedFilterSize} />
             </div>
             <div className="div-sorting1">
               {filterProducts.map((filterProduct) => (

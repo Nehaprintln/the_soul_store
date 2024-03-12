@@ -22,9 +22,14 @@
     flex-wrap: wrap;
     font-size: 14px;
 }
+.size-chartFilter ul{
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
 .size-chartFilter ul li{
     width: 50px;
-    margin: 10px;
+    margin: 5px;
     border-radius: 40px;
     display: inline-block;
     text-align: center;
@@ -39,8 +44,8 @@
 }
 .size-chartFilter ul li label{
     width: 50px;
-    border-radius: 30px;
-    padding: 5px 10px;
+    border-radius: 10px;
+    padding: 4px 10px;
     background: transparent;
     color: gray;
     cursor: pointer;

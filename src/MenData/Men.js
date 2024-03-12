@@ -18,6 +18,7 @@ export default function Men() {
         <Header />
         <MenSelectCategories />
         <MenImageSlied />
+        <Heading heading='CATEGORIES'/>
         <ShowCategaries />
         <Heading heading='LATEST COLLECTIONS'/>
         <Carousel latestCollection={latestCollectionMen} />

@@ -9,7 +9,6 @@ function ShowCategaries() {
       <OuterMargin  
         className="outer-container" 
       >
-        <h2>CATEGORIES</h2>
         <div className="categories-card">
           {MensWear.cloth.map((val, index) => {
             console.log("hello======", val.name);

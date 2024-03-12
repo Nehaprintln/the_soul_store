@@ -3,7 +3,7 @@ import './heading.css';
 export default function Heading({heading}) {
   return (
     <div className='heading'>
-        <h3>{heading}</h3>
+        <h3 style={{fontWeight: '600'}}>{heading}</h3>
     </div>
   )
 }
