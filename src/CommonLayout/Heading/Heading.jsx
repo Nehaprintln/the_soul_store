@@ -1,0 +1,9 @@
+import React from 'react'
+import './heading.css';
+export default function Heading({heading}) {
+  return (
+    <div className='heading'>
+        <h3>{heading}</h3>
+    </div>
+  )
+}

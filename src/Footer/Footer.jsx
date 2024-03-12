@@ -1,5 +1,6 @@
 import React from 'react'
 import './Footer.css';
+import footerImg from '../Footer/ImageFooter/footerImg.png'
 
 export default function Footer() {
   return (
@@ -62,8 +63,11 @@ export default function Footer() {
                 </tbody>
             </table>
         </div>
-        <div className='footer-details'>
+        {/* <div className='footer-details'>
             <p> The Souled Store 2024-25</p>
+        </div> */}
+        <div style={{width: '100%', margin: 'auto'}}>
+            <img src={footerImg} style={{width: '100%'}} />
         </div>
     </div>
   )
