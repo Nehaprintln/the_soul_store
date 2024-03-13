@@ -5,7 +5,7 @@ export default function SizeChart({ handleFilterSizeChange, selectedFilterSize }
 
   return (
     <>
-      <div>
+      <div style={{borderRight: "1px solid #58595b"}}>
         <h6>SIZE</h6>
         <div className="size-chartFilter">
           <ul>

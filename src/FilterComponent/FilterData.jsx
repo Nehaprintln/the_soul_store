@@ -1,19 +1,18 @@
-import "./FilterData.css";
 import React, { useEffect, useState } from "react";
+import "./FilterData.css";
 import Header from "../Header/Header";
 import MenSelectCategories from "../MenData/MenSelectCategories";
 import {menposterImg, womenposterImg} from "./FilterAPIData";
 import { RotatingLines } from "react-loader-spinner";
 import { useParams } from "react-router-dom";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { OuterMargin } from "../CommonLayout/OuterMargin/OuterMargin";
 import Button from "../CommonLayout/Button/Button";
-import Swal from "sweetalert2";
 import SizeChart from "./SizeChart";
-// import { useSearchParams } from "react-router-dom";
-// import { useHistory } from 'react-router-dom';
+import SortValue from "./SortValue";
+import Themes from "./Themes";
+
 
 
 export default function FilterData() {
@@ -23,8 +22,13 @@ export default function FilterData() {
   const [wishlistProduct, setWishlistProduct] = useState([]);
   const [selectSortValue, setSelectSortValue] = useState(null);
   const [selectedFilterSize, setSelectedFilterSize] = useState(null);
+  // const [themes, setThemes] = useState([]);
+  const [themes, setThemes] = useState(null);
+
   const navigate = useNavigate();
-  
+
+  console.log(themes, 'THEME SINGLE VALUE');
+  // console.log(isChecked, "123456");
   
   // const [genders, setGender] = useState(localStorage.getItem('gender'));
 
@@ -45,7 +49,20 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
     console.log("event",event.target.value);
   };
 
- 
+  const handleThemeChecked = (event) => {
+    const themeValue = event.target.value;
+    const checked = event.target.checked;
+    console.log(themeValue, checked, "VALUE CHECKED THEMES");
+
+    // if(checked){
+    //   setThemes([...themes, themeValue]);
+    // }else{
+    //   setThemes(themes.filter((theme) => theme !== themeValue))
+    // }
+    if(checked){
+      setThemes(themeValue);
+    }
+  };
 
   
    const fetchFilterProducts = async (wishlistProduct)=> {
@@ -61,11 +78,12 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
           sortAPIValue = `{"price": -1}`
         }
       }
+      // {,"size":"X","brand":"Bewakoof American Pima"}
 
       const response = await fetch(
         `https://academics.newtonschool.co/api/v1/ecommerce/clothes/products?filter={"gender":"${gender}","subCategory":"${subCategory}"${
           selectedFilterSize ? `,"size":"${selectedFilterSize}"` : ""
-        }}&${sortAPIValue ? `sort=${sortAPIValue}` : ""}
+        }${themes ? `,"brand":"${themes}"` : ""}}&${sortAPIValue ? `sort=${sortAPIValue}` : ""}
         &limit=20&page=${page}`,
         {
           method: "GET",
@@ -266,36 +284,13 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
         
       ) : (
         <div className="top-filter-comtainer" style={{ padding: "0 20px" }}>
-          <div className="filter-container">
+          <SortValue handleSortChange={handleSortChange} selectSortValue={selectSortValue} />
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div
-              className="sorting-container"
-              style={{ display: "flex", justifyContent: "flex-end" }}
-            >
-              <div className="div-sorting">
-                <div className="sorting">
-                  <select
-                    value={selectSortValue}
-                    onChange={handleSortChange}
-                  >
-                    <option value="">Select Sorting Option</option>
-                    <option value="hightolow">Price-High to Low</option>
-                    <option value="lowtohigh">Price-Low to High</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            style={{ display: "flex", justifyContent: "space-between" }}
-          >
-            <div
-              style={{
-                borderRight: "1px dotted #58595b",
-                width: "21%",
-                // padding: "5px",
-              }}
+              style={{width: "21%"}}
             >
               <SizeChart handleFilterSizeChange={handleFilterSizeChange} selectedFilterSize={selectedFilterSize} />
+              <Themes handleThemeChecked={handleThemeChecked}  />
             </div>
             <div className="div-sorting1">
               {filterProducts.map((filterProduct) => (
