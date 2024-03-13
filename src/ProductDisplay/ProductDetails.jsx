@@ -1,17 +1,16 @@
-// navigate work for page
+
 import React, { useState, useEffect } from "react";
 import Header from "../Header/Header";
 import MenSelectCategories from "../MenData/MenSelectCategories";
 import { useParams } from "react-router-dom";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-
-// import { useSearch } from "../Context/GlobleContext";
 import { useSearch, useWishlist } from "../Context/GlobleContext";
-// import {checkProductStatusInWishlist} from '../Afunc/Function';
-import {checkProductStatusInWishlist, handleAddToCart, handleWishlistProduct} from "../WishList/wishlistData";
+// import {handleWishlistProduct} from "../WishList/wishlistData";
+import { checkProductStatusInWishlist, handleAddToCart, handleWishlistProduct } from "./ProductDetailsMethod";
 import Button from "../CommonLayout/Button/Button";
 import Loader from "../CommonLayout/Loader/Loader";
+import { fetchProductDetails } from "../APIData/fetchAPI";
 import "./ProductDisplay.css";
 import {
   UncontrolledAccordion,
@@ -30,12 +29,7 @@ export default function ProductDetails() {
   const [productDetails, setProductDetails] = useState([]);
   const [selectValue, setSelectValue] = useState(1);
   const navigate = useNavigate();
-  // const {dispatch} = useCart();
-  // const [cartData, setCartData] = useState([]);
-  // const [isInWishlist, setIsInWishlist] = useState(false);
   const {isInWishlist, setIsInWishlist} = useSearch();
-  // const {isAdd, setIsAdd} = useSearch();==================================================
-  // const { checkProductStatusInWishlist, handleWishlistProduct, isInWishlist } = useWishlist();
   console.log('ID==> & SUNCATEGARIES==',id, subCategory);
   console.log(typeof(id))
 
@@ -52,175 +46,21 @@ export default function ProductDetails() {
   };
   console.log("Selected Size==> ", selectedSize);
 
-  // const checkProductStatusInWishlist = async ()=> {
-  //   try{
-  //     const userRegister = localStorage.getItem("authToken");
-  //     console.log('userRegisterAuth==> ',userRegister)
-
-  //     // Fetch the current wishlist
-  //     const response = await fetch('https://academics.newtonschool.co/api/v1/ecommerce/wishlist', {
-  //       method: 'GET',
-  //       headers: {
-  //         projectID: "rhxg8aczyt09",
-  //         'Authorization': `Bearer ${userRegister}`,
-  //       },
-  //     });
-
-  //     if(!response.ok){
-  //       console.log('Failed to fetch wishlist');
-  //       return;
-  //     };
-
-  //     const {data} = await response.json();
-  //     const wishListData = data.items;
-  //     console.log('whishlist product ALL DATA ==>', wishListData)
-
-  //     // Check if the product is already in the wishlist
-  //     const isProductInWishlist = wishListData.find(item => item.products._id === id);
-  //     console.log('whishlist product by ID ==>', isProductInWishlist, id)
-      
-
-  //     if(isProductInWishlist){
-  //       setIsInWishlist(true);
-  //       console.log('found WISHLIST ID DATA by GEt')
-  //     }
-
-  //   }catch(error){
-  //     console.log('WISHLIST ERROR ++>', error);
-  //   }
-  // };
-
-  // const handleAddToCart = async ()=> {
-  //   if(selectValue && selectedSize){
-  //     try{
-  //       const userRegister = localStorage.getItem("authToken");
-  //       console.log('userRegisterAuth==> ',userRegister)
-  //       const response = await fetch(`https://academics.newtonschool.co/api/v1/ecommerce/cart/${id}`,{
-  //         method: 'PATCH',
-  //         headers: {
-  //           projectID: "rhxg8aczyt09",
-  //           'Authorization': `Bearer ${userRegister}`,
-  //           'Content-Type': 'application/json'
-  //         },
-  //         body: JSON.stringify({
-  //           'quantity': selectValue,
-  //            'size': selectedSize,
-  //         })
-  //       });
   
-  //       if(!response.ok){
-  //         navigate('/signup')
-  //         console.log('CartPatch Data ==')
-  //         return;
-  //       }
-  
-  //         const updatedCartData = await response.json();
-  //         setCartData(prevCardData => [...prevCardData, updatedCartData]);
-  //         // setIsAdd(!isAdd);==============================================================
-  //         console.log('updatedCard', updatedCartData);
-  //         console.log('add New cardDat==',cartData);
-  
-  //       // dispatch({type: 'ADD_TO_CART', payload: updatedCartData});
-  //       // console.log('Add button click')
-  //       }catch(error){
-  //         console.log('Error CartItem==', error)
-  //       }
-  //   }else{
-  //     alert('Please Select Size and quantity')
-  //   }
-    
-  // };
-
-  // const handleWishlistProduct = async (value)=> {
-  //   console.log('wish LIST mount ==ID==', id)
-
-  //   try{
-  //     const url = 'https://academics.newtonschool.co/api/v1/ecommerce/wishlist/';
-  //     const userRegister = localStorage.getItem("authToken");
-
-  //     if(value === 'remove'){
-  //       // If the product is already in the wishlist, remove it
-  //       const removeToWishlist = await fetch(`https://academics.newtonschool.co/api/v1/ecommerce/wishlist/${id}`, {
-  //         method: 'DELETE',
-  //         headers: {
-  //           projectID: "rhxg8aczyt09",
-  //           'Authorization': `Bearer ${userRegister}`,
-  //         },
-  //       });
-
-  //       if(!removeToWishlist.ok){
-  //         // navigate('/signup');
-  //         console.error('Failed to remove product from wishlist');
-  //         return;
-  //       }
-  //       console.log('=====REMOVE========')
-  //       setIsInWishlist(false);
-  //     }
-      
-  //     else if(value === 'add'){
-  //       // If the product is not in the wishlist, add it
-  //       const addToWishlist = await fetch(url, {
-  //         method: 'PATCH',
-  //       headers: {
-  //         projectID: "rhxg8aczyt09",
-  //         'Authorization': `Bearer ${userRegister}`,
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({
-  //         'productId': id,
-  //       }),
-  //       });
-
-  //       if(!addToWishlist.ok){
-  //         // navigate('/signup');
-  //       console.error('Failed to add product to wishlist');
-  //       return;
-  //       }
-  //       console.log('=============')
-  //       setIsInWishlist(true);
-  //     }
-
-  //   }catch(error){
-  //       console.log('Error handling wishlist:', error)
-  //     }
-
-  // //       // dispatch({type: 'ADD_TO_CART', payload: updatedCartData});
-  // //     // console.log('Add button click')
-  //  };
-
-
-  
-
   useEffect(() => {
-    async function fetchProductDetails() {
+    const fetchData = async () => {
       try {
-        const response = await fetch(
-          `https://academics.newtonschool.co/api/v1/ecommerce/product/${id}`,
-          {
-            method: "GET",
-            headers: {
-              projectID: "rhxg8aczyt09",
-            },
-          }
-        );
-
-        if (!response.ok) {
-          // alert("Failed to fetch data");
-          console.log('Failed')
-          navigate('/pageNotFound')
-        }
-
-        const result = await response.json();
+        const result = await fetchProductDetails(id);
         setProductDetails(result.data);
+        await checkProductStatusInWishlist(id, setIsInWishlist);
       } catch (error) {
-        // alert(error);
-        navigate('/pageNotFound')
+        // Handle errors if needed
+        console.error("Error fetching data:", error);
       }
-    }
-
-    fetchProductDetails();
-    checkProductStatusInWishlist(id, setIsInWishlist);
-    // handleAddToWishlist();
+    };
+  
+    fetchData(); // Call the async function immediately
+  
   }, [id, subCategory]);
 
   return (
@@ -259,8 +99,8 @@ export default function ProductDetails() {
           <div className="button-container" style={{ marginBottom: "20px" }}>
             <Button className="addCart" text='ADD TO CARD' onClick={()=> handleAddToCart(id, selectValue, selectedSize,navigate)} />
 
-            {isInWishlist ? (<Button className="wishList" text=' ADDED TO WISHLIST' onClick={()=> handleWishlistProduct(id, setIsInWishlist,'remove')}><FaHeart  style={{color:'#117a7a'}} /> </Button>):(
-            <Button className="wishList" text=' ADD TO WISHLIST' onClick={()=> handleWishlistProduct(id, setIsInWishlist,'add')}><FaRegHeart style={{color:'#117a7a'}} /></Button>) }
+            {isInWishlist ? (<Button className="wishList" text=' ADDED TO WISHLIST' onClick={()=> handleWishlistProduct(productDetails, setIsInWishlist,'remove')}><FaHeart  style={{color:'#117a7a'}} /> </Button>):(
+            <Button className="wishList" text=' ADD TO WISHLIST' onClick={()=> handleWishlistProduct(productDetails, setIsInWishlist,'add')}><FaRegHeart style={{color:'#117a7a'}} /></Button>) }
 
             {/* <button id="wishList" onClick={handleAddToWishlist}>
               <FaRegHeart style={{color: isInWishlist ? 'green' : 'red'}} /> 

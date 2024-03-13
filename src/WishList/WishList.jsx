@@ -4,35 +4,16 @@ import MenSelectCategories from "../MenData/MenSelectCategories";
 import { RotatingLines } from "react-loader-spinner";
 import Button from "../CommonLayout/Button/Button";
 import Modal from '../Modal/Modal';
+import { fetchWishlistResponse } from "../APIData/fetchAPI";
 
 
 export default function WishList() {
   const [wishlistDataDisplay, setWishlistDataDisplay] = useState([]);
  const [modalProductId, setModalProductId] = useState(null);
 
-  const checkProductStatusInWishlist = async () => {
+  const wishlistData = async () => {
     try {
-      const userRegister = localStorage.getItem("authToken");
-      console.log("userRegisterAuth==> ", userRegister);
-
-      // Fetch the current wishlist
-      const response = await fetch(
-        "https://academics.newtonschool.co/api/v1/ecommerce/wishlist",
-        {
-          method: "GET",
-          headers: {
-            projectID: "rhxg8aczyt09",
-            Authorization: `Bearer ${userRegister}`,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        console.log("Failed to fetch wishlist");
-        return;
-      }
-
-      const { data } = await response.json();
+      const { data } = await fetchWishlistResponse();
       const wishListData = data.items;
 
       console.log("whishlist product ALL DATA ==>", wishListData);
@@ -49,7 +30,7 @@ export default function WishList() {
   }
 
   useEffect(() => {
-    checkProductStatusInWishlist();
+    wishlistData();
   }, [modalProductId]);
 
   return (
@@ -82,7 +63,10 @@ export default function WishList() {
             {wishlistDataDisplay.map((wishlistData)=> (
                 <li style={{width: '20%', border: '1px solid grey', position: 'relative'}}>
                     <div>
-                        <div style={{position: 'absolute', left: '87%', top: '2%', background: 'rgba(255, 255, 255, 0.8)', width: '10%', textAlign: 'center', borderRadius: '10px'}}>X</div>
+                        <div 
+                        style={{position: 'absolute', left: '87%', top: '2%', background: 'rgba(255, 255, 255, 0.8)', width: '10%', textAlign: 'center', borderRadius: '10px'}}>
+                          X
+                        </div>
                     </div>
                     <div>
                         <img src={wishlistData?.products?.displayImage} style={{width: '100%'}} />
@@ -107,6 +91,5 @@ export default function WishList() {
         </>
       )}
     </>
-
   );
 }

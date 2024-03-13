@@ -3,7 +3,8 @@ import  './modal.css'
 import QuantitySelect from '../ProductDisplay/QuantitySelect'
 import SizeSelect from '../ProductDisplay/SizeSelect';
 import Button from '../CommonLayout/Button/Button';
-import { handleAddToCart } from '../WishList/wishlistData';
+import { addToCart, wishlistDelet, fetchProductDetails } from '../APIData/fetchAPI';
+// import { handleAddToCart } from '../WishList/wishlistData';
 import Swal from "sweetalert2";
 
 
@@ -33,36 +34,15 @@ export default function Modal(props) {
 
     const handleMoveToCart = async (modalId, selectValue, selectedSize) => {
         if(selectValue && selectedSize){
-            try{
-              const userRegister = localStorage.getItem("authToken");
-              console.log('userRegisterAuth==> ',userRegister)
-              const response = await fetch(`https://academics.newtonschool.co/api/v1/ecommerce/cart/${modalId}`,{
-                method: 'PATCH',
-                headers: {
-                  projectID: "rhxg8aczyt09",
-                  'Authorization': `Bearer ${userRegister}`,
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                  'quantity': selectValue,
-                   'size': selectedSize,
-                })
-              });
-        
-              if(!response.ok){
-                console.log('CartPatch Data ==')
-                return;
-              }
-            }catch(error){
-                console.log('Error CartItem==', error)
-            }
+            await addToCart(modalId, selectValue, selectedSize) ;
+             removeFromWishlist(modalId);
+             closeModal();
         }else{
           Swal.fire({
             text: "Please Select Size and quantity",
           });
         }
-        removeFromWishlist(modalId);
-        closeModal();
+       
         // setIsMoveToCart(!isMoveToCart)
     };
 
@@ -91,25 +71,9 @@ export default function Modal(props) {
 
 
     useEffect(() => {
-        async function fetchProductDetails() {
+        async function ProductDetails() {
           try {
-            const response = await fetch(
-              `https://academics.newtonschool.co/api/v1/ecommerce/product/${modalProductId}`,
-              {
-                method: "GET",
-                headers: {
-                  projectID: "rhxg8aczyt09",
-                },
-              }
-            );
-    
-            if (!response.ok) {
-              // alert("Failed to fetch data");
-              console.log('Failed')
-            //   navigate('/pageNotFound')
-            }
-    
-            const result = await response.json();
+            const result = await fetchProductDetails(modalProductId);
             setModalProduct(result.data);
           } catch (error) {
             // alert(error);
@@ -117,7 +81,7 @@ export default function Modal(props) {
           }
         }
     
-        fetchProductDetails();
+        ProductDetails();
        
     }, [modalProductId]);
     

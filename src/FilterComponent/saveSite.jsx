@@ -12,7 +12,7 @@ import Button from "../CommonLayout/Button/Button";
 import SizeChart from "./SizeChart";
 import SortValue from "./SortValue";
 import Themes from "./Themes";
-import { fetchWishlistResponse,wishlistDelet, wishlistAdd } from "../APIData/fetchAPI";
+import { fetchWishlistResponse } from "../APIData/fetchAPI";
 
 
 
@@ -121,7 +121,26 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
 // TODO: here work==
   const fetchWishlistProduct = async()=> {
     try {
-      const result = await fetchWishlistResponse();
+      const userRegister = localStorage.getItem("authToken");
+      const response = await fetch(
+        'https://academics.newtonschool.co/api/v1/ecommerce/wishlist',
+        {
+          method: "GET",
+          headers: {
+            projectID: "rhxg8aczyt09",
+            Authorization: `Bearer ${userRegister}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        // history.push('/comingSoon');
+        // navigate("/commingSoon");
+        console.log('WISHLIST STORE ID ARRAY ERROR')
+      }
+
+      const result = await response.json();
       const wishlistData = await result?.data?.items;
       return wishlistData.map(item => item?.products?._id)
 
@@ -131,27 +150,58 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
       console.log("FilterData ERROR==>", error);
     }
   };
-  // TODO: done above
 
-
-// TODO: work here==
   const handleWishlistToggle = async (filterProduct) => {
-    console.log('Toggle work')
+    const userRegister = localStorage.getItem("authToken");
     try{
       if(filterProduct.isWishlist){
-        await wishlistDelet(filterProduct);
+        // If the product is already in the wishlist, remove it
+        const removeFromWishlist = await fetch(`https://academics.newtonschool.co/api/v1/ecommerce/wishlist/${filterProduct._id}`, {
+          method: 'DELETE',
+          headers: {
+            projectID: "rhxg8aczyt09",
+            'Authorization': `Bearer ${userRegister}`,
+          },
+        });
+
+        if(!removeFromWishlist.ok){
+          // navigate('/signup');
+          console.error('Failed to remove product from wishlist');
+          return;
+        }
+        console.log('=====REMOVE========')
+        // setIsInWishlist(false);
+        filterProduct.isWishlist = false;
         setWishlistProduct(wishlistProduct.filter((id) => id !== filterProduct._id))
       
     }else{
-        await wishlistAdd(filterProduct);
+        // If the product is not in the wishlist, add it
+        const addToWishlist = await fetch('https://academics.newtonschool.co/api/v1/ecommerce/wishlist/', {
+          method: 'PATCH',
+        headers: {
+          projectID: "rhxg8aczyt09",
+          'Authorization': `Bearer ${userRegister}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          'productId': filterProduct._id,
+        }),
+        });
+
+        if(!addToWishlist.ok){
+          // navigate('/signup');
+        console.log('Failed to add product to wishlist');
+        return;
+        }
+        console.log('=============')
+        filterProduct.isWishlist = true;
         setWishlistProduct([...wishlistProduct, filterProduct._id]);
       }
     }catch(error){
       console.log('WISHLIST ERROR', error)
     }
     
-  };
-  // TODO: DONE==
+  }
 
 // TODO: 1) how useEffect work
 // TODO: 2) when call method within useEffect, not work with global value or variable
@@ -184,7 +234,7 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
     }
     console.log('pageCall', page);
     
-    async function fetch2 (){
+    async function fech2 (){
       const wishlist2 = await fetchWishlistProduct();
      const reponse2 = await fetchFilterProducts(wishlist2);
      setWishlistProduct(wishlist2);
@@ -192,7 +242,7 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
     }
   
      
-    fetch2();
+    fech2();
   }, [page, selectSortValue, selectedFilterSize]);
 
   // useEffect(() => {
