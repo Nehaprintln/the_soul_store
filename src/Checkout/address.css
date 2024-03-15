@@ -12,9 +12,9 @@
 }
 .address-container{
     width: 550px;
-    height: 600px;
+    height: 650px;
     background-color: #fff;
-    padding: 20px;
+    padding: 15px;
     border-radius: 5px;
 }
 .address-heading{
@@ -29,7 +29,7 @@
     margin-right: 20px;
 }
 .name-lastname, .house-name, .street-name, .landmark, .code-city, .countary-state {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 .address-input input,
 select{
@@ -45,4 +45,10 @@ select{
 .form-buttons {
     display: flex;
     justify-content: flex-end;
+}
+.address-input span{
+    margin: 0px;
+    padding-left: 10px;
+    font-size: 11px;
+    color: rgb(249, 114, 110);
 }

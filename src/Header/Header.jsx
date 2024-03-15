@@ -123,7 +123,10 @@ export default function Header() {
                 </li>
                 {/* '/filterProducts/:subCategory/:gender' */}
                 <li>
-                    <Link to={`/search/${searchInput}/${gender}`} className='icon-text'><FaSearch /*onClick={()=> handleSearchClick(searchInput)} */ /></Link>
+                    {/* /search/:subCategory/:gender */}
+                    <Link to={`/filterProducts/${searchInput}/${gender}`} className='icon-text'><FaSearch /*onClick={()=> handleSearchClick(searchInput)} */ /></Link>
+                   
+                    {/* <Link to={`/search/${searchInput}/${gender}`} className='icon-text'><FaSearch  /></Link> */}
                 </li>
                 <li>
                     <Link to='/signup' className='icon-text'><FaRegUser /></Link>

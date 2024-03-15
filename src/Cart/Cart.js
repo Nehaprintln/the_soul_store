@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "../Header/Header";
 import MenSelectCategories from "../MenData/MenSelectCategories";
-import { FaAsymmetrik, FaRegHeart } from "react-icons/fa";
 import emptyCart from "../Image/Screenshot 2024-02-14 160536.png";
-// import ProductDetails from "../ProductDisplay/ProductDetails";
-// import { useWishlist } from "../Context/GlobleContext";
 import Button from "../CommonLayout/Button/Button";
 import {
   UncontrolledAccordion,
@@ -14,48 +11,21 @@ import {
   Col,
 } from "reactstrap";
 import { useNavigate } from "react-router-dom";
+import { cartProductData, fetchWishlistResponse, removeFromCart, wishlistAdd } from "../APIData/fetchAPI";
 
 // import { getData } from "../Afunc/Function";
 
 
 export default function Cart() {
-  // const { id } = useParams();
-  // // const {state} = useCart(useContext);
-  // const cartItems = state?.cartItems;
-  // console.log('WISHLIST PRODUCT',cartItems);
-  // console.log(id);
   const [cartList, setCartList] = useState([]);
   const [CartTotal, setCartTotal] = useState(0);
   const [wishlistProducts, setWishlistProducts] = useState([]);
   console.log('wishlistProducts DATA==>',wishlistProducts );
   const navigate = useNavigate();
-  // const {checkProductStatusInWishlist, setIsInWishlist, isInWishlist, handleWishlistProduct} = useWishlist();
-  // const {isAdd} = useSearch();==================================
-  // const {selectedSize} = ProductDetails();
-
 
   const fetchCartData = async () => {
     try {
-      const userRegister = localStorage.getItem("authToken");
-      const response = await fetch(
-        `https://academics.newtonschool.co/api/v1/ecommerce/cart`,
-        {
-          method: "GET",
-          headers: {
-            projectID: "rhxg8aczyt09",
-            Authorization: `Bearer ${userRegister}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        console.log("CartPatch Data ==");
-        return;
-      }
-
-      // const updatedCartData = await response.json();
-      const { data } = await response.json();
+      const { data } =  await cartProductData();
       const cartData = data.items;
       console.log("CartPatch Data ==", cartData);
 
@@ -68,64 +38,26 @@ export default function Cart() {
 
   const fetchWishlistData = async () => {
     try{
-      const userRegister = localStorage.getItem('authToken');
-      const response = await fetch('https://academics.newtonschool.co/api/v1/ecommerce/wishlist', {
-        method: 'GET',
-        headers: {
-          projectID: "rhxg8aczyt09",
-          Authorization: `Bearer ${userRegister}`,
-          "Content-Type": "application/json",
-        }
-      });
-
-      if(!response.ok){
-        console.log('WISHLIST DATA =>  ERROR')
-      }
-
-      const {data} = await response.json();
+      const {data} = await fetchWishlistResponse();
       const wishlistData = data.items;
       console.log('WISHLIST DATA',wishlistData );
 
       setWishlistProducts(wishlistData.map((item) => item?.products?._id));
 
     }catch(error){
+      console.log('WISHLIST error',error );
 
     }
-  }
-
-  useEffect(() => {
-    const storedCartTotal = localStorage.getItem("totalAmount");
-    console.log('inside useEffect', CartTotal)
-    if (storedCartTotal) {
-      setCartTotal(parseInt(storedCartTotal));
-    }
-    fetchCartData();
-    fetchWishlistData();
-    
-  }, []); //isAdd
+  };
 
   const handleRemoveFromCart = async (productId) => {
     console.log("productID CART ==> ", productId);
     try {
-      const userRegister = localStorage.getItem("authToken");
-      const response = await fetch(
-        `https://academics.newtonschool.co/api/v1/ecommerce/cart/${productId}`,
-        {
-          method: "DELETE",
-          headers: {
-            projectID: "rhxg8aczyt09",
-            Authorization: `Bearer ${userRegister}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        console.log("CartPatch Data ==");
-        return;
-      }
+      await removeFromCart(productId);
+      // ===
       await fetchCartData();
-      //  calculateTotalPrice();
+      //  setCartList((prevCartData) => prevCartData.filter(item => item?.product?._id !== productId));
+      //  calculateTotalPrice(cartList);
     } catch (error) {
       console.error("Error fetching cart data:", error);
     }
@@ -140,29 +72,29 @@ export default function Cart() {
      localStorage.setItem('cartLenght', cartData.length.toString());
      localStorage.setItem('totalAmount', totalAmount.toString());
 
-  }
+  };
 
-  const handleMoveToWishlist = async (productId) => {
+  const handleMoveToWishlist = async (wishlistProduct) => {
     try{
-      const userRegister = localStorage.getItem('authToken');
-
-      const response = await fetch('https://academics.newtonschool.co/api/v1/ecommerce/wishlist/', {
-        method: 'PATCH',
-        headers: {
-          projectID: "rhxg8aczyt09",
-            Authorization: `Bearer ${userRegister}`,
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          "productId": productId
-        })
-      });
-
+      await wishlistAdd(wishlistProduct);
+// TODO: TODO: TODO:
+      const productId = wishlistProduct?.products?._id;
       handleRemoveFromCart(productId);
     }catch(error){
 
     }
   };
+
+    useEffect(() => {
+    const storedCartTotal = localStorage.getItem("totalAmount");
+    console.log('inside useEffect', CartTotal)
+    if (storedCartTotal) {
+      setCartTotal(parseInt(storedCartTotal));
+    }
+    fetchCartData();
+    fetchWishlistData();
+    
+  }, []); //isAdd
 
   return (
     <>
@@ -292,7 +224,7 @@ export default function Cart() {
                           </button>
                           { wishlistProducts.includes(list?.product._id) ? "" : (<button
                             id="movewishList"
-                            onClick={() => handleMoveToWishlist(list?.product._id)}
+                            onClick={() => handleMoveToWishlist(list)}
                             style={{
                               height: "30px",
                               width: "30%",

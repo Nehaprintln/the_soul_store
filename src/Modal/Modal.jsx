@@ -3,7 +3,7 @@ import  './modal.css'
 import QuantitySelect from '../ProductDisplay/QuantitySelect'
 import SizeSelect from '../ProductDisplay/SizeSelect';
 import Button from '../CommonLayout/Button/Button';
-import { addToCart, wishlistDelet, fetchProductDetails } from '../APIData/fetchAPI';
+import { addToCart, removeFromWishlist, fetchProductDetails } from '../APIData/fetchAPI';
 // import { handleAddToCart } from '../WishList/wishlistData';
 import Swal from "sweetalert2";
 
@@ -35,7 +35,7 @@ export default function Modal(props) {
     const handleMoveToCart = async (modalId, selectValue, selectedSize) => {
         if(selectValue && selectedSize){
             await addToCart(modalId, selectValue, selectedSize) ;
-             removeFromWishlist(modalId);
+            await removeFromWishlist(modalId);
              closeModal();
         }else{
           Swal.fire({
@@ -46,28 +46,28 @@ export default function Modal(props) {
         // setIsMoveToCart(!isMoveToCart)
     };
 
-    const removeFromWishlist = async (modalId) => {
-        const userRegister = localStorage.getItem("authToken");
-     try{
-        // If the product is already in the wishlist, remove it
-        const removeFromWishlist = await fetch(`https://academics.newtonschool.co/api/v1/ecommerce/wishlist/${modalId}`, {
-          method: 'DELETE',
-          headers: {
-            projectID: "rhxg8aczyt09",
-            'Authorization': `Bearer ${userRegister}`,
-          },
-        });
+    // const removeFromWishlist = async (modalId) => {
+    //     const userRegister = localStorage.getItem("authToken");
+    //  try{
+    //     // If the product is already in the wishlist, remove it
+    //     const removeFromWishlist = await fetch(`https://academics.newtonschool.co/api/v1/ecommerce/wishlist/${modalId}`, {
+    //       method: 'DELETE',
+    //       headers: {
+    //         projectID: "rhxg8aczyt09",
+    //         'Authorization': `Bearer ${userRegister}`,
+    //       },
+    //     });
 
-        if(!removeFromWishlist.ok){
-          // navigate('/signup');
-          console.error('Failed to remove product from wishlist');
-          return;
-        }
+    //     if(!removeFromWishlist.ok){
+    //       // navigate('/signup');
+    //       console.error('Failed to remove product from wishlist');
+    //       return;
+    //     }
       
-        }catch(error){
-            console.log('ERROR MODAL', error);
-        }
-    }
+    //     }catch(error){
+    //         console.log('ERROR MODAL', error);
+    //     }
+    // }
 
 
     useEffect(() => {

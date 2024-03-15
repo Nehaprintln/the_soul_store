@@ -1,36 +1,59 @@
-// const fetchCartData = async () => {
-//     try {
-//       const userRegister = localStorage.getItem("authToken");
-//       const response = await fetch(
-//         `https://academics.newtonschool.co/api/v1/ecommerce/cart`,
-//         {
-//           method: "GET",
-//           headers: {
-//             projectID: "rhxg8aczyt09",
-//             Authorization: `Bearer ${userRegister}`,
-//             "Content-Type": "application/json",
-//           },
-//         }
-//       );
+// TODO: cartProductData done==**
+const cartProductData = async () => {
+    try {
+      const userRegister = localStorage.getItem("authToken");
+      const response = await fetch(
+        `https://academics.newtonschool.co/api/v1/ecommerce/cart`,
+        {
+          method: "GET",
+          headers: {
+            projectID: "rhxg8aczyt09",
+            Authorization: `Bearer ${userRegister}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-//       if (!response.ok) {
-//         console.log("CartPatch Data ==");
-//         return;
-//       }
+      if (!response.ok) {
+        console.log("CartPatch Data ==");
+        return;
+      }
 
-//       // const updatedCartData = await response.json();
-//       const { data } = await response.json();
-//       const cartData = data.items;
-//       console.log("CartPatch Data ==", cartData);
-
-//       setCartList(cartData);
-//       calculateTotalPrice(cartData);
-//     } catch (error) {
-//       console.error("Error fetching cart data:", error);
-//     }
-//   };
+      // const updatedCartData = await response.json();
+      return await response.json();
+    } catch (error) {
+      console.error("Error fetching cart data:", error);
+    }
+  };
+  // DONE****
 // ==========================
+// TODO: removeFromCart DONE==***
+const removeFromCart = async (productId) => {
+  try {
+    const userRegister = localStorage.getItem("authToken");
+    const response = await fetch(
+      `https://academics.newtonschool.co/api/v1/ecommerce/cart/${productId}`,
+      {
+        method: "DELETE",
+        headers: {
+          projectID: "rhxg8aczyt09",
+          Authorization: `Bearer ${userRegister}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
+    if (!response.ok) {
+      console.log("CartPatch Data ==");
+      return;
+    }
+  } catch (error) {
+    console.error("Error fetching cart data:", error);
+  }
+};
+// DONE==***
+
+// =================
 const addToCart = async (id, selectValue, selectedSize)=> {
     try{
       const userRegister = localStorage.getItem("authToken");
@@ -113,7 +136,32 @@ const wishlistDelet = async (filterProduct) => {
     console.log('WISHLIST ERROR', error)
   }
   
-}
+};
+
+// TODO:WishlistDelet
+const removeFromWishlist = async (modalId) => {
+  const userRegister = localStorage.getItem("authToken");
+try{
+  // If the product is already in the wishlist, remove it
+  const removeFromWishlist = await fetch(`https://academics.newtonschool.co/api/v1/ecommerce/wishlist/${modalId}`, {
+    method: 'DELETE',
+    headers: {
+      projectID: "rhxg8aczyt09",
+      'Authorization': `Bearer ${userRegister}`,
+    },
+  });
+
+  if(!removeFromWishlist.ok){
+    // navigate('/signup');
+    console.error('Failed to remove product from wishlist');
+    return;
+  }
+
+  }catch(error){
+      console.log('ERROR MODAL', error);
+  }
+};
+// DONE*************
 
 // TODO: wishlistAdd
 const wishlistAdd = async (filterProduct) => {
@@ -240,4 +288,4 @@ async function fetchProductDetails(id) {
 //   });
 
 
-  export {fetchWishlistResponse, wishlistDelet, wishlistAdd, fetchProductDetails, addToCart}
+  export {fetchWishlistResponse, wishlistDelet, wishlistAdd, fetchProductDetails, addToCart, removeFromWishlist, cartProductData, removeFromCart}

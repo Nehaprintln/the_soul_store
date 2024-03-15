@@ -4,9 +4,9 @@ import MenSelectCategories from "../MenData/MenSelectCategories";
 import { RotatingLines } from "react-loader-spinner";
 import Button from "../CommonLayout/Button/Button";
 import Modal from '../Modal/Modal';
-import { fetchWishlistResponse } from "../APIData/fetchAPI";
+import { fetchWishlistResponse, removeFromWishlist } from "../APIData/fetchAPI";
 
-
+// TODO: ==> React reconciliation <=== TODO:
 export default function WishList() {
   const [wishlistDataDisplay, setWishlistDataDisplay] = useState([]);
  const [modalProductId, setModalProductId] = useState(null);
@@ -27,11 +27,24 @@ export default function WishList() {
 
   const moveTocart = (modalId) => {
     setModalProductId(modalId);
+  };
+
+  const handleRemoveFromWishlist = async (productId) => {
+    try{
+      await removeFromWishlist(productId);
+       // Remove the item from the display list without fetching the entire wishlist again
+      setWishlistDataDisplay((prevWishlistData) => prevWishlistData.filter(item => item?.products?._id !== productId))
+      }catch(error){
+      console.log("Error removing from wishlist:", error);
+    }
   }
+
 
   useEffect(() => {
     wishlistData();
   }, [modalProductId]);
+
+
 
   return (
     <>
@@ -63,8 +76,8 @@ export default function WishList() {
             {wishlistDataDisplay.map((wishlistData)=> (
                 <li style={{width: '20%', border: '1px solid grey', position: 'relative'}}>
                     <div>
-                        <div 
-                        style={{position: 'absolute', left: '87%', top: '2%', background: 'rgba(255, 255, 255, 0.8)', width: '10%', textAlign: 'center', borderRadius: '10px'}}>
+                        <div onClick={() => handleRemoveFromWishlist(wishlistData?.products?._id)}
+                        style={{position: 'absolute', left: '87%', top: '2%', background: 'rgba(255, 255, 255, 0.8)', width: '10%', textAlign: 'center', borderRadius: '10px', cursor: 'pointer'}}>
                           X
                         </div>
                     </div>

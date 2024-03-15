@@ -49,6 +49,7 @@ export default function DeliveryAddress() {
                       <p>{displayAddress.street}</p>
                       <p>{displayAddress.landmark}</p>
                       <p>{`${displayAddress.city}: ${displayAddress.postalCode}`}</p>
+                      <p>{`${displayAddress.state} - ${displayAddress.country}`}</p>
                     </div>
                   )}
 

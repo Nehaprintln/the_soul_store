@@ -34,6 +34,7 @@ export default function ProductDetails() {
   console.log(typeof(id))
 
   const handleQuantityChange = (event) => {
+    console.log(event);
     const value = parseInt(event.target.value)
     setSelectValue(value);
   };
@@ -41,6 +42,7 @@ export default function ProductDetails() {
 
   const handleSizeChange = (event) => {
     console.log("event happend");
+    console.log(event);
     setSelectedSize(event.target.value);
     console.log("event",event.target.value);
   };
