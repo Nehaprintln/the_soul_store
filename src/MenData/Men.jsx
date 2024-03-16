@@ -1,16 +1,17 @@
 import React from 'react'
-import Header from '../Header/Header'
-import MenSelectCategories from './MenSelectCategories'
-import { MenImageSlied } from './MenImageSlied';
+import '../ResponsiveMedia/responsiveMediaQuery.css';
+import Header from '../Header/Header.jsx'
+import MenSelectCategories from './MenSelectCategories.js'
+import { MenImageSlied } from './MenImageSlied.js';
 // import { Categories }  from './Categories';
-import { BestDeal } from './BestDeal';
+import { BestDeal } from './BestDeal.js';
 // import Categories from './Categories';
-import ShowCategaries from '../ShowCategaries/ShowCategaries';
+import ShowCategaries from '../ShowCategaries/ShowCategaries.jsx';
 import Carousel from '../CommonLayout/LatestCarousel/LatestCarousel.jsx';
 import { latestCollectionMen } from '../CommonLayout/LatestCarousel/latestCollection.js';
 import Heading from '../CommonLayout/Heading/Heading.jsx';
 import TopSelling from '../CommonLayout/TopSellingCarousel/TopSellingCarousel.jsx'
-import { topSellingMen } from '../CommonLayout/TopSellingCarousel/topSelling'
+import { topSellingMen } from '../CommonLayout/TopSellingCarousel/topSelling.js'
 import MemberShipImg from '../CommonLayout/MemberShipImg/MemberShipImg.jsx'
 export default function Men() {
   return (

@@ -160,21 +160,6 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
 
   useEffect(() => {
     
-    // const handleScroll = () => {
-    //   if (
-    //     window.innerHeight + document.documentElement.scrollTop ===
-    //     document.documentElement.offsetHeight
-    //   ) {
-    //     setPage((prevPage) => prevPage + 1);
-    //   }
-    // };
-
-    // window.addEventListener("scroll", handleScroll);
-
-    // return () => {
-    //   window.removeEventListener("scroll", handleScroll);
-    // };
-    
     if(selectSortValue === 'lowtohigh'){
       const sortedData = filterProducts.sort((a,b) => a.price - b.price)
       setFilterProducts(sortedData);
@@ -191,17 +176,26 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
      setFilterProducts(reponse2);
     }
   
-     
     fetch2();
+    
   }, [page, selectSortValue, selectedFilterSize]);
 
-  // useEffect(() => {
-  //   const selectedGender = localStorage.getItem('gender')
-	// 	if (selectedGender) {
-	// 		setGender(selectedGender)
-	// 	}
-  // }, [genders]);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop ===
+        document.documentElement.offsetHeight
+      ) {
+        setPage((prevPage) => prevPage + 1);
+      }
+    };
 
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
 
   return (

@@ -6,8 +6,10 @@
     background-color: #fff;
     /* z-index: 9; */
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    /* flex-wrap: wrap; */
     width: 100%;
+    /* margin: auto; */
     height: 55px;
     box-shadow: 2px 2px 3px rgb(207, 206, 205);
 }
@@ -17,16 +19,17 @@
     z-index: 9;
 }
 #div{
-    width: 15%;
+    width: 10%;
 }
 .select-categories{
-    width: 70%;
+    width: 50%;
     /* border: 2px solid rgb(150, 127, 127); */
 }
 .categorirs-list{
     display: flex;
     justify-content: space-around;
     align-items: center;
+    flex-wrap: wrap;
     height: 60px;
 }
 .select{
@@ -51,6 +54,9 @@
     text-decoration: none;
     color: #5d5a5c;
     
+}
+.menu-humburger, .menu-cross{
+    display: none;
 }
 
 .dropdown-content{

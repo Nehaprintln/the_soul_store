@@ -2,10 +2,24 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import './Men.css';
 import { HoverCategory } from './Categories';
+import HumburgerMenu from '../CommonLayout/HumburgerMenu/HumburgerMenu';
+import { TiThMenu } from "react-icons/ti";
+import { RxCross2 } from "react-icons/rx";
+
+
 
 export default function MenSelectCategories() {
-    console.log('MenSelectCategories Render')
     const [isFixed, setIsFixed] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    console.log('MenSelectCategories Render')
+    console.log('isMenuOpen', isMenuOpen)
+
+
+    const toggleMenu = () =>{
+        console.log('menuToggle')
+        setIsMenuOpen(!isMenuOpen);
+    }
+
     useEffect(()=> {
         const handleScroll = ()=> {
             const scrollPosition = window.scrollY;
@@ -21,9 +35,10 @@ export default function MenSelectCategories() {
     }, []); // Empty dependency array ensures the effect runs only once
   return (
     <>
+    {/* <div className={`select-categories ${isMenuOpen ? 'open' : ''}`}> */}
     <div className={`men-categories ${isFixed ? ' fixed' : ''}`}>
-        <div></div>
-        <div className='select-categories'>
+        <div id='div'></div>
+        <div className={`select-categories ${isMenuOpen ? ' open' : ''}`} >
             <ul className='categorirs-list'>
                 <li className='menu-item'>
                     <Link className='select'>CATEGORIES</Link>
@@ -40,13 +55,13 @@ export default function MenSelectCategories() {
                 <li>
                     <Link className='select'>UNISEX</Link>
                 </li>
-                <li>
-                    <Link className='select'>SHOES & ACCESSORIES</Link>
-                </li>
-                <li>
-                    <Link className='select'>SHOP BY THEAMS</Link>
-                </li>
             </ul>
+        </div>
+        <div className='menu-humburger' onClick={toggleMenu}>
+            <TiThMenu />
+        </div>
+        <div className='menu-cross' onClick={toggleMenu}>
+            <RxCross2 />
         </div>
         <div id='div'></div>
     </div>
