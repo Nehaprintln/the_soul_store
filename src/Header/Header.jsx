@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import './Header.css';
-import logo from '../Image/logo_SouledStore.png';
+import logo from '../Image/logo_Souled-removebg-preview.png';
 import { NavLink, Link, Outlet} from 'react-router-dom';
 import { FaMobileAlt,FaSearch, FaRegUser} from "react-icons/fa";
 import { MdFavoriteBorder } from "react-icons/md";
@@ -75,10 +75,18 @@ export default function Header() {
 
   return (
     <>
+    {/* logo */}
          <div className='header-container'>
+            <img src={logo} />
         <Link to='/'>
-            <img src='https://www.thesouledstore.com/static/img/newlogo.8dcc6cc.png' className={`img ${isFixed ? ' imgfixed' : ''}`} />
-            <div className={`blinkEye ${isFixed ? 'blinkEyeFixed' : ''} ${isBlinking ? 'blinkEyeClosed' : 'blinkEyeOpen'}`}>
+        {/* <img src={isFixed ? logo : 'https://www.thesouledstore.com/static/img/newlogo.8dcc6cc.png'} className={isFixed ? 'imgfixed' : 'img'} /> */}
+            {isFixed ? (<img src={logo} className='imgfixed' />) : (<img src='https://www.thesouledstore.com/static/img/newlogo.8dcc6cc.png' className='img'/>) }
+            {/* <img src='https://www.thesouledstore.com/static/img/newlogo.8dcc6cc.png' className={`img ${isFixed ? ' imgfixed' : ''}`} /> */}
+            {/* <img src='https://www.thesouledstore.com/static/img/newlogo.8dcc6cc.png' className={`img ${isFixed ? ' imgfixed' : ''}`} /> */}
+           
+            {/* <div className={`blinkEye ${isFixed ? 'blinkEyeFixed' : ''} ${isBlinking ? 'blinkEyeClosed' : 'blinkEyeOpen'}`}> */}
+            <div className={`blinkEye ${isBlinking ? 'blinkEyeClosed' : 'blinkEyeOpen'}`}>
+            
             {/* <div className={`blinkEye ${isBlinking ? 'blinkEyeClosed ' : 'blinkEyeOpen'}`}> */}
                 {/* {`blinkEye ${isFixed ? 'blinkEyeFixed' : ''} ${isBlinking ? 'blinkEyeClosed' : 'blinkEyeOpen'}`} */}
                 <TbOvalFilled />

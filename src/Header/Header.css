@@ -58,21 +58,22 @@ body{
 }
 .imgfixed{
     position: fixed;
-    top: 0;
+    top: -6%;
     left: 5%;
-    width: 80px;
-    height: 60px;
+    width: 100px;
+    height: 100px;
+    z-index: 10;
     /* background: #f9d1d1; */
     /* border-radius: 50%; */
 }
-.blinkEyeFixed{
+/* .blinkEyeFixed{
     position: fixed;
     top: 0;
     left: 3.8%;
     z-index: 11;
     color: #e93434;
  
-}
+} */
 .blinkEye{
     position: absolute;
     top: 50%;

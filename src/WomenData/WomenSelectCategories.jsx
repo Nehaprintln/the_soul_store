@@ -2,10 +2,19 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import '../MenData/Men.css';
 import { HoverCategory } from '../MenData/Categories';
-import HumburgerMenu from '../CommonLayout/HumburgerMenu/HumburgerMenu';
+import { TiThMenu } from "react-icons/ti";
+import { RxCross2 } from "react-icons/rx";
 
-export default function WomenSelectCategories({categories}) {
+
+export default function WomenSelectCategories() {
     const [isFixed, setIsFixed] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+
+    const toggleMenu = () =>{
+        console.log('menuToggle')
+        setIsMenuOpen(!isMenuOpen);
+    }
 
     useEffect(()=> {
         const handleScroll = ()=> {
@@ -24,15 +33,12 @@ export default function WomenSelectCategories({categories}) {
     <>
     <div className={`men-categories ${isFixed ? ' fixed' : ''}`}>
         <div id='div'></div>
-        <div className='select-categories'>
+        <div className={`select-categories ${isMenuOpen ? ' open' : ''}`} >
             <ul className='categorirs-list'>
-                 <li>
-                    <Link className='select'>TOPWEAR</Link>
-                </li>
                 <li className='menu-item'>
                     <Link className='select'>CATEGORIES</Link>
                     <div className='dropdown-content'>
-                        <HoverCategory categories={categories} />
+                        <HoverCategory />
             </div>
                 </li>
                 
@@ -44,8 +50,11 @@ export default function WomenSelectCategories({categories}) {
                 </li>
             </ul>
         </div>
-        <div className='menu'>
-            <HumburgerMenu />
+        <div className='menu-humburger' onClick={toggleMenu}>
+            <TiThMenu />
+        </div>
+        <div className='menu-cross' onClick={toggleMenu}>
+            <RxCross2 />
         </div>
         <div id='div'></div>
     </div>

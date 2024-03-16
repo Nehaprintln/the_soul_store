@@ -233,21 +233,15 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
         <div className="top-filter-comtainer" style={{ padding: "0 20px" }}>
           <SortValue handleSortChange={handleSortChange} selectSortValue={selectSortValue} />
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div
-              style={{width: "21%"}}
-            >
+            <div className="div-size">
               <SizeChart handleFilterSizeChange={handleFilterSizeChange} selectedFilterSize={selectedFilterSize} />
               <Themes handleThemeChecked={handleThemeChecked}  />
             </div>
             <div className="div-sorting1">
               {filterProducts.map((filterProduct) => (
-                <div
+                <div className="filter-display-card"
                   key={filterProduct._id}
-                  style={{
-                    width: "24%",
-                    padding: "10px",
-                    position: "relative",
-                  }}
+                 
                 >
                   <Button className="wishListfil" text='' onClick={()=> handleWishlistToggle(filterProduct)}>
                     {filterProduct.isWishlist ? <FaHeart  style={{color:'#117a7a'}} /> : <FaRegHeart style={{color:'#117a7a'}} />}
@@ -257,7 +251,7 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
                   >
                     <img
                       src={filterProduct.displayImage}
-                      style={{ width: "275px" }}
+                      style={{ width: "100%" }}
                     />
                   </Link>
                   <div

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import './Men.css';
 import { HoverCategory } from './Categories';
-import HumburgerMenu from '../CommonLayout/HumburgerMenu/HumburgerMenu';
 import { TiThMenu } from "react-icons/ti";
 import { RxCross2 } from "react-icons/rx";
 
@@ -44,7 +43,7 @@ export default function MenSelectCategories() {
                     <Link className='select'>CATEGORIES</Link>
                     <div className='dropdown-content'>
                         <HoverCategory />
-            </div>
+                    </div>
                 </li>
                 <li>
                     <Link className='select'>TOPWEAR</Link>

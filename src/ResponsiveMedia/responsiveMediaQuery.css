@@ -75,10 +75,10 @@
         display: none;
     } */
     .img{
-        left: 30%;
+        left: 26%;
     }
     .blinkEye{
-        left: 30.9% !important;
+        left: 27.4% !important;
         z-index: 11;
         color: #e93434;
     
@@ -154,6 +154,15 @@
         font-size: 24px;
         padding: 10px 0 0 30px;
         cursor: pointer;
+    }
+    .div-sorting1{
+        width: 75% !important;
+    }
+    .filter-display-card{
+        width: 45% !important;
+    }
+    .div-size{
+        width: 30% !important;
     }
 }
 

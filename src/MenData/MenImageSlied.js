@@ -12,7 +12,7 @@ import {
   const items = [
     {
       id: 1,
-      src: 'https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/banner-images/Homepage_banner_-_high_top_1.jpg?format=webp&w=1500&dpr=1.3',
+      src: 'https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/banner-images/web-banner_1_vLSlS1v.jpg?format=webp&w=1500&dpr=1.3',
     },
     {
       id: 2,
