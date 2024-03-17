@@ -23,7 +23,6 @@ export default function FilterData() {
   const [wishlistProduct, setWishlistProduct] = useState([]);
   const [selectSortValue, setSelectSortValue] = useState(null);
   const [selectedFilterSize, setSelectedFilterSize] = useState(null);
-  // const [themes, setThemes] = useState([]);
   const [themes, setThemes] = useState(null);
 
   const navigate = useNavigate();
@@ -54,17 +53,8 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
 
   const handleThemeChecked = (event) => {
     const themeValue = event.target.value;
-    const checked = event.target.checked;
-    console.log(themeValue, checked, "VALUE CHECKED THEMES");
-
-    // if(checked){
-    //   setThemes([...themes, themeValue]);
-    // }else{
-    //   setThemes(themes.filter((theme) => theme !== themeValue))
-    // }
-    if(checked){
+    console.log(themeValue, "VALUE CHECKED THEMES");
       setThemes(themeValue);
-    }
   };
 
   
@@ -178,7 +168,7 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
   
     fetch2();
     
-  }, [page, selectSortValue, selectedFilterSize]);
+  }, [page, selectSortValue, selectedFilterSize, themes]);
 
   useEffect(() => {
     const handleScroll = () => {

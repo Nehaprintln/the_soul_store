@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from 'react-router-dom';
 
 import {
     Carousel,
@@ -13,27 +14,29 @@ import {
     {
       id: 1,
       src: 'https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/banner-images/web-banner_1_vLSlS1v.jpg?format=webp&w=1500&dpr=1.3',
+      subCategory: 'jogger',
     },
     {
       id: 2,
       src: 'https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/banner-images/Homepage_Banner_1_SWdnIDn.jpg?format=webp&w=1500&dpr=1.3',
-      
+      subCategory: 'shirt',
     },
     {
       id: 3,
       src: 'https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/banner-images/Homepage-banner_3.jpg?format=webp&w=1500&dpr=1.3',
-      
+      subCategory: 'tshirt',
     },
     {
       id: 4,
       src: 'https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/banner-images/Homepage_banner_.most_loved_oversized_full_sleeves.jpg_NEW.jpg?format=webp&w=1500&dpr=1.3',
-      
+      subCategory: 'tshirt',
     }
   ];
 
   function MenImageSlied(props) {
     const [activeIndex, setActiveIndex] = useState(0);
-  const [animating, setAnimating] = useState(false);
+    const [animating, setAnimating] = useState(false);
+    const navigate = useNavigate();
 
   const next = () => {
     if (animating) return;
@@ -61,16 +64,10 @@ import {
         onExiting={() => setAnimating(true)}
         onExited={() => setAnimating(false)}
       >
-        <img src={item.src} alt={item.altText} style={{width: '100%', height: '500'}} />
-        {/* <CarouselCaption
-          className="text-danger"
-          captionText={item.caption}
-          captionHeader={item.caption}
-        /> */}
+        <img src={item.src} alt={item.altText} style={{width: '100%', height: '500'}} onClick={() => navigate(`/filterProducts/${item.subCategory}/Men`)} />
       </CarouselItem>
     );
   });
-
   return (
     <div>
       <style>

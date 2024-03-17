@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from 'react-router-dom';
+
 
 import {
     Carousel,
@@ -13,20 +15,24 @@ import {
     {
       id: 1,
       src: 'https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/banner-images/web_copy_2.jpg?format=webp&w=1500&dpr=1.3',
+      subCategory: 'jeans',
     },
     {
       id: 2,
       src: 'https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/banner-images/Homepage_Mesh-Shirts.jpg?format=webp&w=1500&dpr=1.3',
+      subCategory: 'shirt',
       
     },
     {
       id: 3,
       src: 'https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/banner-images/OS-T-shirts-homepage.jpg?format=webp&w=1500&dpr=1.3',
+      subCategory: 'tshirt',
       
     },
     {
       id: 4,
       src: 'https://prod-img.thesouledstore.com/public/theSoul/storage/mobile-cms-media-prod/banner-images/homepage-banner_8.jpg?format=webp&w=1500&dpr=1.3',
+      subCategory: 'jogger',
       
     }
   ];
@@ -34,6 +40,7 @@ import {
   function WomenImageSlied(props) {
     const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
+  const navigate = useNavigate();
 
   const next = () => {
     if (animating) return;
@@ -61,7 +68,7 @@ import {
         onExiting={() => setAnimating(true)}
         onExited={() => setAnimating(false)}
       >
-        <img src={item.src} alt={item.altText} style={{width: '100%', height: '500'}} />
+        <img src={item.src} alt={item.altText} style={{width: '100%', height: '500'}} onClick={() => navigate(`/filterProducts/${item.subCategory}/Women`)} />        
         {/* <CarouselCaption
           className="text-danger"
           captionText={item.caption}

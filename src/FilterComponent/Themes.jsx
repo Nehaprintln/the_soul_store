@@ -11,7 +11,7 @@ export default function Themes({handleThemeChecked}) {
           <div className='themes-container' >
             {themes.map((theme) => (
               <div className='themes-map'>
-                <input type="checkbox" name="themes" value={theme}
+                <input type="radio" name="themes" value={theme}
                   onChange={handleThemeChecked}
                 />
                 <label name="themes">
