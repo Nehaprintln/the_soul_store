@@ -39,7 +39,12 @@ export default function Address(props) {
     
     if (Object.keys(validetedForm).length === 0) {
       const newAddress = JSON.stringify(formValue);
-      localStorage.setItem("userAddress", newAddress);
+      const userRegister = localStorage.getItem("authToken");
+      console.log('AuthToken', userRegister)
+      const userAddress = JSON.parse(localStorage.getItem("userAddress")) || {};
+      userAddress[userRegister] = newAddress;
+      localStorage.setItem("userAddress", JSON.stringify(userAddress));
+
       sendAddressFunc(newAddress);
       closeModal();
     }

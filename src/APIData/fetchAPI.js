@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 // TODO: cartProductData done==**
 const cartProductData = async () => {
     try {
@@ -161,7 +163,6 @@ try{
       console.log('ERROR MODAL', error);
   }
 };
-// DONE*************
 
 // TODO: wishlistAdd
 const wishlistAdd = async (filterProduct) => {
@@ -181,6 +182,12 @@ const wishlistAdd = async (filterProduct) => {
 
       if(!addToWishlist.ok){
         // navigate('/signup');
+        // Swal.fire({
+        //   text: "Product removed from your wishlist SWAL",
+        //   // position: "top-end", // You can use other positions like "top-start", "top", "top-end", "center", "center-start", "center-end", "bottom-start", "bottom", or "bottom-end"
+        //   showConfirmButton: false, // Set to false if you don't want to show the confirm button
+        //   timer: 1500 // Set a timer to automatically close the modal after a certain time (in milliseconds)
+        // });
       console.log('Failed to add product to wishlist');
       return;
       }
@@ -218,74 +225,5 @@ async function fetchProductDetails(id) {
     console.log(error);
   }
 };
-// DONE**
-
-//   =================================
-// const handleMoveToWishlist = async (productId) => {
-//     try{
-//       const userRegister = localStorage.getItem('authToken');
-
-//       const response = await fetch('https://academics.newtonschool.co/api/v1/ecommerce/wishlist/', {
-//         method: 'PATCH',
-//         headers: {
-//           projectID: "rhxg8aczyt09",
-//             Authorization: `Bearer ${userRegister}`,
-//             "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({
-//           "productId": productId
-//         })
-//       });
-
-//       handleRemoveFromCart(productId);
-//     }catch(error){
-
-//     }
-//   };
-
-//   ==============================================
-// const fetchWishlistProduct = async()=> {
-//     try {
-//       const userRegister = localStorage.getItem("authToken");
-//       const response = await fetch(
-//         'https://academics.newtonschool.co/api/v1/ecommerce/wishlist',
-//         {
-//           method: "GET",
-//           headers: {
-//             projectID: "rhxg8aczyt09",
-//             Authorization: `Bearer ${userRegister}`,
-//             "Content-Type": "application/json",
-//           },
-//         }
-//       );
-
-//       if (!response.ok) {
-//         // navigate("/commingSoon");
-//         // console.log('WISHLIST STORE ID ARRAY ERROR')
-//       }
-
-//       const result = await response.json();
-//       // console.log('WISHLIST STORE ID ARRAY =>', result)
-//       const wishlistData = result?.data?.items;
-//       setWishlistProduct(wishlistData.map(item => item?.products?._id));
-      
-//     } catch (error) {
-//       // console.log("FilterData ERROR==>", error);
-//     }
-//   };
-
-//   ===================================
-// const addToWishlist = await fetch('https://academics.newtonschool.co/api/v1/ecommerce/wishlist/', {
-//     method: 'PATCH',
-//   headers: {
-//     projectID: "rhxg8aczyt09",
-//     'Authorization': `Bearer ${userRegister}`,
-//     'Content-Type': 'application/json',
-//   },
-//   body: JSON.stringify({
-//     'productId': filterProduct._id,
-//   }),
-//   });
-
 
   export {fetchWishlistResponse, wishlistDelet, wishlistAdd, fetchProductDetails, addToCart, removeFromWishlist, cartProductData, removeFromCart}

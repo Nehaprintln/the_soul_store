@@ -1,3 +1,11 @@
+.viewMore{
+    align-content: center;
+    padding: 7px;
+    width: 100px;
+    border: transparent; 
+    border-radius: 5px;
+    box-shadow: 2px 1px 4px gray;
+}
 .addCart{
     width: 45%;
     padding: 6px;

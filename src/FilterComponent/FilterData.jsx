@@ -43,11 +43,13 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
 
   const handleSortChange = (event) => {
     setSelectSortValue(event.target.value);
+    localStorage.setItem("selectSortValue",event.target.value);
     console.log("123==>event SORTING LOW TO HIGH",event.target.value);
   };
 
   const handleFilterSizeChange = (event) => {
     setSelectedFilterSize(event.target.value);
+    localStorage.setItem("selectedFilterSize", event.target.value);
     console.log("event",event.target.value);
   };
 
@@ -149,6 +151,15 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
 // TODO: 4) why not use within useState variable within function
 
   useEffect(() => {
+    const storedFilterSize = localStorage.getItem("selectedFilterSize");
+    const storedSortValue = localStorage.getItem("selectSortValue");
+
+    if (storedFilterSize) {
+      setSelectedFilterSize(storedFilterSize);
+   }
+   if (storedSortValue) {
+      setSelectSortValue(storedSortValue);
+    }
     
     if(selectSortValue === 'lowtohigh'){
       const sortedData = filterProducts.sort((a,b) => a.price - b.price)
@@ -163,7 +174,7 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
       const wishlist2 = await fetchWishlistProduct();
      const reponse2 = await fetchFilterProducts(wishlist2);
      setWishlistProduct(wishlist2);
-     setFilterProducts(reponse2);
+     setFilterProducts((prevData) => [...prevData, ...reponse2]);
     }
   
     fetch2();
@@ -262,11 +273,14 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
             </div>
           </div>
           <div style={{width: '20%',height: '100px',margin: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-evenly'}}>
-          <button onClick={() => setPage((prevPage) => prevPage >= 1 ? page - 1 : 1)} style={{alignContent: 'center', padding: '7px', width: '100px', border: '1px solid gray', borderRadius: '10px'}}>Previous</button>
-          <button onClick={()=> setPage(prevpage => prevpage + 1)} style={{alignContent: 'center', padding: '7px', width: '100px', border: '1px solid gray', borderRadius: '10px'}}> Next  </button>
+          {/* <button onClick={() => setPage((prevPage) => prevPage >= 1 ? page - 1 : 1)} style={{alignContent: 'center', padding: '7px', width: '100px', border: '1px solid gray', borderRadius: '10px'}}>Previous</button> */}
+          {/* <button onClick={()=> setPage(prevpage => prevpage + 1)} style={{alignContent: 'center', padding: '7px', width: '100px', border: '1px solid gray', borderRadius: '10px'}}> Next  </button> */}
+          <Button className="viewMore" text="View more" onClick={()=> setPage(prevpage => prevpage + 1)} />
           </div>
         </div>
       )}
     </>
   );
 }
+
+

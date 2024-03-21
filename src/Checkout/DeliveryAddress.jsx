@@ -9,7 +9,7 @@ import Payment from './Payment';
 export default function DeliveryAddress() {
 
     const [addressModal, setAddressModal] = useState(false);
-    const [displayAddress, setDisplayAddress] = useState();
+    const [displayAddress, setDisplayAddress] = useState({});
     // const userAddress = localStorage.getItem("userAddress");
     // setDisplayAddress(userAddress);
     // const storedAddress = localStorage.getItem("userAddress");
@@ -20,8 +20,9 @@ export default function DeliveryAddress() {
 
 
     useEffect(() => {
-      const userAddress = localStorage.getItem("userAddress");
-      setDisplayAddress(userAddress ? JSON.parse(userAddress) : null);
+      const userRegister = localStorage.getItem("authToken");
+      const userAddress = JSON.parse(localStorage.getItem("userAddress")) || {};
+      setDisplayAddress(userAddress[userRegister] ? JSON.parse(userAddress[userRegister]) : {});
     }, [addressModal]);
 
   return (

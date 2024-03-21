@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function SizeChart({ handleFilterSizeChange, selectedFilterSize }) {
-    const filterSize = ['XS','S', 'M', 'L', 'X','XX', 'XL', 'XXL'];
+    const filterSize = [,'S', 'M', 'L', 'XL', 'XXL'];
 
   return (
     <>
