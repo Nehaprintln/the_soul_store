@@ -5,9 +5,13 @@ import MenSelectCategories from "../MenData/MenSelectCategories";
 import { useParams } from "react-router-dom";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { useSearch, useWishlist } from "../Context/GlobleContext";
+import { useSearch } from "../Context/GlobleContext";
+import Swal from "sweetalert2";
 // import {handleWishlistProduct} from "../WishList/wishlistData";
-import { checkProductStatusInWishlist, handleAddToCart, handleWishlistProduct } from "./ProductDetailsMethod";
+import { checkProductStatusInWishlist, handleWishlistProduct } from "./ProductDetailsMethod";
+// import checkProductStatusInWishlist from './ProductDetailsMethod';
+// import handleAddToCart from './ProductDetailsMethod';
+// import handleWishlistProduct from './ProductDetailsMethod'
 import Button from "../CommonLayout/Button/Button";
 import Loader from "../CommonLayout/Loader/Loader";
 import { fetchProductDetails } from "../APIData/fetchAPI";
@@ -21,6 +25,8 @@ import {
 } from "reactstrap";
 import QuantitySelect from "./QuantitySelect";
 import SizeSelect from "./SizeSelect";
+import { addToCart } from "../APIData/fetchAPI";
+
 
 
 export default function ProductDetails() {
@@ -29,7 +35,38 @@ export default function ProductDetails() {
   const [productDetails, setProductDetails] = useState([]);
   const [selectValue, setSelectValue] = useState(1);
   const navigate = useNavigate();
-  const {isInWishlist, setIsInWishlist} = useSearch();
+  const {isInWishlist, setIsInWishlist, cartItemCounts, setCartItemCounts} = useSearch();
+  
+// TODO:==========
+  const handleAddToCart = async (id, selectValue, selectedSize)=> {
+    // const {setCartItem} = useSearch();
+  
+      if(selectValue && selectedSize){
+          const cartItem = await addToCart(id, selectValue, selectedSize);
+          setCartItemCounts(cartItem?.results);
+          console.log(cartItem?.results);
+          Swal.fire({
+            title: "Congratulations !",
+            text: "Your data added successfully !",
+            icon: "success"
+          });
+      }else{
+        Swal.fire({
+          text: "Please Select Size and quantity",
+          // position: "top-end", // You can use other positions like "top-start", "top", "top-end", "center", "center-start", "center-end", "bottom-start", "bottom", or "bottom-end"
+          showConfirmButton: false, // Set to false if you don't want to show the confirm button
+          timer: 1500 // Set a timer to automatically close the modal after a certain time (in milliseconds)
+        });
+        // Swal.fire("Please Select Size and quantity");
+        // alert('Please Select Size and quantity')
+      }
+      
+    };
+
+  // TODO:=========
+
+  console.log('cartItemCounts_ ProductDis', cartItemCounts)
+  // setCartItemCounts(12);
   console.log('ID==> & SUNCATEGARIES==',id, subCategory);
   console.log(typeof(id))
 
@@ -67,7 +104,7 @@ export default function ProductDetails() {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <MenSelectCategories />
       {productDetails.length < 1 ? (
        <Loader className='loader' />

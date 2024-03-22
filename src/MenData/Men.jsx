@@ -16,7 +16,7 @@ import MemberShipImg from '../CommonLayout/MemberShipImg/MemberShipImg.jsx'
 export default function Men() {
   return (
     <div>
-        <Header />
+        {/* <Header /> */}
         <MenSelectCategories />
         <MenImageSlied />
         <Heading heading='CATEGORIES'/>

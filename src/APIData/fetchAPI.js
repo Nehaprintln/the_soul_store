@@ -47,7 +47,7 @@ const removeFromCart = async (productId) => {
 
     if (!response.ok) {
       console.log("CartPatch Data ==");
-      return;
+      return response.json();
     }
   } catch (error) {
     console.error("Error fetching cart data:", error);
@@ -76,7 +76,8 @@ const addToCart = async (id, selectValue, selectedSize)=> {
       if(!response.ok){
         console.log('CartPatch Data ==')
         return;
-      }     
+      } 
+      return response.json(); 
 
       }catch(error){
         console.log('Error CartItem==', error)

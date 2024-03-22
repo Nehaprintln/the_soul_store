@@ -1,5 +1,5 @@
 import React, { useContext, useReducer } from "react";
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 const MySearchContext = createContext();
 // const MyCartContext = createContext();
@@ -16,10 +16,19 @@ export const SearchProvide = ({children})=> {
     const [fetchProducts, setFetchProducts] = useState({});
     const [ isAdd, setIsAdd] = useState(false);
     const [isInWishlist, setIsInWishlist] = useState(false);
+    const [cartItemCounts, setCartItemCounts] = useState();
 
+    useEffect(() => {
+      console.log('cartItemCounts__ App Component', cartItemCounts)
+    }, [cartItemCounts])
   
     return(    
-        <MySearchContext.Provider value={{ searchInput, setSearchInput, fetchProducts, setFetchProducts, setIsAdd, isAdd, setIsInWishlist, isInWishlist}}>
+        <MySearchContext.Provider 
+        value={{ 
+          searchInput, setSearchInput, fetchProducts, setFetchProducts, setIsAdd, isAdd, setIsInWishlist, isInWishlist,
+          cartItemCounts, setCartItemCounts
+          
+          }}>
              {children}
         </MySearchContext.Provider>   
     )

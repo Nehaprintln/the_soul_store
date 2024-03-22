@@ -261,7 +261,7 @@ console.log('FILTER PRODUCT==>',filterProducts)
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <MenSelectCategories />
       <OuterMargin className='outer-container'>
         {posterImg

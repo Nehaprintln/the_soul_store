@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 // import logo from './logo.svg';
 // import './App.css';
 // import { NavLink } from "react-router-dom";
@@ -24,13 +24,19 @@ import Address from './Checkout/Address';
 import ScrollToTop from './ScrollToTop/ScrollTotop';
 
 function App() {
+  // const [cartItemCounts, setCartItemCounts] = useState();
+
+ 
+
   return (
+    <>
     
     <SearchProvide>
       {/* <CardProvider> */}
         {/* <WishlistProvider> */}
     <Router>
         <ScrollToTop />
+        <Header />
       <Routes> 
         <Route path='/' element={<Navigate to='/men' />} /> 
         <Route path='/women' element={<Women />} />
@@ -54,7 +60,7 @@ function App() {
         {/* </WishlistProvider> */}
     {/* </CardProvider> */}
     </SearchProvide>
-    
+    </>
 
     // <>
     //   <Home />

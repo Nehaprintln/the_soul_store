@@ -107,7 +107,7 @@ export default function SignUp({baseURL, signUp, projectId}) {
 
   return (
     <>
-    <Header />
+    {/* <Header /> */}
     <MenSelectCategories />
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">

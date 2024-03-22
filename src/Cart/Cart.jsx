@@ -12,6 +12,7 @@ import {
 } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 import { cartProductData, fetchWishlistResponse, removeFromCart, wishlistAdd } from "../APIData/fetchAPI";
+import { useSearch } from "../Context/GlobleContext";
 
 // import { getData } from "../Afunc/Function";
 
@@ -20,12 +21,15 @@ export default function Cart() {
   const [cartList, setCartList] = useState([]);
   const [CartTotal, setCartTotal] = useState(0);
   const [wishlistProducts, setWishlistProducts] = useState([]);
+  const {setCartItemCounts} = useSearch();
   console.log('wishlistProducts DATA==>',wishlistProducts );
   const navigate = useNavigate();
 
   const fetchCartData = async () => {
     try {
-      const { data } =  await cartProductData();
+      const cartItem =  await cartProductData();
+      setCartItemCounts(cartItem?.results)
+      const { data } =  cartItem
       const cartData = data.items;
       console.log("CartPatch Data ==", cartData);
 
@@ -53,7 +57,7 @@ export default function Cart() {
   const handleRemoveFromCart = async (productId) => {
     console.log("productID CART ==> ", productId);
     try {
-      await removeFromCart(productId);
+       await removeFromCart(productId);
       // ===
       await fetchCartData();
       //  setCartList((prevCartData) => prevCartData.filter(item => item?.product?._id !== productId));
@@ -69,7 +73,7 @@ export default function Cart() {
      }, 0);
 
      setCartTotal(totalAmount);
-     localStorage.setItem('cartLenght', cartData.length.toString());
+     localStorage.setItem('cartLength', cartData.length.toString());
      localStorage.setItem('totalAmount', totalAmount.toString());
 
   };
@@ -98,7 +102,7 @@ export default function Cart() {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <MenSelectCategories />
       <div
         className="trac-process"

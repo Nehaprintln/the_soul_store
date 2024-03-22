@@ -11,14 +11,18 @@ import Men from '../MenData/Men';
 
 
 export default function Header() {
-    const cartLenght = localStorage.getItem('cartLenght');
+    const cartLength = localStorage.getItem('cartLength');
+    // const cartLength = cartItem;
+
     const wishlistLength = localStorage.getItem('wishlistLength');
-    console.log('cardList length ==>', cartLenght)
+    console.log('cardList length ==>', cartLength)
     
-    const {handleSearchClick, searchInput, setSearchInput} = useSearch();
+    const {handleSearchClick, searchInput, setSearchInput, cartItemCounts} = useSearch();
     const [isFixed, setIsFixed] = useState(false);
     const [gender, setGender] = useState('Men');
     const [isBlinking, setIsBlinking] = useState(false);
+    console.log('cartItemCOUNT',cartItemCounts);
+    
     // const {state} = useCart();
     // const [searchInput, setSearchInput] = useState('');
     
@@ -29,7 +33,7 @@ export default function Header() {
 
     const handleSearchProduct = (event)=>{
         setSearchInput(event.target.value);
-    console.log('Header search input  ==>', cartLenght)
+    console.log('Header search input  ==>', cartLength)
 
     };
 
@@ -58,7 +62,7 @@ export default function Header() {
 	}, [])
 
     useEffect(()=> {
-    console.log('Header useeffect ==>', cartLenght)
+    console.log('Header useeffect ==>', cartLength)
 
         const handleScroll = ()=> {
             const scrollPosition = window.scrollY;
@@ -96,9 +100,12 @@ export default function Header() {
         <div className='nav-section'>
             <ul className='categories position'>
                  <li>
-              <Link to='/women' id='Women'  className={
+              <Link to='/women' 
+              id='Women'  className={
 						gender === 'Women' ? 'active' : 'inActine'
-					} onClick={handleNavlinkClick}>
+					} onClick={handleNavlinkClick}
+                    
+                    >
                 WOMEN
               </Link>
             </li>
@@ -147,7 +154,7 @@ export default function Header() {
                 </li>
                 <li style={{position: 'relative'}}>
                     <Link to='/cart' className='icon-text'>
-                        <span style={{position: 'absolute', left: '15px', fontSize: '12px', background: 'red', color: '#fff', width: '20px', textAlign: 'center', borderRadius: '50%'}}>{cartLenght}</span>
+                        <span style={{position: 'absolute', left: '15px', fontSize: '12px', background: 'red', color: '#fff', width: '20px', textAlign: 'center', borderRadius: '50%'}}>{cartItemCounts}</span>
                      <LuBaggageClaim  />
                         </Link>
                 </li>

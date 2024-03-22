@@ -143,6 +143,8 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
     }
     
   };
+
+  
   // TODO: DONE==
 
 // TODO: 1) how useEffect work
@@ -201,7 +203,7 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <MenSelectCategories />
       <OuterMargin className='outer-container'>
         {(gender === 'Men' ? menposterImg : womenposterImg)

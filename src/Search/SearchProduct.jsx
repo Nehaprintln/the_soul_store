@@ -66,7 +66,7 @@ export default function SearchProduct() {
     // console.log('fetchData', fetchProducts)
     return (
       <>
-        <Header />
+        {/* <Header /> */}
         <MenSelectCategories />
         {searchData.length === 0 ? (
           <div className="loader" style={{width: '100%', textAlign:'center', marginTop: '30px'}}>
