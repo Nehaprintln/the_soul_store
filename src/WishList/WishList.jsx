@@ -48,7 +48,7 @@ export default function WishList() {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <MenSelectCategories />
       
       {wishlistDataDisplay.length === 0 ? (

@@ -27,7 +27,7 @@ export default function DeliveryAddress() {
 
   return (
     <>
-        <Header />
+        {/* <Header /> */}
         <MenSelectCategories />
     
         <div style={{ width: "30%", margin: "auto", padding: '20px' }}>

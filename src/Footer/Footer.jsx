@@ -3,6 +3,7 @@ import './Footer.css';
 import footerImg from '../Footer/ImageFooter/footerImg.png'
 
 export default function Footer() {
+    console.log('FOOTERT')
   return (
     <div className='footer-section'>
         <hr />

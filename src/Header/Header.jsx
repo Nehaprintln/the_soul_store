@@ -1,24 +1,30 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import './Header.css';
 import logo from '../Image/logo_Souled-removebg-preview.png';
 import { NavLink, Link, Outlet} from 'react-router-dom';
 import { FaMobileAlt,FaSearch, FaRegUser} from "react-icons/fa";
 import { MdFavoriteBorder } from "react-icons/md";
 import { LuBaggageClaim } from "react-icons/lu";
-import { useSearch } from '../Context/GlobleContext';
 import { TbOvalFilled } from "react-icons/tb";
 import Men from '../MenData/Men';
+import { useSearch } from '../Context/GlobleContext';
+
 
 
 export default function Header() {
-    const cartLenght = localStorage.getItem('cartLenght');
+    const cartLength = localStorage.getItem('cartLength');
+    // const cartLength = cartItem;
+
     const wishlistLength = localStorage.getItem('wishlistLength');
-    console.log('cardList length ==>', cartLenght)
+    console.log('cardList length ==>', cartLength)
     
-    const {handleSearchClick, searchInput, setSearchInput} = useSearch();
+    const {searchInput, setSearchInput, cartItemCounts, setCart} = useSearch();
     const [isFixed, setIsFixed] = useState(false);
     const [gender, setGender] = useState('Men');
-    const [isBlinking, setIsBlinking] = useState(false);
+    // const [isBlinking, setIsBlinking] = useRef(false);
+    const blinkRef = useRef();
+    console.log('cartItemCOUNT',cartItemCounts);
+    
     // const {state} = useCart();
     // const [searchInput, setSearchInput] = useState('');
     
@@ -29,26 +35,33 @@ export default function Header() {
 
     const handleSearchProduct = (event)=>{
         setSearchInput(event.target.value);
-    console.log('Header search input  ==>', cartLenght)
+    console.log('Header search input  ==>', cartLength)
 
     };
 
     const handleNavlinkClick = (event)=> {
         let gender = event.target.id;
+        setGender(event.target.id)
         console.log('Navlink Click', event.target.id)
         // TODO: to store localstore
         localStorage.setItem("gender", gender);
     }
+    // TODO: Do blinking effect
 
-
-  useEffect(() => {
     const intervalId = setInterval(() => {
-      setIsBlinking(prevState => !prevState);
+        if (blinkRef.current) {
+            blinkRef.current.classList.add("blinkEyeOpen");
+            setTimeout(() => {
+                if (blinkRef.current) {
+                    blinkRef.current.classList.remove('blinkEyeOpen');
+                }
+            }, 800);
+        }
     }, 1000);
+  
+      // Cleanup interval on component unmount
+    //   clearInterval(intervalId);
 
-    // Cleanup interval on component unmount
-    return () => clearInterval(intervalId);
-  }, []);
 
     useEffect(() => {
 		const selectedGender = localStorage.getItem('gender')
@@ -57,21 +70,19 @@ export default function Header() {
 		}
 	}, [])
 
-    useEffect(()=> {
-    console.log('Header useeffect ==>', cartLenght)
-
         const handleScroll = ()=> {
             const scrollPosition = window.scrollY;
             setIsFixed(scrollPosition >50);
         };
-          // Attach the event listener when the component mounts
+        // Attach the event listener when the component mounts
     window.addEventListener('scroll', handleScroll);
 
     // Clean up the event listener when the component unmounts
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-    }, []); // Empty dependency array ensures the effect runs only once
+    // return () => {
+    // window.removeEventListener('scroll', handleScroll);
+    // };
+ // Empty dependency array ensures the effect runs only once
+
 
   return (
     <>
@@ -85,7 +96,9 @@ export default function Header() {
             {/* <img src='https://www.thesouledstore.com/static/img/newlogo.8dcc6cc.png' className={`img ${isFixed ? ' imgfixed' : ''}`} /> */}
            
             {/* <div className={`blinkEye ${isFixed ? 'blinkEyeFixed' : ''} ${isBlinking ? 'blinkEyeClosed' : 'blinkEyeOpen'}`}> */}
-            <div className={`blinkEye ${isBlinking ? 'blinkEyeClosed' : 'blinkEyeOpen'}`}>
+            <div 
+            className='blinkEye blinkEyeClosed' 
+            ref={blinkRef}>
             
             {/* <div className={`blinkEye ${isBlinking ? 'blinkEyeClosed ' : 'blinkEyeOpen'}`}> */}
                 {/* {`blinkEye ${isFixed ? 'blinkEyeFixed' : ''} ${isBlinking ? 'blinkEyeClosed' : 'blinkEyeOpen'}`} */}
@@ -96,9 +109,12 @@ export default function Header() {
         <div className='nav-section'>
             <ul className='categories position'>
                  <li>
-              <Link to='/women' id='Women'  className={
+              <Link to='/women' 
+              id='Women'  className={
 						gender === 'Women' ? 'active' : 'inActine'
-					} onClick={handleNavlinkClick}>
+					} onClick={handleNavlinkClick}
+                    
+                    >
                 WOMEN
               </Link>
             </li>
@@ -147,7 +163,7 @@ export default function Header() {
                 </li>
                 <li style={{position: 'relative'}}>
                     <Link to='/cart' className='icon-text'>
-                        <span style={{position: 'absolute', left: '15px', fontSize: '12px', background: 'red', color: '#fff', width: '20px', textAlign: 'center', borderRadius: '50%'}}>{cartLenght}</span>
+                        <span style={{position: 'absolute', left: '15px', fontSize: '12px', background: 'red', color: '#fff', width: '20px', textAlign: 'center', borderRadius: '50%'}}>{cartItemCounts}</span>
                      <LuBaggageClaim  />
                         </Link>
                 </li>

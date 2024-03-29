@@ -13,11 +13,19 @@ import SizeChart from "./SizeChart";
 import SortValue from "./SortValue";
 import Themes from "./Themes";
 import { fetchWishlistResponse,wishlistDelet, wishlistAdd } from "../APIData/fetchAPI";
+import { Category } from "@mui/icons-material";
 
 
 
 export default function FilterData() {
   const { subCategory, gender } = useParams();
+  const [category, setCategory] = useState(subCategory);
+  console.log('subCategory Testing==>  ',subCategory, category)
+  if(category != subCategory){
+    setCategory(subCategory);
+  }
+  // setCategory(subCategory);
+  console.log({category})
   const [page, setPage] = useState(1);
   const [filterProducts, setFilterProducts] = useState([]);
   const [wishlistProduct, setWishlistProduct] = useState([]);
@@ -76,7 +84,7 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
       // {,"size":"X","brand":"Bewakoof American Pima"}
 
       const response = await fetch(
-        `https://academics.newtonschool.co/api/v1/ecommerce/clothes/products?filter={"gender":"${gender}","subCategory":"${subCategory}"${
+        `https://academics.newtonschool.co/api/v1/ecommerce/clothes/products?filter={"gender":"${gender}","subCategory":"${category}"${
           selectedFilterSize ? `,"size":"${selectedFilterSize}"` : ""
         }${themes ? `,"brand":"${themes}"` : ""}}&${sortAPIValue ? `sort=${sortAPIValue}` : ""}
         &limit=20&page=${page}`,
@@ -94,6 +102,8 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
 
       const result = await response.json();
       const filterProductResponse = result.data;
+      console.log('category insite API call ==>',category);
+      console.log("filterProductResponse ==> ",filterProductResponse)
     
       filterProductResponse.forEach((product) => {
         if(wishlistProduct.includes(product._id)){
@@ -143,6 +153,8 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
     }
     
   };
+
+  
   // TODO: DONE==
 
 // TODO: 1) how useEffect work
@@ -151,6 +163,7 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
 // TODO: 4) why not use within useState variable within function
 
   useEffect(() => {
+    console.log('StRAT PAGE OF FILTERDATA')
     const storedFilterSize = localStorage.getItem("selectedFilterSize");
     const storedSortValue = localStorage.getItem("selectSortValue");
 
@@ -174,13 +187,15 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
       const wishlist2 = await fetchWishlistProduct();
      const reponse2 = await fetchFilterProducts(wishlist2);
      setWishlistProduct(wishlist2);
-     setFilterProducts((prevData) => [...prevData, ...reponse2]);
+     setFilterProducts(reponse2);
     }
-  
+    console.log('FilerData Entery Exit', category);
+    
     fetch2();
     
-  }, [page, selectSortValue, selectedFilterSize, themes]);
+  }, [page, selectSortValue, selectedFilterSize, themes, category]);
 
+  console.log('Outesite UseEffeect');
   useEffect(() => {
     const handleScroll = () => {
       if (
@@ -201,7 +216,7 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <MenSelectCategories />
       <OuterMargin className='outer-container'>
         {(gender === 'Men' ? menposterImg : womenposterImg)

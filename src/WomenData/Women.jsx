@@ -13,7 +13,7 @@ import MemberShipImg from '../CommonLayout/MemberShipImg/MemberShipImg.jsx'
 export default function Women() {
   return (
     <div>
-        <Header />
+        {/* <Header /> */}
         <WomenSelectCategories />
         <WomenImageSlied />
         <Heading heading='CATEGORIES' />

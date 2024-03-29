@@ -7,7 +7,7 @@ export default function CommingSoonProduct() {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <MenSelectCategories />
       <div className='commingSoon'>
         Comming Soon Product
