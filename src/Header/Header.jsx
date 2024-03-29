@@ -1,13 +1,14 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import './Header.css';
 import logo from '../Image/logo_Souled-removebg-preview.png';
 import { NavLink, Link, Outlet} from 'react-router-dom';
 import { FaMobileAlt,FaSearch, FaRegUser} from "react-icons/fa";
 import { MdFavoriteBorder } from "react-icons/md";
 import { LuBaggageClaim } from "react-icons/lu";
-import { useSearch } from '../Context/GlobleContext';
 import { TbOvalFilled } from "react-icons/tb";
 import Men from '../MenData/Men';
+import { useSearch } from '../Context/GlobleContext';
+
 
 
 export default function Header() {
@@ -17,10 +18,11 @@ export default function Header() {
     const wishlistLength = localStorage.getItem('wishlistLength');
     console.log('cardList length ==>', cartLength)
     
-    const {handleSearchClick, searchInput, setSearchInput, cartItemCounts} = useSearch();
+    const {searchInput, setSearchInput, cartItemCounts, setCart} = useSearch();
     const [isFixed, setIsFixed] = useState(false);
     const [gender, setGender] = useState('Men');
-    const [isBlinking, setIsBlinking] = useState(false);
+    // const [isBlinking, setIsBlinking] = useRef(false);
+    const blinkRef = useRef();
     console.log('cartItemCOUNT',cartItemCounts);
     
     // const {state} = useCart();
@@ -39,20 +41,27 @@ export default function Header() {
 
     const handleNavlinkClick = (event)=> {
         let gender = event.target.id;
+        setGender(event.target.id)
         console.log('Navlink Click', event.target.id)
         // TODO: to store localstore
         localStorage.setItem("gender", gender);
     }
+    // TODO: Do blinking effect
 
-
-  useEffect(() => {
     const intervalId = setInterval(() => {
-      setIsBlinking(prevState => !prevState);
+        if (blinkRef.current) {
+            blinkRef.current.classList.add("blinkEyeOpen");
+            setTimeout(() => {
+                if (blinkRef.current) {
+                    blinkRef.current.classList.remove('blinkEyeOpen');
+                }
+            }, 800);
+        }
     }, 1000);
+  
+      // Cleanup interval on component unmount
+    //   clearInterval(intervalId);
 
-    // Cleanup interval on component unmount
-    return () => clearInterval(intervalId);
-  }, []);
 
     useEffect(() => {
 		const selectedGender = localStorage.getItem('gender')
@@ -61,21 +70,19 @@ export default function Header() {
 		}
 	}, [])
 
-    useEffect(()=> {
-    console.log('Header useeffect ==>', cartLength)
-
         const handleScroll = ()=> {
             const scrollPosition = window.scrollY;
             setIsFixed(scrollPosition >50);
         };
-          // Attach the event listener when the component mounts
+        // Attach the event listener when the component mounts
     window.addEventListener('scroll', handleScroll);
 
     // Clean up the event listener when the component unmounts
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-    }, []); // Empty dependency array ensures the effect runs only once
+    // return () => {
+    // window.removeEventListener('scroll', handleScroll);
+    // };
+ // Empty dependency array ensures the effect runs only once
+
 
   return (
     <>
@@ -89,7 +96,9 @@ export default function Header() {
             {/* <img src='https://www.thesouledstore.com/static/img/newlogo.8dcc6cc.png' className={`img ${isFixed ? ' imgfixed' : ''}`} /> */}
            
             {/* <div className={`blinkEye ${isFixed ? 'blinkEyeFixed' : ''} ${isBlinking ? 'blinkEyeClosed' : 'blinkEyeOpen'}`}> */}
-            <div className={`blinkEye ${isBlinking ? 'blinkEyeClosed' : 'blinkEyeOpen'}`}>
+            <div 
+            className='blinkEye blinkEyeClosed' 
+            ref={blinkRef}>
             
             {/* <div className={`blinkEye ${isBlinking ? 'blinkEyeClosed ' : 'blinkEyeOpen'}`}> */}
                 {/* {`blinkEye ${isFixed ? 'blinkEyeFixed' : ''} ${isBlinking ? 'blinkEyeClosed' : 'blinkEyeOpen'}`} */}
