@@ -45,7 +45,7 @@ export default function FilterData() {
 
 
    
-
+  console.log('page to check when select categary==> ', page);
 console.log('WISHLIST PRODUCT==>',wishlistProduct)
 
 
@@ -162,6 +162,10 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
 // TODO: 3) all concept of useEffect mount etc. what happend when page mount and flow of code
 // TODO: 4) why not use within useState variable within function
 
+useEffect(() => {
+  setPage(1);
+}, [subCategory])
+
   useEffect(() => {
     console.log('StRAT PAGE OF FILTERDATA')
     const storedFilterSize = localStorage.getItem("selectedFilterSize");
@@ -187,7 +191,11 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
       const wishlist2 = await fetchWishlistProduct();
      const reponse2 = await fetchFilterProducts(wishlist2);
      setWishlistProduct(wishlist2);
+     if(page === 1){
      setFilterProducts(reponse2);
+     }else{
+       setFilterProducts(prevData => [...prevData, ...reponse2]);
+     }
     }
     console.log('FilerData Entery Exit', category);
     
@@ -212,6 +220,16 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  // TODO: to asked how to clear local storage when site close
+
+  // useEffect(() => {
+  //   // Cleanup function to remove items from local storage
+  //   return () => {
+  //     localStorage.removeItem("selectSortValue");
+  //     localStorage.removeItem("selectedFilterSize");
+  //   };
+  // }, []);
 
 
   return (

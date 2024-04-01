@@ -8,6 +8,8 @@ import { LuBaggageClaim } from "react-icons/lu";
 import { TbOvalFilled } from "react-icons/tb";
 import Men from '../MenData/Men';
 import { useSearch } from '../Context/GlobleContext';
+import { cartProductData } from '../APIData/fetchAPI';
+// import { cartProductData, fetchWishlistResponse, removeFromCart, wishlistAdd } from "../APIData/fetchAPI";
 
 
 
@@ -19,6 +21,7 @@ export default function Header() {
     console.log('cardList length ==>', cartLength)
     
     const {searchInput, setSearchInput, cartItemCounts, setCart} = useSearch();
+    const [cartTotalCounts, setCartTotalCounts] = useState(cartItemCounts);
     const [isFixed, setIsFixed] = useState(false);
     const [gender, setGender] = useState('Men');
     // const [isBlinking, setIsBlinking] = useRef(false);
@@ -31,6 +34,17 @@ export default function Header() {
     // const addCartCount = state?.cartItems.length;
     // const wishListCount = state?.wishList.length;
 
+  
+    const fetchCartData = async () => {
+        try {
+          const cartItem =  await cartProductData();
+          setCartTotalCounts(cartItem?.results)
+        
+    
+        } catch (error) {
+          console.error("Error fetching cart data:", error);
+        }
+      };
 
 
     const handleSearchProduct = (event)=>{
@@ -48,16 +62,21 @@ export default function Header() {
     }
     // TODO: Do blinking effect
 
-    const intervalId = setInterval(() => {
+    // const intervalId = setInterval(() => {
+    //     if (blinkRef.current) {
+    //         blinkRef.current.classList.add("blinkEyeOpen");
+    //         setTimeout(() => {
+    //             if (blinkRef.current) {
+    //                 blinkRef.current.classList.remove('blinkEyeOpen');
+    //             }
+    //         }, 800);
+    //     }
+    // }, 1000);
+    setInterval(() => {
         if (blinkRef.current) {
-            blinkRef.current.classList.add("blinkEyeOpen");
-            setTimeout(() => {
-                if (blinkRef.current) {
-                    blinkRef.current.classList.remove('blinkEyeOpen');
-                }
-            }, 800);
+          blinkRef.current.classList.toggle("blinkEyeOpen");
         }
-    }, 1000);
+      }, 1000);
   
       // Cleanup interval on component unmount
     //   clearInterval(intervalId);
@@ -67,8 +86,14 @@ export default function Header() {
 		const selectedGender = localStorage.getItem('gender')
 		if (selectedGender) {
 			setGender(selectedGender)
-		}
+		};
+
 	}, [])
+    
+    useEffect(() => {
+        fetchCartData();
+
+    }, [cartItemCounts])
 
         const handleScroll = ()=> {
             const scrollPosition = window.scrollY;
@@ -163,7 +188,7 @@ export default function Header() {
                 </li>
                 <li style={{position: 'relative'}}>
                     <Link to='/cart' className='icon-text'>
-                        <span style={{position: 'absolute', left: '15px', fontSize: '12px', background: 'red', color: '#fff', width: '20px', textAlign: 'center', borderRadius: '50%'}}>{cartItemCounts}</span>
+                        <span style={{position: 'absolute', left: '15px', fontSize: '12px', background: 'red', color: '#fff', width: '20px', textAlign: 'center', borderRadius: '50%'}}>{cartTotalCounts}</span>
                      <LuBaggageClaim  />
                         </Link>
                 </li>
