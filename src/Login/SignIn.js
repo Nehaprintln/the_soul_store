@@ -80,8 +80,10 @@ export default function SignIn() {
       text: "You are successfully  Login !",
       icon: "success"
     });
-   
+
     navigate("/");
+
+
   } catch (error) {
     // alert("Error Please check");
     Swal.fire({

@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react'
 import './Header.css';
 import logo from '../Image/logo_Souled-removebg-preview.png';
-import { NavLink, Link, Outlet} from 'react-router-dom';
+import { NavLink, Link, Outlet, useLocation, Navigate, useNavigate} from 'react-router-dom';
 import { FaMobileAlt,FaSearch, FaRegUser} from "react-icons/fa";
 import { MdFavoriteBorder } from "react-icons/md";
 import { LuBaggageClaim } from "react-icons/lu";
@@ -9,6 +9,9 @@ import { TbOvalFilled } from "react-icons/tb";
 import Men from '../MenData/Men';
 import { useSearch } from '../Context/GlobleContext';
 import { cartProductData } from '../APIData/fetchAPI';
+import Swal from 'sweetalert2';
+
+
 // import { cartProductData, fetchWishlistResponse, removeFromCart, wishlistAdd } from "../APIData/fetchAPI";
 
 
@@ -27,6 +30,7 @@ export default function Header() {
     // const [isBlinking, setIsBlinking] = useRef(false);
     const blinkRef = useRef();
     console.log('cartItemCOUNT',cartItemCounts);
+    const navigate = useNavigate();
     
     // const {state} = useCart();
     // const [searchInput, setSearchInput] = useState('');
@@ -34,7 +38,7 @@ export default function Header() {
     // const addCartCount = state?.cartItems.length;
     // const wishListCount = state?.wishList.length;
 
-  
+
     const fetchCartData = async () => {
         try {
           const cartItem =  await cartProductData();
@@ -59,6 +63,33 @@ export default function Header() {
         console.log('Navlink Click', event.target.id)
         // TODO: to store localstore
         localStorage.setItem("gender", gender);
+    };
+
+    const logOutUser = () => {
+
+        Swal.fire({
+        title: "Are you sure to log out?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, log out"
+        }).then((result) => {
+        if (result.isConfirmed) {
+            localStorage.removeItem("authToken"); // Clear localStorage
+            localStorage.removeItem("cartLength");
+            localStorage.removeItem("wishlistLength");
+            localStorage.removeItem("gender");
+
+            Swal.fire({
+            title: "Logged Out!",
+            text: "You have been logged out.",
+            icon: "success"
+            }).then(() => {
+            navigate('/signup'); // Redirect to signup page
+            });
+        }
+        });
     }
     // TODO: Do blinking effect
 
@@ -154,14 +185,17 @@ export default function Header() {
         </div>
         <div className='tracking-section'>
             <ul className='tracking position'>
-                <li>
-                    <Link className='textDecoration'>TRACK ORDER</Link>
+                <li className='textDecoration'>
+                    TRACK ORDER
                 </li>
-                <li>
-                    <Link className='textDecoration'>CONTACT US</Link>
+                <li  className='textDecoration'>
+                    CONTACT US
                 </li>
-                <li>
-                    <Link className='textDecoration'><FaMobileAlt /> DOWNLOAD APP</Link>
+                <li className='textDecoration'>
+                     <FaMobileAlt /> DOWNLOAD APP
+                </li>
+                <li className='textDecoration' onClick={logOutUser}>
+                     <span>LOG OUT</span> 
                 </li>
             </ul>
         </div>
@@ -173,8 +207,8 @@ export default function Header() {
                 {/* '/filterProducts/:subCategory/:gender' */}
                 <li>
                     {/* /search/:subCategory/:gender */}
-                    <Link to={`/filterProducts/${searchInput}/${gender}`} className='icon-text'><FaSearch /*onClick={()=> handleSearchClick(searchInput)} */ /></Link>
-                   
+                   <Link to={`/filterProducts/${searchInput}/${gender}`} className='icon-text'><FaSearch onClick={()=> setTimeout(()=> {setSearchInput('')}, 1000)}  /></Link>
+                 
                     {/* <Link to={`/search/${searchInput}/${gender}`} className='icon-text'><FaSearch  /></Link> */}
                 </li>
                 <li>

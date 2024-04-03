@@ -22,7 +22,7 @@ export default function DeliveryAddress() {
     useEffect(() => {
       const userRegister = localStorage.getItem("authToken");
       const userAddress = JSON.parse(localStorage.getItem("userAddress")) || {};
-      setDisplayAddress(userAddress[userRegister] ? JSON.parse(userAddress[userRegister]) : {});
+      setDisplayAddress(userAddress[userRegister] ? JSON.parse(userAddress[userRegister]) : null);
     }, [addressModal]);
 
   return (
