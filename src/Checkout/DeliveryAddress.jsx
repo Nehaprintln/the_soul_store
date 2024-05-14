@@ -21,10 +21,17 @@ export default function DeliveryAddress() {
 
     useEffect(() => {
       const userRegister = localStorage.getItem("authToken");
-      const userAddress = JSON.parse(localStorage.getItem("userAddress")) || {};
-      setDisplayAddress(userAddress[userRegister] ? JSON.parse(userAddress[userRegister]) : null);
+      const userAddressString = localStorage.getItem("userAddress");
+      
+      try {
+        const userAddress = JSON.parse(userAddressString) || {};
+        setDisplayAddress(userAddress[userRegister] ? userAddress[userRegister] : null); 
+      } catch (error) {
+        console.error("Error parsing user address:", error);
+        setDisplayAddress(null);
+      }
     }, [addressModal]);
-
+   
   return (
     <>
         {/* <Header /> */}
