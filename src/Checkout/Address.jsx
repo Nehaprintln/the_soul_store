@@ -30,25 +30,43 @@ export default function Address(props) {
   }
 
   const handleAddressSend = (event) => {
+    // event.preventDefault();
+    // console.log('ADDRESS pas formValue ***>',  formValue)
+    // const validetedForm = validationForm(formValue);
+    
+    // console.log('errors object =*>', errors);
+    // console.log('errors length**>', Object.keys(errors).length);
+    
+    // if (Object.keys(validetedForm).length === 0) {
+    //   const newAddress = JSON.stringify(formValue);
+    //   const userRegister = localStorage.getItem("authToken");
+    //   console.log('AuthToken', userRegister)
+    //   const userAddress = JSON.parse(localStorage.getItem("userAddress")) || {};
+    //   userAddress[userRegister] = newAddress;
+    //   localStorage.setItem("userAddress", JSON.stringify(userAddress));
+
+    //   sendAddressFunc(newAddress);
+    //   closeModal();
+    // }
+    // setErrors(validetedForm);
+    // ==================
     event.preventDefault();
-    console.log('ADDRESS pas formValue ***>',  formValue)
-    const validetedForm = validationForm(formValue);
-    
-    console.log('errors object =*>', errors);
-    console.log('errors length**>', Object.keys(errors).length);
-    
-    if (Object.keys(validetedForm).length === 0) {
-      const newAddress = JSON.stringify(formValue);
+    const validatedForm = validationForm(formValue);
+
+    if (Object.keys(validatedForm).length === 0) {
       const userRegister = localStorage.getItem("authToken");
-      console.log('AuthToken', userRegister)
       const userAddress = JSON.parse(localStorage.getItem("userAddress")) || {};
-      userAddress[userRegister] = newAddress;
+
+      userAddress[userRegister] = formValue; // Save formValue directly as an object
+
       localStorage.setItem("userAddress", JSON.stringify(userAddress));
 
-      sendAddressFunc(newAddress);
+      sendAddressFunc(formValue); // Pass the object, not a string
       closeModal();
+    } else {
+      setErrors(validatedForm);
     }
-    setErrors(validetedForm);
+    // ===============
     // event.preventDefault();
     // setErrors(ValidationForm(formValue));
 

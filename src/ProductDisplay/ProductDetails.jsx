@@ -136,7 +136,7 @@ export default function ProductDetails() {
 
          
           <div className="button-container" style={{ marginBottom: "20px" }}>
-            <Button className="addCart" text='ADD TO CARD' onClick={()=> handleAddToCart(id, selectValue, selectedSize,navigate)} />
+            <Button className="addCart" text='ADD TO CART' onClick={()=> handleAddToCart(id, selectValue, selectedSize,navigate)} />
 
             {isInWishlist ? (<Button className="wishList" text=' ADDED TO WISHLIST' onClick={()=> handleWishlistProduct(productDetails, setIsInWishlist,'remove')}><FaHeart  style={{color:'#117a7a'}} /> </Button>):(
             <Button className="wishList" text=' ADD TO WISHLIST' onClick={()=> handleWishlistProduct(productDetails, setIsInWishlist,'add')}><FaRegHeart style={{color:'#117a7a'}} /></Button>) }

@@ -5,11 +5,14 @@ import { RotatingLines } from "react-loader-spinner";
 import Button from "../CommonLayout/Button/Button";
 import Modal from '../Modal/Modal';
 import { fetchWishlistResponse, removeFromWishlist } from "../APIData/fetchAPI";
+// import {setItemInWishlist} from "../Context";
+import { useSearch } from "../Context/GlobleContext";
 
 // TODO: ==> React reconciliation <=== TODO:
 export default function WishList() {
   const [wishlistDataDisplay, setWishlistDataDisplay] = useState([]);
  const [modalProductId, setModalProductId] = useState(null);
+ const {setItemInWishlist} = useSearch();
 
   const wishlistData = async () => {
     try {
@@ -19,6 +22,7 @@ export default function WishList() {
       console.log("whishlist product ALL DATA ==>", wishListData);
 
       setWishlistDataDisplay(wishListData);
+      // setItemInWishlist(wishListData.length.toString())
       localStorage.setItem('wishlistLength', wishListData.length.toString());
     } catch (error) {
       console.log("WISHLIST Display ++>", error);

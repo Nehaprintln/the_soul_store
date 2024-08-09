@@ -13,6 +13,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { cartProductData, fetchWishlistResponse, removeFromCart, wishlistAdd } from "../APIData/fetchAPI";
 import { useSearch } from "../Context/GlobleContext";
+import { containerClasses } from "@mui/material";
 
 // import { getData } from "../Afunc/Function";
 
@@ -24,6 +25,7 @@ export default function Cart() {
   const {setCartItemCounts} = useSearch();
   console.log('wishlistProducts DATA==>',wishlistProducts );
   const navigate = useNavigate();
+  
 
   const fetchCartData = async () => {
     try {
@@ -53,6 +55,7 @@ export default function Cart() {
 
     }
   };
+
 
   const handleRemoveFromCart = async (productId) => {
     console.log("productID CART ==> ", productId);
@@ -88,6 +91,23 @@ export default function Cart() {
 
     }
   };
+
+  const RemoveAllProduct = async() => {
+    const userRegister = localStorage.getItem("authToken");
+    try{
+      const responce = await fetch(`https://academics.newtonschool.co/api/v1/ecommerce/cart/`, {
+        method: 'DELETE',
+        headers: {
+          projectID: "rhxg8aczyt09",
+          'Authorization': `Bearer ${userRegister}`,
+        },
+      });
+      setCartList([]);
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
 
     useEffect(() => {
     const storedCartTotal = localStorage.getItem("totalAmount");
@@ -135,7 +155,7 @@ export default function Cart() {
       ) : (
         <>
         <div style={{width: '80%', margin: 'auto'}}>
-        <Button className="removeAll" text='REMOVE ALL'  />
+        <Button className="removeAll" text='REMOVE ALL' onClick={RemoveAllProduct} />
         </div>
           <div className="cart-display-container" style={{ width: "100%", display: 'flex' }}>
             <div

@@ -168,6 +168,7 @@ try{
 // TODO: wishlistAdd
 const wishlistAdd = async (filterProduct) => {
   try{
+    // console.log({filterProduct}, 1234666)
     const userRegister = localStorage.getItem("authToken");
     const addToWishlist = await fetch('https://academics.newtonschool.co/api/v1/ecommerce/wishlist/', {
         method: 'PATCH',
@@ -177,7 +178,7 @@ const wishlistAdd = async (filterProduct) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        'productId': filterProduct._id,
+        'productId': filterProduct?._id,
       }),
       });
 

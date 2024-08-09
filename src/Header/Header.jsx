@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React, {useState, useEffect, useRef, useContext} from 'react'
 import './Header.css';
 import logo from '../Image/logo_Souled-removebg-preview.png';
 import { NavLink, Link, Outlet, useLocation, Navigate, useNavigate} from 'react-router-dom';
@@ -19,7 +19,6 @@ import Swal from 'sweetalert2';
 export default function Header() {
     const cartLength = localStorage.getItem('cartLength');
     // const cartLength = cartItem;
-
     const wishlistLength = localStorage.getItem('wishlistLength');
     console.log('cardList length ==>', cartLength)
     
@@ -27,18 +26,19 @@ export default function Header() {
     const [cartTotalCounts, setCartTotalCounts] = useState(cartItemCounts);
     const [isFixed, setIsFixed] = useState(false);
     const [gender, setGender] = useState('Men');
-    // const [isBlinking, setIsBlinking] = useRef(false);
+    // const [userName, setUserName] = useState();
     const blinkRef = useRef();
     console.log('cartItemCOUNT',cartItemCounts);
     const navigate = useNavigate();
     
+   
     // const {state} = useCart();
     // const [searchInput, setSearchInput] = useState('');
     
     // const addCartCount = state?.cartItems.length;
     // const wishListCount = state?.wishList.length;
 
-
+    
     const fetchCartData = async () => {
         try {
           const cartItem =  await cartProductData();
@@ -197,6 +197,7 @@ export default function Header() {
                 <li className='textDecoration' onClick={logOutUser}>
                      <span>LOG OUT</span> 
                 </li>
+                
             </ul>
         </div>
         <div className={`icon-section ${isFixed ? ' icon-sectionfixed' : ''}`}>
