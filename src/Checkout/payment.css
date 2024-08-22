@@ -3,10 +3,15 @@
     display: flex; 
     justify-content: space-between;
     padding: 3px; 
-    border: 1px solid #58595b; 
-    border-bottom: none;
-    border-radius: 5px;
+    border: 1px dotted #58595b; 
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    /* border-radius: 5px; */
 }
 .total{
-    border: 1px solid #58595b; 
+    margin-top: -1px;
+    border: 0.5px solid #58595b; 
+    /* border-radius: 5px; */
+
 }

@@ -81,8 +81,8 @@
     background: #117a7a; 
     border-radius: 5px; 
     color: #fff; 
-    font-size: 14px; 
-    font-size: 700;
+    font-size: 15px; 
+    font-weight: 500;
     border: none;
     margin-bottom: 10px;
 }
@@ -93,8 +93,8 @@
     background: #117a7a; 
     border-radius: 5px; 
     color: #fff; 
-    font-size: 14px; 
-    font-size: 700;
+    font-size: 15px; 
+    font-weight: 700;
     border: none;
     margin-top: 10px;
 }

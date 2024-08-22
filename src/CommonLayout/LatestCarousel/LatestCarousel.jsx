@@ -9,8 +9,8 @@ function Arrow(props) {
     const { className, style, onClick } = props;
     return (
       <div
-        className={className}
-        style={{ ...style, display: "block", background: "#848282" }}
+        className={className} id='arrowS'
+        style={{ ...style, display: "block",}}
         onClick={onClick}
       />
     );

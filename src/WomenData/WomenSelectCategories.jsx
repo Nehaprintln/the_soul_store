@@ -4,13 +4,26 @@ import '../MenData/Men.css';
 import { HoverCategory } from '../MenData/Categories';
 import { TiThMenu } from "react-icons/ti";
 import { RxCross2 } from "react-icons/rx";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function WomenSelectCategories() {
     const [isFixed, setIsFixed] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-
+    const handleToasterWo = ()=> {
+        toast.info('Under Construction 🚧', {
+            position: "top-center",
+            autoClose: 1500,
+            style: {
+                backgroundColor: '#333',
+                color: '#fff',
+                fontSize: '14px',
+                borderRadius: '8px',
+                // padding: '10px',
+              },
+          });
+    }
     const toggleMenu = () =>{
         console.log('menuToggle')
         setIsMenuOpen(!isMenuOpen);
@@ -42,11 +55,11 @@ export default function WomenSelectCategories() {
             </div>
                 </li>
                 
-                <li>
-                    <Link className='select'>BOTTOMWEAR</Link>
+                <li onClick={handleToasterWo}>
+                    <Link className='select'>ACCESSORIES</Link>
                 </li>
-                <li>
-                    <Link className='select'>UNISEX</Link>
+                <li onClick={handleToasterWo} >
+                    <Link className='select'>NEW ARRIVALS</Link>
                 </li>
             </ul>
         </div>
@@ -58,6 +71,8 @@ export default function WomenSelectCategories() {
         </div>
         <div id='div'></div>
     </div>
+    <ToastContainer  />
+
     </>
   )
 }

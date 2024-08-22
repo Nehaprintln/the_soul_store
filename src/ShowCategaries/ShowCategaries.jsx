@@ -13,7 +13,7 @@ function ShowCategaries() {
           {MensWear.cloth.map((val, index) => {
             console.log("hello======", val.name);
             return (
-              <div className="card-transition-div">
+              <div className="card-transition-div" style={{borderRadius: '8px',}}>
                 <Link to={`/filterProducts/${val.name}/${val.gender}`} key={index}>
                   <img
                     className="categories-img card-transition"
@@ -21,6 +21,7 @@ function ShowCategaries() {
                     style={{
                       width: index < 3 ? "470px" : "350px",
                       height: index < 3 ? "470px" : "350px",
+                      borderRadius: '8px',marginBottom: '7px' 
                     }}
                   />
                 </Link>

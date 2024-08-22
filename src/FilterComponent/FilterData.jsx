@@ -14,7 +14,9 @@ import SortValue from "./SortValue";
 import Themes from "./Themes";
 import { fetchWishlistResponse,wishlistDelet, wishlistAdd } from "../APIData/fetchAPI";
 import { Category } from "@mui/icons-material";
-
+import Swal from "sweetalert2";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function FilterData() {
@@ -86,7 +88,7 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
       const response = await fetch(
         `https://academics.newtonschool.co/api/v1/ecommerce/clothes/products?filter={"gender":"${gender}","subCategory":"${category}"${
           selectedFilterSize ? `,"size":"${selectedFilterSize}"` : ""
-        }${themes ? `,"brand":"${themes}"` : ""}}&${sortAPIValue ? `sort=${sortAPIValue}` : ""}
+        }}&${sortAPIValue ? `sort=${sortAPIValue}` : ""}
         &limit=20&page=${page}`,
         {
           method: "GET",
@@ -98,6 +100,15 @@ console.log('WISHLIST PRODUCT==>',wishlistProduct)
 
       if (!response.ok) {
         navigate('/comingSoon');
+        // toast.error('Something went wrong while fetching products.', {
+        //   position: "bottom-center",
+        //   autoClose: 3000,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        //   progress: undefined,
+        // });
       }
 
       const result = await response.json();
@@ -278,7 +289,7 @@ useEffect(() => {
                  
                 >
                   <Button className="wishListfil" text='' onClick={()=> handleWishlistToggle(filterProduct)}>
-                    {filterProduct.isWishlist ? <FaHeart  style={{color:'#117a7a'}} /> : <FaRegHeart style={{color:'#117a7a'}} />}
+                    {filterProduct.isWishlist ? <FaHeart  style={{color:'#e11b23'}} /> : <FaRegHeart style={{color:'#e11b23'}} />}
                     </Button>
                   <Link
                     to={`/filterProducts/${filterProduct.subCategory}/${filterProduct.gender}/${filterProduct._id}`}
@@ -312,6 +323,7 @@ useEffect(() => {
           </div>
         </div>
       )}
+      <ToastContainer />
     </>
   );
 }

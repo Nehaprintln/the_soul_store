@@ -270,7 +270,7 @@ export default function Cart() {
             </div>
             <div className="placeOrder-container" style={{width: '35%'}}>
               <div className="place-orderButton" >
-                <Button className='place-order' text='PLACE ORDER' onClick={() => navigate('/delivery-address')} />
+                <Button className='place-order' text='Proceed to Buy' onClick={() => navigate('/delivery-address')}/>
               </div>
               <div style={{width: '70%',padding: '10px', background: '#ffb951', borderRadius: '5px'}}>
                 <input type="checkbox" />

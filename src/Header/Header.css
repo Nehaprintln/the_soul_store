@@ -119,10 +119,10 @@ body{
 }
 #input{
     /* visibility: hidden; */
-    margin-top: 5px;
+    margin-top: 12px;
     width: 350px;
     border: 1px solid gray;
-    padding: 10px 10px;
+    padding: 3px 10px;
     border-radius: 10px;
     color: #4d4a4a;
     font-size: 16px;

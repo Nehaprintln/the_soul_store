@@ -1,10 +1,41 @@
 import React, {useState, useEffect} from 'react'
 import './payment.css';
 import Button from '../CommonLayout/Button/Button';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 export default function Payment() {
     const [cartTotal, setCartTotal] = useState(0);
     const GST = (cartTotal * 9)/100;
+    const navigate = useNavigate();
+
+    const placeOrderFunc = async() => {
+      const userRegister = localStorage.getItem("authToken");
+      try{
+        const responce = await fetch(`https://academics.newtonschool.co/api/v1/ecommerce/cart/`, {
+          method: 'DELETE',
+          headers: {
+            projectID: "rhxg8aczyt09",
+            'Authorization': `Bearer ${userRegister}`,
+          },
+        });
+        // setCartList([]);
+        if (responce.ok) {
+          // Display SweetAlert
+          Swal.fire({
+            icon: 'success',
+            title: 'Congratulations!',
+            text: 'Order placed successfully!',
+          }).then(() => {
+            // Navigate to the men page after closing the SweetAlert
+            navigate('/men');
+          });
+        } 
+      }
+      catch(error){
+        console.log(error);
+      }
+    }
 
     useEffect(() => {
         const storedCartTotal = localStorage.getItem("totalAmount");
@@ -15,6 +46,7 @@ export default function Payment() {
 
   return (
     <>
+    <div >
         <div className="payment-process">
                             <div>
                               <p>Cart Total</p>
@@ -47,6 +79,7 @@ export default function Payment() {
                               <p>₹ 0.00</p>
                             </div>
                     </div>
+                    </div>
                     <div className="payment-process total">
                             <div>
                               <h5>Total Amount</h5>
@@ -55,7 +88,7 @@ export default function Payment() {
                               <h5>₹ {(cartTotal + GST).toFixed(2)}</h5>
                             </div>
                     </div>
-                    <Button className="continue-to-payment" text="Continue to Payment" onClick={() => {}} />
+                    <Button className="continue-to-payment" text="PLACE ORDER" onClick={placeOrderFunc} />
     </>
   )
 }

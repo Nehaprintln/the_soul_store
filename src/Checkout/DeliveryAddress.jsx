@@ -69,7 +69,7 @@ export default function DeliveryAddress() {
                 </div>
                 <div style={{width: '30%'}}>
                     <div>
-                        <p>BILLING DETAILS</p>
+                        <p>BILLING DETAILS :-</p>
                     </div>
                     <Payment />  
 

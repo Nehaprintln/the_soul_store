@@ -1,0 +1,8 @@
+#arrowS:before, #arrow:before{
+    /* opacity: 0; */
+    color: rgb(85, 83, 83);
+    font-size: 25px;
+    /* background: none; */
+
+    /* background-color: transparent; */
+}
