@@ -14,7 +14,9 @@ import { useNavigate } from "react-router-dom";
 import { cartProductData, fetchWishlistResponse, removeFromCart, wishlistAdd } from "../APIData/fetchAPI";
 import { useSearch } from "../Context/GlobleContext";
 import { containerClasses } from "@mui/material";
-
+import { BsCashCoin } from "react-icons/bs";
+import { MdDoubleArrow, MdOutlineCreditCardOff } from "react-icons/md";
+import { CiCreditCard1 } from "react-icons/ci";
 // import { getData } from "../Afunc/Function";
 
 
@@ -279,21 +281,48 @@ export default function Cart() {
               <div className="accordion-container" style={{width: '70%', marginTop: '10px'}}>
             <UncontrolledAccordion defaultOpen="1">
             <AccordionItem>
-                <AccordionHeader targetId="1">Apply Coupon</AccordionHeader>
+                <AccordionHeader targetId="1">Select Payment Mode</AccordionHeader>
                 <AccordionBody accordionId="1">
-                  <p>
+                  {/* <p>
                    <input type="text" placeholder="Enter Code Here" />
-                  </p>
+                  </p> */}
+                  <div className="payment-options">
+                      <label>
+                        <input type="radio" name="paymentMode" value="cod" style={{scale: '1.3'}} />
+                        <BsCashCoin style={{margin: '2px 5px'}} />
+                        Cash on Delivery
+                      </label>
+                      <br />
+                      <label>
+                        <input type="radio" name="paymentMode" value="upi" style={{scale: '1.3'}} />
+                        <MdDoubleArrow style={{margin: '2px 5px'}} />
+                        UPI
+                      </label>
+                      <br />
+                      <label>
+                        <input type="radio" name="paymentMode" value="credit-card" style={{scale: '1.3'}} />
+                        <CiCreditCard1 style={{margin: '2px 5px'}} />
+                        Credit Card
+                      </label>
+                      <br />
+                      <label>
+                        <input type="radio" name="paymentMode" value="debit-card" style={{scale: '1.3'}} />
+                        <MdOutlineCreditCardOff style={{margin: '2px 5px'}} />
+                        Debit Card
+                      </label>
+                      
+                 </div>
                 </AccordionBody>
+                 
               </AccordionItem>
-              <AccordionItem>
+              {/* <AccordionItem>
                 <AccordionHeader targetId="2">Gift Voucher</AccordionHeader>
                 <AccordionBody accordionId="2">
                   <p>
                     <input type="text" placeholder="Enter Code Here" />
                   </p>
                 </AccordionBody>
-              </AccordionItem>
+              </AccordionItem> */}
               <AccordionItem>
                 <AccordionHeader targetId="3">Gift Wrap (₹ 25)</AccordionHeader>
                 <AccordionBody accordionId="3">
