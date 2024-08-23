@@ -17,6 +17,7 @@ export const SearchProvide = ({children})=> {
     const [ isAdd, setIsAdd] = useState(false);
     const [isInWishlist, setIsInWishlist] = useState(false);
     const [cartItemCounts, setCartItemCounts] = useState();
+    const [isUserLogin, setUserLogin] = useState(false);
 
     useEffect(() => {
       console.log('cartItemCounts__ App Component', cartItemCounts)
@@ -26,7 +27,8 @@ export const SearchProvide = ({children})=> {
         <MySearchContext.Provider 
         value={{ 
           searchInput, setSearchInput, fetchProducts, setFetchProducts, setIsAdd, isAdd, setIsInWishlist, isInWishlist,
-          cartItemCounts, setCartItemCounts
+          cartItemCounts, setCartItemCounts,
+          isUserLogin, setUserLogin,
           
           }}>
              {children}

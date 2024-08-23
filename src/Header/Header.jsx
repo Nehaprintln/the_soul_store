@@ -10,6 +10,8 @@ import Men from '../MenData/Men';
 import { useSearch } from '../Context/GlobleContext';
 import { cartProductData } from '../APIData/fetchAPI';
 import Swal from 'sweetalert2';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 // import { cartProductData, fetchWishlistResponse, removeFromCart, wishlistAdd } from "../APIData/fetchAPI";
@@ -27,6 +29,7 @@ export default function Header() {
     const [isFixed, setIsFixed] = useState(false);
     const [gender, setGender] = useState('Men');
     // const [userName, setUserName] = useState();
+    const {isUserLogin, setUserLogin} = useSearch();
     const blinkRef = useRef();
     console.log('cartItemCOUNT',cartItemCounts);
     const navigate = useNavigate();
@@ -37,8 +40,39 @@ export default function Header() {
     
     // const addCartCount = state?.cartItems.length;
     // const wishListCount = state?.wishList.length;
-
     
+    const getUserNameAndAuth = () => {
+        const userDetailsObj = localStorage.getItem("authToken");
+      
+        if (userDetailsObj) {
+          const authToken = userDetailsObj;
+        //   const userName = userDetailsObj.userName;
+          
+          setUserLogin(true);
+        //   setUserAuth(authToken);
+        //   setUserName(userName);
+        }
+      };
+
+    const handleToasterTopFun = () => {
+        toast.info('Under Construction 🚧', {
+            position: "top-center",
+            autoClose: 1500,
+            style: {
+                backgroundColor: '#333',
+                color: '#fff',
+                fontSize: '14px',
+                borderRadius: '8px',
+                // padding: '10px',
+              },
+            // hideProgressBar: false,
+            // closeOnClick: true,
+            // pauseOnHover: true,
+            // draggable: true,
+            // progress: undefined,
+            
+          });
+    }
     const fetchCartData = async () => {
         try {
           const cartItem =  await cartProductData();
@@ -88,8 +122,10 @@ export default function Header() {
             }).then(() => {
             navigate('/signup'); // Redirect to signup page
             });
+            setUserLogin(false);
         }
         });
+        
     }
     // TODO: Do blinking effect
 
@@ -118,6 +154,8 @@ export default function Header() {
 		if (selectedGender) {
 			setGender(selectedGender)
 		};
+
+        getUserNameAndAuth();
 
 	}, [])
     
@@ -185,17 +223,20 @@ export default function Header() {
         </div>
         <div className='tracking-section'>
             <ul className='tracking position'>
-                <li className='textDecoration'>
+                <li className='textDecoration' onClick={handleToasterTopFun}>
                     TRACK ORDER
                 </li>
-                <li  className='textDecoration'>
+                <li  className='textDecoration' onClick={handleToasterTopFun}>
                     CONTACT US
                 </li>
-                <li className='textDecoration'>
+                <li className='textDecoration' onClick={handleToasterTopFun}>
                      <FaMobileAlt /> DOWNLOAD APP
                 </li>
-                <li className='textDecoration' onClick={logOutUser}>
+                {/* <li className='textDecoration' onClick={logOutUser}>
                      <span>LOG OUT</span> 
+                </li> */}
+                <li className='textDecoration' onClick={isUserLogin ? logOutUser : () => navigate('/signup')}>
+                            {isUserLogin ? 'LOG OUT' : 'SIGN UP'}
                 </li>
                 
             </ul>
@@ -212,9 +253,9 @@ export default function Header() {
                  
                     {/* <Link to={`/search/${searchInput}/${gender}`} className='icon-text'><FaSearch  /></Link> */}
                 </li>
-                <li>
+                {/* <li>
                     <Link to='/signup' className='icon-text'><FaRegUser /></Link>
-                </li>
+                </li> */}
                 <li style={{position: 'relative'}}>
                     <Link to='/mywishlist' className='icon-text'>
                         <span style={{position: 'absolute', left: '15px', fontSize: '12px', background: 'red', color: '#fff', width: '20px', textAlign: 'center', borderRadius: '50%'}}>{wishlistLength}</span>
@@ -230,6 +271,7 @@ export default function Header() {
             </ul>
         </div>
     </div>
+    <ToastContainer  />
     {/* <Outlet /> */}
    {/* <Men /> */}
     </>

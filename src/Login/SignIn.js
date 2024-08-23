@@ -17,6 +17,7 @@ import Footer from '../Footer/Footer';
 import Swal from 'sweetalert2';
 import { useNavigate } from "react-router-dom";
 import MenSelectCategories from '../MenData/MenSelectCategories';
+import { useSearch } from '../Context/GlobleContext';
 
 function Copyright(props) {
   return (
@@ -37,6 +38,7 @@ const defaultTheme = createTheme();
 
 export default function SignIn() {
   const navigate = useNavigate();
+  const {setUserLogin} = useSearch();
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -80,7 +82,7 @@ export default function SignIn() {
       text: "You are successfully  Login !",
       icon: "success"
     });
-
+    setUserLogin(true);
     navigate("/");
 
 

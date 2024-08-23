@@ -21,6 +21,7 @@ import ConstantAPI from '../CommonData/ConstantAPI';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import MenSelectCategories from '../MenData/MenSelectCategories';
+import { useSearch } from '../Context/GlobleContext';
 
 function Copyright(props) {
   return (
@@ -42,7 +43,7 @@ const defaultTheme = createTheme();
 export default function SignUp({baseURL, signUp, projectId}) {
     const [checkSubmition, setCheckSubmition] = React.useState(false);
     const navigate = useNavigate();
-
+    const {setUserLogin} = useSearch();
     const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -88,12 +89,19 @@ export default function SignUp({baseURL, signUp, projectId}) {
             return;
         }
         // alert('User registered Successfully');
+        const newData = await response.json();
+        console.log(newData);
+        const {token = ''} = newData;
+        localStorage.setItem("authToken", token);
+        console.log("AuthToken Sign up ", token);
         Swal.fire({
           title: "Congratulations !",
           text: "User registered Successfully !",
           icon: "success"
         });
-        navigate("/signin");
+        setUserLogin(true);
+        // navigate("/signin");
+        navigate('/')
         // setCheckSubmition(true);
     }catch(error){
         // alert(error)
