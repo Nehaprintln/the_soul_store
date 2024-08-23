@@ -11,7 +11,7 @@ export default function Themes({handleThemeChecked}) {
       text: 'This feature is currently under construction. Please check back later.',
       icon: 'warning',
       showConfirmButton: false, // Set to false if you don't want to show the confirm button
-      timer: 2000 
+      timer: 1000 
       // confirmButtonText: 'OK'
     });
   }

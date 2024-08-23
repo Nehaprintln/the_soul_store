@@ -6,6 +6,7 @@ import { TiThMenu } from "react-icons/ti";
 import { RxCross2 } from "react-icons/rx";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
 
 
 
@@ -16,22 +17,29 @@ export default function MenSelectCategories() {
     console.log('isMenuOpen', isMenuOpen)
 
     const handleToaster = () => {
-        toast.info('Under Construction 🚧', {
-            position: "top-center",
-            autoClose: 1500,
-            style: {
-                backgroundColor: '#333',
-                color: '#fff',
-                fontSize: '14px',
-                borderRadius: '8px',
-                // padding: '10px',
-              },
-            // hideProgressBar: false,
-            // closeOnClick: true,
-            // pauseOnHover: true,
-            // draggable: true,
-            // progress: undefined,
+        // toast.info('Under Construction 🚧', {
+        //     position: "top-center",
+        //     autoClose: 1500,
+        //     style: {
+        //         backgroundColor: '#333',
+        //         color: '#fff',
+        //         fontSize: '14px',
+        //         borderRadius: '8px',
+        //         // padding: '10px',
+        //       },
+        //     // hideProgressBar: false,
+        //     // closeOnClick: true,
+        //     // pauseOnHover: true,
+        //     // draggable: true,
+        //     // progress: undefined,
             
+        //   });
+          Swal.fire({
+            // title: "Congratulations !",
+            text: "'Under Construction 🚧'",
+            showConfirmButton: false, 
+            timer: 1500
+            // icon: "info"
           });
     }
     const toggleMenu = () =>{
@@ -83,7 +91,7 @@ export default function MenSelectCategories() {
             <RxCross2 />
         </div>
         <div id='div'></div>
-    <ToastContainer  />
+    {/* <ToastContainer  /> */}
 
     </div>
     </>

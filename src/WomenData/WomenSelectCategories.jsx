@@ -6,23 +6,32 @@ import { TiThMenu } from "react-icons/ti";
 import { RxCross2 } from "react-icons/rx";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
 
 export default function WomenSelectCategories() {
     const [isFixed, setIsFixed] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const handleToasterWo = ()=> {
-        toast.info('Under Construction 🚧', {
-            position: "top-center",
-            autoClose: 1500,
-            style: {
-                backgroundColor: '#333',
-                color: '#fff',
-                fontSize: '14px',
-                borderRadius: '8px',
-                // padding: '10px',
-              },
+        // toast.info('Under Construction 🚧', {
+        //     position: "top-center",
+        //     autoClose: 1500,
+        //     style: {
+        //         backgroundColor: '#333',
+        //         color: '#fff',
+        //         fontSize: '14px',
+        //         borderRadius: '8px',
+        //         // padding: '10px',
+        //       },
+        //   });
+          Swal.fire({
+            // title: "Congratulations !",
+            text: "'Under Construction 🚧'",
+            showConfirmButton: false, 
+            timer: 1500
+            // icon: "info"
           });
+          
     }
     const toggleMenu = () =>{
         console.log('menuToggle')
@@ -71,7 +80,7 @@ export default function WomenSelectCategories() {
         </div>
         <div id='div'></div>
     </div>
-    <ToastContainer  />
+    {/* <ToastContainer  /> */}
 
     </>
   )
